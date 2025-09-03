@@ -1,0 +1,16 @@
+# Archivos ejecutables
+*.exe
+*.out
+*.app
+
+# Archivos de compilación 
+*.o
+
+# IDEs
+.vscode/
+*.cbp
+*.dev
+
+# Sistema
+.DS_Store
+Thumbs.db
