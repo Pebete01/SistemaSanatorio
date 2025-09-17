@@ -3,12 +3,14 @@
 
 using namespace std;
 
-class Especialidad{
+class Especialidad
+{
 private:
-    int idEspecialidad;
+    int id;
     string nombre;
+
 public:
-    Especialidad(int id, string nombre) : idEspecialidad(id), nombre(nombre) {}
+    Especialidad(int id, string nombre) : id(id), nombre(nombre) {}
 
     void mostrar();
     ~Especialidad() {}

@@ -6,11 +6,13 @@
 #include "Sanatorio.h"
 using namespace std;
 
-void Sanatorio::agrandarListaPaciente() {
-    int capacidadNuevaPacientes = (capacidadPacientes ==0) ? 4: capacidadPacientes*2;
-    Paciente **listaNueva = new Paciente * [capacidadNuevaPacientes];
+void Sanatorio::agrandarListaPaciente()
+{
+    int capacidadNuevaPacientes = (capacidadPacientes == 0) ? 4 : capacidadPacientes * 2;
+    Paciente **listaNueva = new Paciente *[capacidadNuevaPacientes];
 
-    for (int i = 0; i < cantidadPacientes; ++i) {
+    for (int i = 0; i < cantidadPacientes; ++i)
+    {
         listaNueva[i] = listaPacientes[i];
     }
     delete[] listaPacientes;
@@ -18,8 +20,9 @@ void Sanatorio::agrandarListaPaciente() {
     capacidadPacientes = capacidadNuevaPacientes;
 }
 
-void Sanatorio::agregarPaciente(Paciente *p) {
-    if(capacidadPacientes == cantidadPacientes) agrandarListaPaciente();
+void Sanatorio::agregarPaciente(Paciente *p)
+{
+    if (capacidadPacientes == cantidadPacientes)
+        agrandarListaPaciente();
     listaPacientes[cantidadPacientes++] = p;
 }
-

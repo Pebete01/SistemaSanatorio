@@ -7,15 +7,19 @@
 #include "string"
 using namespace std;
 
-void Paciente::modificarEstado() {
-    if(!estadoPaciente){
+void Paciente::modificarEstado()
+{
+    if (!estadoPaciente)
+    {
         estadoPaciente = true;
-    } else{
+    }
+    else
+    {
         estadoPaciente = false;
     }
 }
 
-void Paciente::mostrar() {
-    cout<<"ID: "<<id<<" Sr/Sra: "<<nombre<<" "<<apellido<<" obra social: "<<obraSocial<<" plan: "<<numeroDeAfiliado<<endl;
-
+void Paciente::mostrar()
+{
+    cout << "ID: " << id << " Sr/Sra: " << nombre << " " << apellido << " obra social: " << obraSocial << " plan: " << numeroDeAfiliado << endl;
 }

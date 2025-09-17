@@ -6,8 +6,8 @@
 #include "Turno.h"
 using namespace std;
 
-class EmpresaSanatorio{
+class EmpresaSanatorio
+{
 private:
-    Paciente ** listaPacientes;
-
+    Paciente **listaPacientes;
 };

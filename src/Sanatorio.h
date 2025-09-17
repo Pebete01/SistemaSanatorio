@@ -11,21 +11,23 @@ using namespace std;
 
 #ifndef SISTEMASANATORIO_SANATORIO_H
 #define SISTEMASANATORIO_SANATORIO_H
-class Sanatorio{
+class Sanatorio
+{
 private:
     string nombre;
     string ubicacion;
-    Paciente ** listaPacientes;
-    Profesional ** listaProfesionales;
-    Turno ** listaTurno;
-    Especialidad ** listaEspecialidades;
-    int cantidadPacientes,cantidadProfe, cantidadTurno, cantidadEspecialidad;
+    Paciente **listaPacientes;
+    Profesional **listaProfesionales;
+    Turno **listaTurno;
+    Especialidad **listaEspecialidades;
+    int cantidadPacientes, cantidadProfe, cantidadTurno, cantidadEspecialidad;
     int capacidadPacientes, capacidadProfe, capacidadTurno, capacidadEspecialidad;
+
 public:
-    Sanatorio(string nombre, string ubicacion): nombre(nombre), ubicacion(ubicacion), listaEspecialidades(NULL), listaPacientes(NULL), listaProfesionales(NULL), listaTurno(NULL) {}
+    Sanatorio(string nombre, string ubicacion) : nombre(nombre), ubicacion(ubicacion), listaEspecialidades(NULL), listaPacientes(NULL), listaProfesionales(NULL), listaTurno(NULL) {}
 
     void agrandarListaPaciente();
     void agregarPaciente(Paciente *p);
-    ~Sanatorio(){}
+    ~Sanatorio() {}
 };
-#endif //SISTEMASANATORIO_SANATORIO_H
+#endif // SISTEMASANATORIO_SANATORIO_H

@@ -9,21 +9,26 @@ using namespace std;
 #ifndef SISTEMASANATORIO_PACIENTE_H
 #define SISTEMASANATORIO_PACIENTE_H
 
-class Paciente: public Persona{
+class Paciente : public Persona
+{
 private:
     string obraSocial;
     int numeroDeAfiliado;
     bool estadoPaciente;
-    static int cantidadDePacientes;
+    static int cantidad;
+
 public:
-    Paciente(int id, string nombre, string apellido, int numeroAfiliado, string obraSocial) : Persona(id,nombre,apellido), numeroDeAfiliado(numeroAfiliado), obraSocial(obraSocial), estadoPaciente(true){
-        cantidadDePacientes++;
+    Paciente(int id, string nombre, string apellido, int numeroAfiliado, string obraSocial)
+        : Persona(id, nombre, apellido), numeroDeAfiliado(numeroAfiliado), obraSocial(obraSocial), estadoPaciente(true)
+    {
+        cantidad++;
     }
     void modificarEstado();
     void mostrar();
 
-    ~Paciente(){
-        cantidadDePacientes--;
+    ~Paciente()
+    {
+        cantidad--;
     }
 };
-#endif //SISTEMASANATORIO_PACIENTE_H
+#endif // SISTEMASANATORIO_PACIENTE_H

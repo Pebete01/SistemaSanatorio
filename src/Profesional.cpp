@@ -3,23 +3,30 @@
 #include "Profesional.h"
 using namespace std;
 
-void Profesional::modificarEstado() {
-    if(!estado){
+void Profesional::modificarEstado()
+{
+    if (!estado)
+    {
         estado = true;
-    } else{
+    }
+    else
+    {
         estado = false;
     }
 }
 
-void Profesional::mostrar() {
-    cout<<"ID: "<<id<<" Dr/Dra: "<<nombre<<" "<<apellido<<" numero de profesional: "<<numeroDeProfesional<<endl;
+void Profesional::mostrar()
+{
+    cout << "ID: " << id << " Dr/Dra: " << nombre << " " << apellido << " numero de profesional: " << numeroDeProfesional << endl;
     especialidad.mostrar();
 }
 
-void  Profesional::instanciasVivas() {
-    cout<<"Profesionales totales: "<<numProfesionales<<endl;
+void Profesional::instanciasVivas()
+{
+    cout << "Profesionales totales: " << numProfesionales << endl;
 }
 
-Especialidad Profesional::getEspecialidad() {
+Especialidad Profesional::getEspecialidad()
+{
     return especialidad;
 }
