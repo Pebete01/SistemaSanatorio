@@ -23,3 +23,7 @@ void Paciente::mostrar()
 {
     cout << "ID: " << id << " Sr/Sra: " << nombre << " " << apellido << " obra social: " << obraSocial << " plan: " << numeroDeAfiliado << endl;
 }
+
+void Paciente::instanciasVivas() {
+    cout<<"cantidad de pacientes en sistema: "<<cantidad<<endl;
+}

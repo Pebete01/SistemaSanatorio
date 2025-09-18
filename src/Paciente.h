@@ -25,6 +25,7 @@ public:
     }
     void modificarEstado();
     void mostrar();
+    void instanciasVivas();
 
     ~Paciente()
     {

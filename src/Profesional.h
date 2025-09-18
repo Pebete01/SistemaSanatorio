@@ -21,6 +21,8 @@ public:
 
     void mostrar();
 
+    int getNumueroProfesional();
+
     Especialidad getEspecialidad();
     void static instanciasVivas();
 

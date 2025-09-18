@@ -30,3 +30,7 @@ Especialidad Profesional::getEspecialidad()
 {
     return especialidad;
 }
+
+int Profesional::getNumueroProfesional() {
+    return numeroDeProfesional;
+}
