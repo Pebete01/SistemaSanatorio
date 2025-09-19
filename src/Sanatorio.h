@@ -36,6 +36,10 @@ public:
     void agregarEspecialidad(Especialidad *p);
 
     void sacarProfesional();
+    void sacarEspecialidad();
+    void cancelarTurno();
+    void mostrarSanatorio();
+
     ~Sanatorio() {}
 };
 #endif // SISTEMASANATORIO_SANATORIO_H

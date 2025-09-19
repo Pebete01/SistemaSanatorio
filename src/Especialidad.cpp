@@ -7,3 +7,7 @@ void Especialidad::mostrar()
 {
     cout << "Especialidad: " << nombre << " id: " << id << endl;
 }
+
+int Especialidad::getNumueroEspecialidad() {
+    return id;
+}

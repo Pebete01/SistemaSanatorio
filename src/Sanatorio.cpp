@@ -96,7 +96,7 @@ void Sanatorio::sacarProfesional() {
         }
     }
 
-    for (int i = 0; i < cantidadProfe && !noEncontrado; i++) {
+    for (int i = 0; i < cantidadProfe; i++) {
 
         if(listaProfesionales[i]->getNumueroProfesional() == codigo && listaProfesionales[i] != nullptr){
             noEncontrado = false;
@@ -121,5 +121,67 @@ void Sanatorio::sacarProfesional() {
         cout << "Profesional eliminado en "<<Sanatorio::nombre << endl;
     }
 
+}
+
+void Sanatorio::sacarEspecialidad() {
+    int codigo;
+    bool validacion = false;
+    bool noEncontrado = true;
+
+    while(!validacion){
+        cout<<"Ingrese el id de especialidad"<<endl;
+        cin >> codigo;
+
+        if(cin.fail()){
+            cout << "Entrada inválida. Debe ingresar un número entero." << endl;
+            cin.clear();
+        }
+        else {
+            validacion = true;
+        }
+    }
+
+    for (int i = 0; i < cantidadEspecialidad; i++) {
+
+        if(listaEspecialidades[i]->getNumueroEspecialidad() == codigo && listaEspecialidades[i] != nullptr){
+            noEncontrado = false;
+            delete listaEspecialidades[i];
+            listaEspecialidades[i] = nullptr;
+
+            for (int j = i; j < cantidadEspecialidad - 1; j++) {
+                listaEspecialidades[j] = listaEspecialidades[j + 1];
+            }
+            listaEspecialidades[cantidadEspecialidad - 1] = nullptr;
+            cantidadEspecialidad--;
+        }
+    }
+
+    if(noEncontrado){
+        cout << "Especialidad no encontrada en sanatorio "<<Sanatorio::nombre << endl;
+    } else{
+        cout << "Especialidad eliminada en "<<Sanatorio::nombre << endl;
+    }
 
 }
+
+void Sanatorio::mostrarSanatorio() {
+    cout<<"Sanatorio "<<nombre<<endl;
+    cout<<"\nEspecialidades atendidas "<<endl;
+    for (int i = 0; i < cantidadEspecialidad; i++) {
+        listaEspecialidades[i]->mostrar();
+    }
+    cout<<"\nPacientes anotados "<<endl;
+    for (int i = 0; i < cantidadPacientes; i++) {
+        listaPacientes[i]->mostrar();
+    }
+    cout<<"\nProfesionales en el Sanatorio "<<endl;
+    for (int i = 0; i < cantidadProfe; i++) {
+        listaProfesionales[i]->mostrar();
+    }
+    cout<<"\nTurnos agendados"<<endl;
+    for (int i = 0; i < cantidadTurno; i++) {
+        listaTurno[i]->mostrar();
+    }
+}
+
+
