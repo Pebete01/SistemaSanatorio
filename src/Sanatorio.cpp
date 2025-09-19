@@ -164,6 +164,49 @@ void Sanatorio::sacarEspecialidad() {
 
 }
 
+void Sanatorio::cancelarTurno() {
+    int codigo;
+    bool validacion = false;
+    bool noEncontrado = true;
+
+    while(!validacion){
+        cout<<"Ingrese el id del turno"<<endl;
+        cin >> codigo;
+
+        if(cin.fail()){
+            cout << "Entrada inválida. Debe ingresar un número entero." << endl;
+            cin.clear();
+        }
+        else {
+            validacion = true;
+        }
+    }
+
+    for (int i = 0; i < cantidadTurno; i++) {
+
+        if(listaTurno[i]->getNumeroTurno() == codigo && listaTurno[i] != nullptr){
+            noEncontrado = false;
+            listaTurno[i]->cancelar();
+            delete listaTurno[i];
+            listaTurno[i] = nullptr;
+
+            for (int j = i; j < cantidadTurno - 1; j++) {
+                listaTurno[j] = listaTurno[j + 1];
+            }
+            listaTurno[cantidadTurno - 1] = nullptr;
+            cantidadTurno--;
+        }
+    }
+
+    if(noEncontrado){
+        cout << "Turno no encontrado en sanatorio "<<Sanatorio::nombre << endl;
+    } else{
+        cout << "Turno eliminado en "<<Sanatorio::nombre << endl;
+    }
+
+
+}
+
 void Sanatorio::mostrarSanatorio() {
     cout<<"Sanatorio "<<nombre<<endl;
     cout<<"\nEspecialidades atendidas "<<endl;

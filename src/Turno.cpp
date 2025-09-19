@@ -6,6 +6,7 @@ using namespace std;
 void Turno::cancelar()
 {
     cout << "El turno con ID: " << id << " ha sido cancelado." << endl;
+
 }
 
 void Turno::reprogramar(string nuevaFecha, string nuevaHora)
@@ -14,7 +15,9 @@ void Turno::reprogramar(string nuevaFecha, string nuevaHora)
     hora = nuevaHora;
     cout << "El turno con ID: " << id << " ha sido reprogramado a " << fecha << " a las " << hora << "." << endl;
 }
-
+int Turno::getNumeroTurno() {
+    return id;
+}
 void Turno::mostrar()
 {
     cout << "Turno ID: " << id << endl;

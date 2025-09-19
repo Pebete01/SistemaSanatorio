@@ -23,6 +23,7 @@ public:
 
     void cancelar();
     void reprogramar(string nuevaFecha, string nuevaHora);
+    int getNumeroTurno();
     void mostrar();
 };
 
