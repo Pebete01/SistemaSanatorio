@@ -1,29 +1,23 @@
-//
-// Created by tomyl on 10/9/2025.
-//
-
 #include "Paciente.h"
-#include "iostream"
-#include "string"
-using namespace std;
+#include <ostream>
+#include <iostream>
 
-void Paciente::modificarEstado()
+int Paciente::cantidad = 0;
+
+void Paciente::mostrar() { std::cout << *this << '\n'; }
+
+std::ostream &operator<<(std::ostream &os, const Paciente &p)
 {
-    if (!estadoPaciente)
-    {
-        estadoPaciente = true;
-    }
-    else
-    {
-        estadoPaciente = false;
-    }
+    os << "[" << p.getId() << "] " << p.getApellido() << ", " << p.getNombre()
+       << " | OS: " << p.getObraSocial()
+       << " | Afiliado: " << p.getNumeroDeAfiliado();
+    return os;
 }
-
-void Paciente::mostrar()
+bool Paciente::operator<(const Paciente &o) const
 {
-    cout << "ID: " << id << " Sr/Sra: " << nombre << " " << apellido << " obra social: " << obraSocial << " plan: " << numeroDeAfiliado << endl;
-}
-
-void Paciente::instanciasVivas() {
-    cout<<"cantidad de pacientes en sistema: "<<cantidad<<endl;
+    if (getApellido() != o.getApellido())
+        return getApellido() < o.getApellido();
+    if (getNombre() != o.getNombre())
+        return getNombre() < o.getNombre();
+    return getId() < o.getId();
 }

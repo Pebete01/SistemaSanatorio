@@ -1,8 +1,7 @@
-#include "iostream"
-#include "string"
+#pragma once
+#include <string>
 #include "Persona.h"
 #include "Especialidad.h"
-using namespace std;
 
 class Profesional : public Persona
 {
@@ -13,21 +12,20 @@ private:
     static int numProfesionales;
 
 public:
-    Profesional(int numero, Especialidad especialidad, int id, string nombre, string apellido) : Persona(id, nombre, apellido), estado(true), numeroDeProfesional(numero), especialidad(especialidad)
-    {
-        numProfesionales++;
-    }
+    Profesional(int numero,
+                const Especialidad &esp,
+                int id,
+                const std::string &nombre,
+                const std::string &apellido);
+
+    ~Profesional() override;
+
     void modificarEstado();
+    void mostrar() override;
 
-    void mostrar();
+    int getNumeroProfesional() const;
+    const Especialidad &getEspecialidad() const;
+    bool getEstado() const { return estado; }
 
-    int getNumueroProfesional();
-
-    Especialidad getEspecialidad();
-    void static instanciasVivas();
-
-    ~Profesional()
-    {
-        numProfesionales--;
-    }
+    static void instanciasVivas();
 };

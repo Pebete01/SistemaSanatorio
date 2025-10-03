@@ -1,36 +1,51 @@
-#include "iostream"
-#include "string"
 #include "Profesional.h"
-using namespace std;
+#include <iostream>
+
+int Profesional::numProfesionales = 0;
+
+Profesional::Profesional(int numero,
+                         const Especialidad &esp,
+                         int id,
+                         const std::string &nombre,
+                         const std::string &apellido)
+    : Persona(id, nombre, apellido),
+      estado(true),
+      numeroDeProfesional(numero),
+      especialidad(esp)
+{
+    ++numProfesionales;
+}
+
+Profesional::~Profesional()
+{
+    --numProfesionales;
+}
 
 void Profesional::modificarEstado()
 {
-    if (!estado)
-    {
-        estado = true;
-    }
-    else
-    {
-        estado = false;
-    }
+    estado = !estado;
 }
 
 void Profesional::mostrar()
 {
-    cout << "ID: " << id << " Dr/Dra: " << nombre << " " << apellido << " numero de profesional: " << numeroDeProfesional << endl;
-    especialidad.mostrar();
+    std::cout << "ID: " << getId()
+              << " Dr/Dra: " << getNombre() << ' ' << getApellido()
+              << " Numero de profesional: " << numeroDeProfesional
+              << " Estado: " << (estado ? "Activo" : "Inactivo")
+              << '\n';
 }
 
-void Profesional::instanciasVivas()
+int Profesional::getNumeroProfesional() const
 {
-    cout << "Profesionales totales: " << numProfesionales << endl;
+    return numeroDeProfesional;
 }
 
-Especialidad Profesional::getEspecialidad()
+const Especialidad &Profesional::getEspecialidad() const
 {
     return especialidad;
 }
 
-int Profesional::getNumueroProfesional() {
-    return numeroDeProfesional;
+void Profesional::instanciasVivas()
+{
+    std::cout << "Profesionales vivos: " << numProfesionales << '\n';
 }

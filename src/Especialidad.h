@@ -1,17 +1,21 @@
-#include "iostream"
-#include "string"
-
-using namespace std;
+#pragma once
+#include <string>
 
 class Especialidad
 {
 private:
     int id;
-    string nombre;
+    std::string nombre;
+    bool estado{true};
 
 public:
-    Especialidad(int id, string nombre) : id(id), nombre(nombre) {}
-    int getNumueroEspecialidad();
-    void mostrar();
-    ~Especialidad() {}
+    explicit Especialidad(int id, const std::string &nombre);
+
+    int getId() const noexcept;
+    const std::string &getNombre() const noexcept;
+    int getNumeroEspecialidad() const { return getId(); }
+    bool getEstado() const noexcept;
+
+    void toggleEstado() noexcept;
+    void mostrar() const;
 };

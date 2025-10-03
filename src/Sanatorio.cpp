@@ -23,13 +23,15 @@ void Sanatorio::agrandarListaPaciente()
 
 void Sanatorio::agregarPaciente(Paciente *p)
 {
-    if (capacidadPacientes == cantidadPacientes) agrandarListaPaciente();
+    if (capacidadPacientes == cantidadPacientes)
+        agrandarListaPaciente();
     listaPacientes[cantidadPacientes++] = p;
 }
 
-void Sanatorio::agrandarListaProfesionales() {
+void Sanatorio::agrandarListaProfesionales()
+{
     int capacidadNuevaProfesionales = (capacidadProfe == 0) ? 4 : capacidadProfe * 2;
-    Profesional **listaNueva = new Profesional * [capacidadNuevaProfesionales];
+    Profesional **listaNueva = new Profesional *[capacidadNuevaProfesionales];
 
     for (int i = 0; i < cantidadPacientes; ++i)
     {
@@ -40,14 +42,17 @@ void Sanatorio::agrandarListaProfesionales() {
     capacidadProfe = capacidadNuevaProfesionales;
 }
 
-void Sanatorio::agregarProfesional(Profesional * p) {
-    if(cantidadProfe == capacidadProfe) agrandarListaProfesionales();
+void Sanatorio::agregarProfesional(Profesional *p)
+{
+    if (cantidadProfe == capacidadProfe)
+        agrandarListaProfesionales();
     listaProfesionales[cantidadProfe++] = p;
 }
 
-void Sanatorio::agrandarListaTurnos(){
+void Sanatorio::agrandarListaTurnos()
+{
     int capacidadNuevaTurnos = (capacidadTurno == 0) ? 4 : capacidadTurno * 2;
-    Turno **listaNueva = new Turno * [capacidadNuevaTurnos];
+    Turno **listaNueva = new Turno *[capacidadNuevaTurnos];
 
     for (int i = 0; i < cantidadTurno; ++i)
     {
@@ -57,13 +62,16 @@ void Sanatorio::agrandarListaTurnos(){
     listaTurno = listaNueva;
     capacidadTurno = capacidadNuevaTurnos;
 }
-void Sanatorio::agregarTurnos(Turno *p) {
-    if(capacidadTurno == cantidadTurno) agrandarListaTurnos();
+void Sanatorio::agregarTurnos(Turno *p)
+{
+    if (capacidadTurno == cantidadTurno)
+        agrandarListaTurnos();
     listaTurno[cantidadTurno++] = p;
 }
-void Sanatorio::agrandarListaEspecialidad() {
+void Sanatorio::agrandarListaEspecialidad()
+{
     int capacidadNueva = (capacidadEspecialidad == 0) ? 4 : capacidadEspecialidad * 2;
-    Especialidad **listaNueva = new Especialidad * [capacidadNueva];
+    Especialidad **listaNueva = new Especialidad *[capacidadNueva];
 
     for (int i = 0; i < cantidadEspecialidad; ++i)
     {
@@ -73,82 +81,96 @@ void Sanatorio::agrandarListaEspecialidad() {
     listaEspecialidades = listaNueva;
     capacidadEspecialidad = capacidadNueva;
 }
-void Sanatorio::agregarEspecialidad(Especialidad *p) {
-    if(capacidadEspecialidad == cantidadEspecialidad) agrandarListaEspecialidad();
+void Sanatorio::agregarEspecialidad(Especialidad *p)
+{
+    if (capacidadEspecialidad == cantidadEspecialidad)
+        agrandarListaEspecialidad();
     listaEspecialidades[cantidadEspecialidad++] = p;
 }
 
-void Sanatorio::sacarProfesional() {
+void Sanatorio::sacarProfesional()
+{
     int codigo;
     bool validacion = false;
     bool noEncontrado = true;
 
-    while(!validacion){
-        cout<<"Ingrese el numero de profesional"<<endl;
+    while (!validacion)
+    {
+        cout << "Ingrese el numero de profesional" << endl;
         cin >> codigo;
 
-        if(cin.fail()){
+        if (cin.fail())
+        {
             cout << "Entrada inválida. Debe ingresar un número entero." << endl;
             cin.clear();
         }
-        else {
+        else
+        {
             validacion = true;
         }
     }
 
-    for (int i = 0; i < cantidadProfe; i++) {
+    for (int i = 0; i < cantidadProfe; i++)
+    {
 
-        if(listaProfesionales[i]->getNumueroProfesional() == codigo && listaProfesionales[i] != nullptr){
+        if (listaProfesionales[i]->getNumeroProfesional() == codigo && listaProfesionales[i] != nullptr)
+        {
             noEncontrado = false;
             delete listaProfesionales[i];
             listaProfesionales[i] = nullptr;
 
-            for (int j = i; j < cantidadProfe - 1; j++) {
+            for (int j = i; j < cantidadProfe - 1; j++)
+            {
                 listaProfesionales[j] = listaProfesionales[j + 1];
             }
             listaProfesionales[cantidadProfe - 1] = nullptr;
             cantidadProfe--;
         }
-
-
     }
 
-
-
-    if(noEncontrado){
-        cout << "Profesional no encontrado en sanatorio "<<Sanatorio::nombre << endl;
-    } else{
-        cout << "Profesional eliminado en "<<Sanatorio::nombre << endl;
+    if (noEncontrado)
+    {
+        cout << "Profesional no encontrado en sanatorio " << Sanatorio::nombre << endl;
     }
-
+    else
+    {
+        cout << "Profesional eliminado en " << Sanatorio::nombre << endl;
+    }
 }
 
-void Sanatorio::sacarEspecialidad() {
+void Sanatorio::sacarEspecialidad()
+{
     int codigo;
     bool validacion = false;
     bool noEncontrado = true;
 
-    while(!validacion){
-        cout<<"Ingrese el id de especialidad"<<endl;
+    while (!validacion)
+    {
+        cout << "Ingrese el id de especialidad" << endl;
         cin >> codigo;
 
-        if(cin.fail()){
+        if (cin.fail())
+        {
             cout << "Entrada inválida. Debe ingresar un número entero." << endl;
             cin.clear();
         }
-        else {
+        else
+        {
             validacion = true;
         }
     }
 
-    for (int i = 0; i < cantidadEspecialidad; i++) {
+    for (int i = 0; i < cantidadEspecialidad; i++)
+    {
 
-        if(listaEspecialidades[i]->getNumueroEspecialidad() == codigo && listaEspecialidades[i] != nullptr){
+        if (listaEspecialidades[i]->getNumeroEspecialidad() == codigo && listaEspecialidades[i] != nullptr)
+        {
             noEncontrado = false;
             delete listaEspecialidades[i];
             listaEspecialidades[i] = nullptr;
 
-            for (int j = i; j < cantidadEspecialidad - 1; j++) {
+            for (int j = i; j < cantidadEspecialidad - 1; j++)
+            {
                 listaEspecialidades[j] = listaEspecialidades[j + 1];
             }
             listaEspecialidades[cantidadEspecialidad - 1] = nullptr;
@@ -156,41 +178,50 @@ void Sanatorio::sacarEspecialidad() {
         }
     }
 
-    if(noEncontrado){
-        cout << "Especialidad no encontrada en sanatorio "<<Sanatorio::nombre << endl;
-    } else{
-        cout << "Especialidad eliminada en "<<Sanatorio::nombre << endl;
+    if (noEncontrado)
+    {
+        cout << "Especialidad no encontrada en sanatorio " << Sanatorio::nombre << endl;
     }
-
+    else
+    {
+        cout << "Especialidad eliminada en " << Sanatorio::nombre << endl;
+    }
 }
 
-void Sanatorio::cancelarTurno() {
+void Sanatorio::cancelarTurno()
+{
     int codigo;
     bool validacion = false;
     bool noEncontrado = true;
 
-    while(!validacion){
-        cout<<"Ingrese el id del turno"<<endl;
+    while (!validacion)
+    {
+        cout << "Ingrese el id del turno" << endl;
         cin >> codigo;
 
-        if(cin.fail()){
+        if (cin.fail())
+        {
             cout << "Entrada inválida. Debe ingresar un número entero." << endl;
             cin.clear();
         }
-        else {
+        else
+        {
             validacion = true;
         }
     }
 
-    for (int i = 0; i < cantidadTurno; i++) {
+    for (int i = 0; i < cantidadTurno; i++)
+    {
 
-        if(listaTurno[i]->getNumeroTurno() == codigo && listaTurno[i] != nullptr){
+        if (listaTurno[i]->getNumeroTurno() == codigo && listaTurno[i] != nullptr)
+        {
             noEncontrado = false;
             listaTurno[i]->cancelar();
             delete listaTurno[i];
             listaTurno[i] = nullptr;
 
-            for (int j = i; j < cantidadTurno - 1; j++) {
+            for (int j = i; j < cantidadTurno - 1; j++)
+            {
                 listaTurno[j] = listaTurno[j + 1];
             }
             listaTurno[cantidadTurno - 1] = nullptr;
@@ -198,33 +229,37 @@ void Sanatorio::cancelarTurno() {
         }
     }
 
-    if(noEncontrado){
-        cout << "Turno no encontrado en sanatorio "<<Sanatorio::nombre << endl;
-    } else{
-        cout << "Turno eliminado en "<<Sanatorio::nombre << endl;
+    if (noEncontrado)
+    {
+        cout << "Turno no encontrado en sanatorio " << Sanatorio::nombre << endl;
     }
-
-
+    else
+    {
+        cout << "Turno eliminado en " << Sanatorio::nombre << endl;
+    }
 }
 
-void Sanatorio::mostrarSanatorio() {
-    cout<<"Sanatorio "<<nombre<<endl;
-    cout<<"\nEspecialidades atendidas "<<endl;
-    for (int i = 0; i < cantidadEspecialidad; i++) {
+void Sanatorio::mostrarSanatorio()
+{
+    cout << "Sanatorio " << nombre << endl;
+    cout << "\nEspecialidades atendidas " << endl;
+    for (int i = 0; i < cantidadEspecialidad; i++)
+    {
         listaEspecialidades[i]->mostrar();
     }
-    cout<<"\nPacientes anotados "<<endl;
-    for (int i = 0; i < cantidadPacientes; i++) {
+    cout << "\nPacientes anotados " << endl;
+    for (int i = 0; i < cantidadPacientes; i++)
+    {
         listaPacientes[i]->mostrar();
     }
-    cout<<"\nProfesionales en el Sanatorio "<<endl;
-    for (int i = 0; i < cantidadProfe; i++) {
+    cout << "\nProfesionales en el Sanatorio " << endl;
+    for (int i = 0; i < cantidadProfe; i++)
+    {
         listaProfesionales[i]->mostrar();
     }
-    cout<<"\nTurnos agendados"<<endl;
-    for (int i = 0; i < cantidadTurno; i++) {
+    cout << "\nTurnos agendados" << endl;
+    for (int i = 0; i < cantidadTurno; i++)
+    {
         listaTurno[i]->mostrar();
     }
 }
-
-

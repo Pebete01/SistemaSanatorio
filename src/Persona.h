@@ -1,19 +1,20 @@
-#include "iostream"
-#include "string"
-
-using namespace std;
+#pragma once
+#include <string>
 
 class Persona
 {
 protected:
     int id;
-    string nombre;
-    string apellido;
+    std::string nombre;
+    std::string apellido;
 
 public:
-    Persona(int id, string nombre, string apellido) : id(id), nombre(nombre), apellido(apellido) {}
-    virtual void modificarEstado() = 0;
-    virtual void mostrar() = 0;
+    Persona(int id, const std::string &nombre, const std::string &apellido)
+        : id(id), nombre(nombre), apellido(apellido) {}
+    virtual ~Persona() = default;
 
-    ~Persona() {}
+    int getId() const { return id; }
+    const std::string &getNombre() const { return nombre; }
+    const std::string &getApellido() const { return apellido; }
+    virtual void mostrar() = 0;
 };

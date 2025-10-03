@@ -1,35 +1,33 @@
-//
-// Created by tomyl on 10/9/2025.
-//
-#include "iostream"
-#include "string"
+#pragma once
+#include <string>
+#include <iosfwd> // forward decl de std::ostream
 #include "Persona.h"
-#include "Especialidad.h"
-using namespace std;
-#ifndef SISTEMASANATORIO_PACIENTE_H
-#define SISTEMASANATORIO_PACIENTE_H
 
 class Paciente : public Persona
 {
 private:
-    string obraSocial;
+    std::string obraSocial;
     int numeroDeAfiliado;
     bool estadoPaciente;
     static int cantidad;
 
 public:
-    Paciente(int id, string nombre, string apellido, int numeroAfiliado, string obraSocial)
-        : Persona(id, nombre, apellido), numeroDeAfiliado(numeroAfiliado), obraSocial(obraSocial), estadoPaciente(true)
-    {
-        cantidad++;
-    }
-    void modificarEstado();
-    void mostrar();
-    void instanciasVivas();
+    Paciente(int id, const std::string &nombre, const std::string &apellido,
+             int numeroAfiliado, const std::string &obraSocial)
+        : Persona(id, nombre, apellido),
+          obraSocial(obraSocial),
+          numeroDeAfiliado(numeroAfiliado),
+          estadoPaciente(true) { ++cantidad; }
 
-    ~Paciente()
-    {
-        cantidad--;
-    }
+    void modificarEstado();
+    void instanciasVivas();
+    bool getEstado() const { return estadoPaciente; }
+    void mostrar() override;
+    int getNumeroDeAfiliado() const { return numeroDeAfiliado; }
+    const std::string &getObraSocial() const { return obraSocial; }
+
+    friend std::ostream &operator<<(std::ostream &os, const Paciente &p);
+    bool operator<(const Paciente &o) const;
+
+    ~Paciente() { --cantidad; }
 };
-#endif // SISTEMASANATORIO_PACIENTE_H

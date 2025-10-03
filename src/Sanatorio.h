@@ -21,7 +21,7 @@ private:
     Turno **listaTurno;
     Especialidad **listaEspecialidades;
     int cantidadPacientes, cantidadProfe, cantidadTurno, cantidadEspecialidad;
-    int capacidadPacientes,capacidadProfe, capacidadTurno, capacidadEspecialidad;
+    int capacidadPacientes, capacidadProfe, capacidadTurno, capacidadEspecialidad;
 
 public:
     Sanatorio(string nombre, string ubicacion) : nombre(nombre), ubicacion(ubicacion), listaEspecialidades(NULL), listaPacientes(NULL), listaProfesionales(NULL), listaTurno(NULL) {}
@@ -29,7 +29,7 @@ public:
     void agrandarListaPaciente();
     void agregarPaciente(Paciente *p);
     void agrandarListaProfesionales();
-    void agregarProfesional(Profesional * p);
+    void agregarProfesional(Profesional *p);
     void agrandarListaTurnos();
     void agregarTurnos(Turno *p);
     void agrandarListaEspecialidad();

@@ -1,52 +1,111 @@
-#include "iostream"
-#include "string"
-#include "Profesional.h"
-#include "Paciente.h"
-#include "Especialidad.h"
-#include "Turno.h"
-#include "Sanatorio.h"
-using namespace std;
+#pragma once
+#include <string>
+#include <vector>
 
-class EmpresaSanatorio{
+// Forward declarations
+class Paciente;
+class Profesional;
+class Turno;
+class Sanatorio;
+class Especialidad;
+
+class EmpresaSanatorio
+{
 private:
-    Paciente **listaPacientes;
-    Profesional **profesionales;
-    Turno **turnos;
-    Sanatorio **sanatorios;
-    Especialidad **especialidades;
-    int cantidadPacientes,cantidadEspecialdiades, cantidadSanatorios, cantidadTurnos, cantidadProfesionales;
-    int capacidadPacientes,capacidadProfesionales, capacidadTurno, capacidadEspecialidad, capacidadSanatorios;
+    // --- Almacenamiento ---
+    Paciente **listaPacientes = nullptr;
+    Profesional **profesionales = nullptr;
+    Turno **turnos = nullptr;
+    Sanatorio **sanatorios = nullptr;
+    Especialidad **especialidades = nullptr;
+
+    // --- Capacidades y contadores ---
+    int capacidadPacientes = 0, cantidadPacientes = 0;
+    int capacidadProfesionales = 0, cantidadProfesionales = 0;
+    int capacidadTurno = 0, cantidadTurnos = 0;
+    int capacidadSanatorios = 0, cantidadSanatorios = 0;
+    int capacidadEspecialidad = 0, cantidadEspecialidades = 0;
+
+    // =================== AGENDA (Turnos) ===================
+    struct TurnoRec
+    {
+        int id;
+        int pacienteId;
+        int profesionalId;
+        int especialidadId;
+        std::string fecha; // "YYYY-MM-DD"
+        int minOfDay;      // HH*60 + MM
+        int durMin;        // duración en minutos
+        bool activo{true};
+    };
+    std::vector<TurnoRec> agenda;
 
 public:
-    EmpresaSanatorio() : listaPacientes(NULL), profesionales(NULL), turnos(NULL), sanatorios(NULL){}
+    // --- Ciclo de vida / Regla de 5 ---
+    EmpresaSanatorio();
+    ~EmpresaSanatorio();
+    EmpresaSanatorio(const EmpresaSanatorio &) = delete;
+    EmpresaSanatorio &operator=(const EmpresaSanatorio &) = delete;
+    EmpresaSanatorio(EmpresaSanatorio &&) = delete;
+    EmpresaSanatorio &operator=(EmpresaSanatorio &&) = delete;
 
+    // ===================== PACIENTES =====================
+    Paciente *buscarPacientePorId(int id);
+    const Paciente *buscarPacientePorId(int id) const;
+    bool eliminarPacientePorId(int id);
+    void actualizarPaciente(int id,
+                            const std::string &nombre,
+                            const std::string &apellido,
+                            int nroAfiliado,
+                            const std::string &obraSocial);
+    std::vector<std::string> listarPacientesTexto() const;
     void agregarPaciente(Paciente *p);
-    void agrendarListaPaciente();
+    void agrandarListaPaciente();
+    void ordenarPacientesPorApellido();
+
+    // =================== PROFESIONALES ===================
+    Profesional *buscarProfesionalPorId(int id);
+    const Profesional *buscarProfesionalPorId(int id) const;
+    bool eliminarProfesionalPorId(int id);
+    std::vector<std::string> listarProfesionalesTexto() const;
+    void agregarProfesional(Profesional *p);
     void agrandarListaProfesionales();
-    void agregarProfesional(Profesional * p);
-    void agrandarListaTurnos();
-    void agregarTurnos(Turno *p);
-    void agrandarListaEspecialidad();
+    void ordenarProfesionalesPorApellido();
+
+    // =================== ESPECIALIDADES ==================
+    Especialidad *buscarEspecialidadPorId(int id);
+    const Especialidad *buscarEspecialidadPorId(int id) const;
+    
+    bool eliminarEspecialidadPorId(int id);
+    std::vector<std::string> listarEspecialidadesTexto() const;
     void agregarEspecialidad(Especialidad *p);
-    //faltan funciones para sanatorio (tomy)
+    void agrandarListaEspecialidad();
 
-    int validarEntero(const string &mensaje);
-    string validarTexto(const string &mensaje);
+    // ======================= TURNOS ======================
+    // fechaHora: "YYYY-MM-DD HH:MM"
+    bool agendarTurno(int idTurno, int idPaciente, int idProfesional, int idEspecialidad,
+                      const std::string &fechaHora, int durMin, std::string &error);
+    bool cancelarTurnoPorId(int idTurno);
+    std::vector<std::string> listarTurnosTexto() const;
+    std::vector<std::string> listarTurnosPorProfesionalTexto(int idProfesional) const;
 
-    Paciente * nuevoPaciente();
-    Especialidad * nuevaEspecialidad();
-    Profesional * nuevoProfesional();
-    Sanatorio *  nuevoSanatorio();
+    // ======================= OTROS =======================
+    void agrandarListaTurnos();
+    void agregarTurnos(Turno *p); // mantenido para compatibilidad
+    Sanatorio *nuevoSanatorio();
 
+    // ===================== FACTORÍAS UI ==================
+    Paciente *nuevoPaciente();
+    Especialidad *nuevaEspecialidad();
+    Profesional *nuevoProfesional();
+
+    // ==================== UTILIDADES UI ==================
+    int validarEntero(const std::string &mensaje);
+    std::string validarTexto(const std::string &mensaje);
+
+    // ======================== MENÚ =======================
     void menu();
     void subMenuMostrar();
     void subMenuAgregar();
     void subMenuEliminar();
-
-
-
-
-    ~EmpresaSanatorio(){
-        delete[] listaPacientes, profesionales, turnos, sanatorios, especialidades;
-    }
 };
