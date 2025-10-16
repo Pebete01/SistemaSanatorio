@@ -1,6 +1,6 @@
 CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\main.cpp \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\SistemaSanatorio.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\main.cpp \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\SistemaSanatorio.h \
  C:/msys64/ucrt64/include/c++/15.2.0/string \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
@@ -110,11 +110,11 @@ CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_vector.h \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_bvector.h \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/vector.tcc \
- C:/Users/juanc/OneDrive/Desktop/SistemaSanatorio/ui/menu.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Paciente.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Persona.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Profesional.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Especialidad.h \
+ C:/Users/tomyl/EmpresaSanatorio/SistemaSanatorio/ui/menu.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Paciente.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Persona.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Profesional.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Especialidad.h \
  C:/msys64/ucrt64/include/c++/15.2.0/stdexcept \
  C:/msys64/ucrt64/include/c++/15.2.0/exception \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_ptr.h \

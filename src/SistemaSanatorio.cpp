@@ -61,14 +61,13 @@ void EmpresaSanatorio::actualizarPaciente(int id,
                                           const std::string &nombre,
                                           const std::string &apellido,
                                           int nroAfiliado,
-                                          const std::string &obraSocial)
-{
+                                          const std::string &obraSocial, const std::string &mail) {
     for (int i = 0; i < cantidadPacientes; ++i)
     {
         if (listaPacientes[i] && listaPacientes[i]->getId() == id)
         {
             Paciente *viejo = listaPacientes[i];
-            listaPacientes[i] = new Paciente(id, nombre, apellido, nroAfiliado, obraSocial);
+            listaPacientes[i] = new Paciente(id, nombre, apellido, nroAfiliado, obraSocial,mail);
             delete viejo;
             return;
         }
@@ -268,7 +267,8 @@ Paciente *EmpresaSanatorio::nuevoPaciente()
     string nombre = validarTexto("Ingrese nombre: ");
     string apellido = validarTexto("Ingrese apellido: ");
     string obraSocial = validarTexto("Ingrese obra Social: ");
-    return new Paciente(id, nombre, apellido, numAfiliado, obraSocial);
+    string mail = validarTexto("Ingrese el Mail: ");
+    return new Paciente(id, nombre, apellido, numAfiliado, obraSocial,mail);
 }
 
 Profesional *EmpresaSanatorio::nuevoProfesional()

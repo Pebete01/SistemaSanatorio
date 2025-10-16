@@ -1,6 +1,6 @@
 CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj: \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Paciente.cpp \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Paciente.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Paciente.cpp \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Paciente.h \
  C:/msys64/ucrt64/include/c++/15.2.0/string \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
@@ -105,7 +105,7 @@ CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator_args.h \
  C:/msys64/ucrt64/include/c++/15.2.0/tuple \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/ranges_util.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Persona.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Persona.h \
  C:/msys64/ucrt64/include/c++/15.2.0/ostream \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.h \
  C:/msys64/ucrt64/include/c++/15.2.0/ios \

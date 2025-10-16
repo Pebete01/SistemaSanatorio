@@ -1,5 +1,5 @@
 #include "SistemaSanatorio.h"
-#include "menu.h"
+#include "../ui/menu.h"
 
 #include "Paciente.h"
 #include "Profesional.h"
@@ -8,6 +8,12 @@
 #include <vector>
 #include <stdexcept>
 #include <string>
+
+#include <thread>
+#include <atomic>
+
+
+
 
 // ---------------- utils ----------------
 static int to_int(const std::string &s)
@@ -27,6 +33,7 @@ static void ui_agregar_paciente(EmpresaSanatorio &app)
     std::string nombre = input_box("Pacientes - Agregar", "Nombre:", 40);
     std::string apellido = input_box("Pacientes - Agregar", "Apellido:", 40);
     std::string obra = input_box("Pacientes - Agregar", "Obra social:", 40);
+    std::string mail = input_box("Pacientes - Agregar", "Mail:", 40);
     if (!confirm_box("Confirmar", "Guardar?"))
     {
         message_center("Alta", "Cancelado");
@@ -35,7 +42,7 @@ static void ui_agregar_paciente(EmpresaSanatorio &app)
     try
     {
         int id = to_int(sid), naf = to_int(snaf);
-        app.agregarPaciente(new Paciente(id, nombre, apellido, naf, obra));
+        app.agregarPaciente(new Paciente(id, nombre, apellido, naf, obra,mail));
         message_center("Alta", "Paciente guardado");
     }
     catch (...)
@@ -267,10 +274,55 @@ static void ui_listar_turnos(EmpresaSanatorio &app)
     v.empty() ? message_center("Turnos", "No hay registros") : list_box("Turnos", v);
 }
 
+// ======envio de mail======
+std::atomic<bool> running(true);
+
+// La función del hilo recibe la aplicación principal por referencia
+void revisarTurnos(EmpresaSanatorio& app) {
+    while (running) {
+        // Obtenemos una referencia al vector de la agenda
+        std::vector<EmpresaSanatorio::TurnoRec>& agenda = app.getAgenda();
+
+        // Iteramos sobre cada turno agendado
+        for (auto& turno_rec : agenda) {
+            // Verificamos si el turno está activo y si el recordatorio aún no se ha enviado
+            if (turno_rec.activo && !turno_rec.recordatorioEnviado) {
+                // Buscamos al paciente asociado al turno
+                Paciente* paciente = app.buscarPacientePorId(turno_rec.pacienteId);
+
+                // Si encontramos al paciente...
+                if (paciente != nullptr) {
+                    // Creamos un objeto Turno temporal con los datos necesarios
+                    // para reutilizar tu lógica de esHoraDeEnviar() y enviarRecordatorio().
+                    Turno t(paciente->getNombre(),
+                            paciente->getApellido(),
+                            turno_rec.hora,
+                            turno_rec.fecha,
+                            paciente->getMail()); // Usamos el mail del paciente
+
+                    // Comprobamos si es momento de enviar el recordatorio
+                    if (t.esHoraDeEnviar()) {
+                        t.enviarRecordatorio();
+
+                        // ¡CRÍTICO! Marcamos el recordatorio como enviado
+                        // para no volver a mandarlo en la próxima revisión.
+                        turno_rec.recordatorioEnviado = true;
+                    }
+                }
+            }
+        }
+        // Hacemos una pausa para no sobrecargar el sistema
+        std::this_thread::sleep_for(std::chrono::seconds(15));
+    }
+}
+
 // ---------------- main ----------------
 int main()
 {
     EmpresaSanatorio app;
+
+    std::thread worker(revisarTurnos, std::ref(app));
+
 
     init_ui();
     std::vector<std::string> principal = {"Pacientes", "Profesionales", "Especialidades", "Turnos", "Salir"};
@@ -346,5 +398,9 @@ int main()
                 ui_listar_turnos(app);
         }
     }
+
+    running = false;//finaliza el ciclo de revisarTurnos
+    worker.join(); //cierra el hilo en segundo plano antes de cerrar el main
+
     return 0;
 }

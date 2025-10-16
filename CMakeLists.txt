@@ -7,17 +7,22 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CURSES_NEED_WIDE TRUE)
 set(CURSES_NEED_NCURSES TRUE)
 find_package(Curses REQUIRED)
+
+
 add_executable(SistemaSanatorio
   src/main.cpp
   src/SistemaSanatorio.cpp
   src/Paciente.cpp
   src/Profesional.cpp
   src/Especialidad.cpp
-  # ...otros .cpp...
+  ui/menu.h
   ui/menu.cpp
+        src/Turno.cpp
 )
 target_include_directories(SistemaSanatorio PRIVATE ${CURSES_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/ui)
 target_link_libraries(SistemaSanatorio PRIVATE ${CURSES_LIBRARIES})
 if(NOT CURSES_LIBRARIES)
   target_link_libraries(SistemaSanatorio PRIVATE ncursesw)
 endif()
+
+file(COPY C:/Users/tomyl/EmpresaSanatorio/SistemaSanatorio/scripts/enviar_mail.py DESTINATION ${CMAKE_BINARY_DIR})

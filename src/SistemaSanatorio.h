@@ -1,6 +1,10 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <chrono>
+#include <ctime>
+#include <sstream>
+#include "atomic"
 
 // Forward declarations
 class Paciente;
@@ -8,6 +12,19 @@ class Profesional;
 class Turno;
 class Sanatorio;
 class Especialidad;
+
+struct TurnoRec
+{
+    int id;
+    int pacienteId;
+    int profesionalId;
+    int especialidadId;
+    std::string fecha; // "YYYY-MM-DD"
+    int minOfDay;      // HH*60 + MM
+    int durMin;        // duración en minutos
+    bool activo{true};
+    bool recordatorioEnviado{false}; // evita el envio repetido de recordatorios
+};
 
 class EmpresaSanatorio
 {
@@ -26,21 +43,11 @@ private:
     int capacidadSanatorios = 0, cantidadSanatorios = 0;
     int capacidadEspecialidad = 0, cantidadEspecialidades = 0;
 
-    // =================== AGENDA (Turnos) ===================
-    struct TurnoRec
-    {
-        int id;
-        int pacienteId;
-        int profesionalId;
-        int especialidadId;
-        std::string fecha; // "YYYY-MM-DD"
-        int minOfDay;      // HH*60 + MM
-        int durMin;        // duración en minutos
-        bool activo{true};
-    };
     std::vector<TurnoRec> agenda;
 
 public:
+    // =================== AGENDA (Turnos) ===================
+
     // --- Ciclo de vida / Regla de 5 ---
     EmpresaSanatorio();
     ~EmpresaSanatorio();
@@ -57,7 +64,7 @@ public:
                             const std::string &nombre,
                             const std::string &apellido,
                             int nroAfiliado,
-                            const std::string &obraSocial);
+                            const std::string &obraSocial, const std::string &mail);
     std::vector<std::string> listarPacientesTexto() const;
     void agregarPaciente(Paciente *p);
     void agrandarListaPaciente();
@@ -88,6 +95,10 @@ public:
     bool cancelarTurnoPorId(int idTurno);
     std::vector<std::string> listarTurnosTexto() const;
     std::vector<std::string> listarTurnosPorProfesionalTexto(int idProfesional) const;
+    std::vector<TurnoRec>& getAgenda() { return agenda; }
+    Turno **getListaTurnos() const {return turnos;}
+    int getCantidadTurnos() const {return cantidadTurnos;}
+
 
     // ======================= OTROS =======================
     void agrandarListaTurnos();

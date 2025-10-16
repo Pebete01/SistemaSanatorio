@@ -25,6 +25,9 @@ public:
     void reprogramar(string nuevaFecha, string nuevaHora);
     int getNumeroTurno();
     void mostrar();
+
+
+
 };
 
 #endif // SISTEMASANATORIO_TURNO_H

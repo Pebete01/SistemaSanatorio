@@ -7,10 +7,10 @@ set(CMAKE_DEPENDS_GENERATOR "MinGW Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "C:/Users/juanc/OneDrive/Desktop/SistemaSanatorio/CMakeLists.txt"
-  "CMakeFiles/4.1.1/CMakeCXXCompiler.cmake"
-  "CMakeFiles/4.1.1/CMakeRCCompiler.cmake"
-  "CMakeFiles/4.1.1/CMakeSystem.cmake"
+  "C:/Users/tomyl/EmpresaSanatorio/SistemaSanatorio/CMakeLists.txt"
+  "CMakeFiles/4.1.2/CMakeCXXCompiler.cmake"
+  "CMakeFiles/4.1.2/CMakeRCCompiler.cmake"
+  "CMakeFiles/4.1.2/CMakeSystem.cmake"
   "C:/msys64/ucrt64/share/cmake/Modules/CMakeCXXCompiler.cmake.in"
   "C:/msys64/ucrt64/share/cmake/Modules/CMakeCXXCompilerABI.cpp"
   "C:/msys64/ucrt64/share/cmake/Modules/CMakeCXXInformation.cmake"
@@ -117,11 +117,11 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
-  "CMakeFiles/4.1.1/CMakeSystem.cmake"
-  "CMakeFiles/4.1.1/CMakeCXXCompiler.cmake"
-  "CMakeFiles/4.1.1/CMakeRCCompiler.cmake"
-  "CMakeFiles/4.1.1/CMakeCXXCompiler.cmake"
-  "CMakeFiles/4.1.1/CMakeCXXCompiler.cmake"
+  "CMakeFiles/4.1.2/CMakeSystem.cmake"
+  "CMakeFiles/4.1.2/CMakeCXXCompiler.cmake"
+  "CMakeFiles/4.1.2/CMakeRCCompiler.cmake"
+  "CMakeFiles/4.1.2/CMakeCXXCompiler.cmake"
+  "CMakeFiles/4.1.2/CMakeCXXCompiler.cmake"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 

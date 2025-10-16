@@ -8,12 +8,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/juanc/OneDrive/Desktop/SistemaSanatorio/src/Especialidad.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj.d"
-  "C:/Users/juanc/OneDrive/Desktop/SistemaSanatorio/src/Paciente.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj.d"
-  "C:/Users/juanc/OneDrive/Desktop/SistemaSanatorio/src/Profesional.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj.d"
-  "C:/Users/juanc/OneDrive/Desktop/SistemaSanatorio/src/SistemaSanatorio.cpp" "CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj.d"
-  "C:/Users/juanc/OneDrive/Desktop/SistemaSanatorio/src/main.cpp" "CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj.d"
-  "C:/Users/juanc/OneDrive/Desktop/SistemaSanatorio/ui/menu.cpp" "CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj.d"
+  "C:/Users/tomyl/EmpresaSanatorio/SistemaSanatorio/src/Especialidad.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj.d"
+  "C:/Users/tomyl/EmpresaSanatorio/SistemaSanatorio/src/Paciente.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj.d"
+  "C:/Users/tomyl/EmpresaSanatorio/SistemaSanatorio/src/Profesional.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj.d"
+  "C:/Users/tomyl/EmpresaSanatorio/SistemaSanatorio/src/SistemaSanatorio.cpp" "CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj.d"
+  "C:/Users/tomyl/EmpresaSanatorio/SistemaSanatorio/src/main.cpp" "CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj.d"
+  "C:/Users/tomyl/EmpresaSanatorio/SistemaSanatorio/ui/menu.cpp" "CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

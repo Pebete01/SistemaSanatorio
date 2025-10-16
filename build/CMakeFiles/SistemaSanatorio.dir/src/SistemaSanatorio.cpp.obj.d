@@ -1,5 +1,5 @@
 CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\SistemaSanatorio.cpp \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\SistemaSanatorio.cpp \
  C:/msys64/ucrt64/include/c++/15.2.0/iostream \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
@@ -159,13 +159,13 @@ CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/limits \
  C:/msys64/ucrt64/include/c++/15.2.0/sstream \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/sstream.tcc \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Profesional.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Persona.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Especialidad.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Paciente.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Turno.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Sanatorio.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\SistemaSanatorio.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Profesional.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Persona.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Especialidad.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Paciente.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Turno.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\Sanatorio.h \
+ C:\Users\tomyl\EmpresaSanatorio\SistemaSanatorio\src\SistemaSanatorio.h \
  C:/msys64/ucrt64/include/c++/15.2.0/vector \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_uninitialized.h \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_vector.h \
