@@ -1,6 +1,10 @@
 #pragma once
 #include <string>
 #include <vector>
+#include "thread"
+#include "mutex"
+#include <atomic>
+#include <chrono>
 
 // Forward declarations
 class Paciente;
@@ -37,8 +41,15 @@ private:
         int minOfDay;      // HH*60 + MM
         int durMin;        // duración en minutos
         bool activo{true};
+        bool recordatorioEnviado{false}; // evita reenvio
     };
     std::vector<TurnoRec> agenda;
+
+    // ---- NUEVOS MIEMBROS/METODOS PARA EL SERVICIO DE NOTIFICACIONES ----
+    std::thread worker_notificaciones;
+    std::atomic<bool> running_notificaciones{false};
+    mutable std::mutex mtx; // Mutex para proteger el acceso a 'agenda' y 'listaPacientes'
+    void revisarTurnosLoop();
 
 public:
     // --- Ciclo de vida / Regla de 5 ---
@@ -49,6 +60,9 @@ public:
     EmpresaSanatorio(EmpresaSanatorio &&) = delete;
     EmpresaSanatorio &operator=(EmpresaSanatorio &&) = delete;
 
+    // ===================== RECORDATORIO =====================
+    void iniciarServicioNotificaciones();
+    void detenerServicioNotificaciones();
     // ===================== PACIENTES =====================
     Paciente *buscarPacientePorId(int id);
     const Paciente *buscarPacientePorId(int id) const;
@@ -57,7 +71,8 @@ public:
                             const std::string &nombre,
                             const std::string &apellido,
                             int nroAfiliado,
-                            const std::string &obraSocial);
+                            const std::string &obraSocial,
+                            const std::string &mail);
     std::vector<std::string> listarPacientesTexto() const;
     void agregarPaciente(Paciente *p);
     void agrandarListaPaciente();

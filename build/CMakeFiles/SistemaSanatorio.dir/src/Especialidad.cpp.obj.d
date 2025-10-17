@@ -1,6 +1,6 @@
 CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj: \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Especialidad.cpp \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Especialidad.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Especialidad.cpp \
+ C:\Users\tomyl\SistemaSanatorio\src\Especialidad.h \
  C:/msys64/ucrt64/include/c++/15.2.0/string \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \

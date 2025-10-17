@@ -18,3 +18,5 @@ Thumbs.db
 cmake-build-debug
 .idea
 *.iml
+# VARIABLES DE ENTORNO
+.env

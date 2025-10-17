@@ -1,5 +1,5 @@
 CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\SistemaSanatorio.cpp \
+ C:\Users\tomyl\SistemaSanatorio\src\SistemaSanatorio.cpp \
  C:/msys64/ucrt64/include/c++/15.2.0/iostream \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
@@ -159,15 +159,65 @@ CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/limits \
  C:/msys64/ucrt64/include/c++/15.2.0/sstream \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/sstream.tcc \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Profesional.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Persona.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Especialidad.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Paciente.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Turno.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\Sanatorio.h \
- C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\src\SistemaSanatorio.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/ctime \
+ C:\Users\tomyl\SistemaSanatorio\src\Profesional.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Persona.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Especialidad.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Paciente.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Turno.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Sanatorio.h \
+ C:\Users\tomyl\SistemaSanatorio\src\SistemaSanatorio.h \
  C:/msys64/ucrt64/include/c++/15.2.0/vector \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_uninitialized.h \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_vector.h \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_bvector.h \
- C:/msys64/ucrt64/include/c++/15.2.0/bits/vector.tcc
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/vector.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/thread \
+ C:/msys64/ucrt64/include/c++/15.2.0/stop_token \
+ C:/msys64/ucrt64/include/c++/15.2.0/atomic \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_base.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_lockfree_defines.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_wait.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/cstdint \
+ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
+ C:/msys64/ucrt64/include/stdint.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/std_mutex.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/std_thread.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_ptr.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/semaphore \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/semaphore_base.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/chrono.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/ratio \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/parse_numbers.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_timed_wait.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/this_thread_sleep.h \
+ C:/msys64/ucrt64/include/semaphore.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/mutex \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_lock.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/chrono \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_base.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/allocated_ptr.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/ext/aligned_buffer.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/ext/concurrence.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/align.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/chrono_io.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/iomanip \
+ C:/msys64/ucrt64/include/c++/15.2.0/locale \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/time_members.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/messages_members.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/codecvt.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_conv.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/quoted_string.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/format \
+ C:/msys64/ucrt64/include/c++/15.2.0/array \
+ C:/msys64/ucrt64/include/c++/15.2.0/charconv \
+ C:/msys64/ucrt64/include/c++/15.2.0/optional \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/enable_special_members.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/span \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/monostate.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/formatfwd.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/unicode.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/unicode-data.h

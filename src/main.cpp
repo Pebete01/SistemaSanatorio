@@ -26,6 +26,7 @@ static void ui_agregar_paciente(EmpresaSanatorio &app)
     std::string snaf = input_box("Pacientes - Agregar", "Nro Afiliado:", 10);
     std::string nombre = input_box("Pacientes - Agregar", "Nombre:", 40);
     std::string apellido = input_box("Pacientes - Agregar", "Apellido:", 40);
+    std::string mail = input_box("Pacientes - Agregar", "Email:", 50); // <-- NUEVA LÍNEA
     std::string obra = input_box("Pacientes - Agregar", "Obra social:", 40);
     if (!confirm_box("Confirmar", "Guardar?"))
     {
@@ -35,12 +36,13 @@ static void ui_agregar_paciente(EmpresaSanatorio &app)
     try
     {
         int id = to_int(sid), naf = to_int(snaf);
-        app.agregarPaciente(new Paciente(id, nombre, apellido, naf, obra));
-        message_center("Alta", "Paciente guardado");
+        // --- LLAMADA AL CONSTRUCTOR MODIFICADA ---
+        app.agregarPaciente(new Paciente(id, nombre, apellido, mail, naf, obra));
+        message_center("Alta", "OK");
     }
-    catch (...)
+    catch (const std::exception &e)
     {
-        message_center("Error", "Campos numericos invalidos");
+        message_center("Alta", "Error: " + std::string(e.what()));
     }
 }
 
@@ -80,6 +82,7 @@ static void ui_editar_paciente(EmpresaSanatorio &app)
         std::string apellido = input_box("Editar Paciente", "Apellido (" + p->getApellido() + "):", 40);
         std::string snaf = input_box("Editar Paciente", "Nro Afiliado (" + std::to_string(p->getNumeroDeAfiliado()) + "):", 10);
         std::string obra = input_box("Editar Paciente", "Obra social (" + p->getObraSocial() + "):", 40);
+        std::string mail = input_box("Editar Paciente", "Mail (" + p->getMail() + "):", 40);
 
         if (!confirm_box("Confirmar", "Guardar cambios?"))
         {
@@ -92,7 +95,7 @@ static void ui_editar_paciente(EmpresaSanatorio &app)
                                nombre.empty() ? p->getNombre() : nombre,
                                apellido.empty() ? p->getApellido() : apellido,
                                naf,
-                               obra.empty() ? p->getObraSocial() : obra);
+                               obra.empty() ? p->getObraSocial() : obra, mail.empty() ? p->getMail() : mail);
 
         message_center("Editar", "Cambios guardados");
     }
@@ -162,6 +165,7 @@ static void ui_agregar_profesional(EmpresaSanatorio &app)
     std::string sidE = input_box("Profesionales - Agregar", "ID Especialidad:", 10);
     std::string nom = input_box("Profesionales - Agregar", "Nombre:", 40);
     std::string ape = input_box("Profesionales - Agregar", "Apellido:", 40);
+    std::string mail = input_box("Profesionales - Agregar", "Email:", 50); // <-- AÑADE ESTA LÍNEA
     if (!confirm_box("Confirmar", "Guardar?"))
     {
         message_center("Alta", "Cancelado");
@@ -176,7 +180,7 @@ static void ui_agregar_profesional(EmpresaSanatorio &app)
             message_center("Error", "Especialidad inexistente");
             return;
         }
-        app.agregarProfesional(new Profesional(num, *esp, id, nom, ape));
+        app.agregarProfesional(new Profesional(num, *esp, id, nom, ape,mail));
         message_center("Alta", "Profesional guardado");
     }
     catch (...)
@@ -271,7 +275,7 @@ static void ui_listar_turnos(EmpresaSanatorio &app)
 int main()
 {
     EmpresaSanatorio app;
-
+    app.iniciarServicioNotificaciones(); // <-- INICIAMOS RECORDATORIOS
     init_ui();
     std::vector<std::string> principal = {"Pacientes", "Profesionales", "Especialidades", "Turnos", "Salir"};
 
@@ -280,6 +284,7 @@ int main()
         int i = run_menu_titled("Sanatorio", principal);
         if (i < 0 || principal[i] == "Salir")
         {
+            app.detenerServicioNotificaciones(); // <-- DETENEMOS EL SERVICIO ANTES DE SALIR
             shutdown_ui();
             break;
         }

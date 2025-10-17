@@ -16,7 +16,8 @@ public:
                 const Especialidad &esp,
                 int id,
                 const std::string &nombre,
-                const std::string &apellido);
+                const std::string &apellido,
+                const std::string &mail);
 
     ~Profesional() override;
 

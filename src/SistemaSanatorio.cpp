@@ -4,6 +4,8 @@
 #include <limits>
 #include <sstream>
 #include <cstdio>
+#include <cstdlib> // Para system()
+#include <ctime> // Para time() y mktime()
 
 #include "Profesional.h"
 #include "Paciente.h"
@@ -13,6 +15,78 @@
 #include "SistemaSanatorio.h"
 
 using namespace std;
+
+// ================== SERVICIOS DE NOTIFICACIONES ==================
+void EmpresaSanatorio::iniciarServicioNotificaciones()
+{
+    if (!running_notificaciones)
+    {
+        running_notificaciones = true;
+        worker_notificaciones = std::thread(&EmpresaSanatorio::revisarTurnosLoop, this);
+    }
+}
+
+void EmpresaSanatorio::detenerServicioNotificaciones()
+{
+    running_notificaciones = false;
+    if (worker_notificaciones.joinable())
+    {
+        worker_notificaciones.join();
+    }
+}
+
+void EmpresaSanatorio::revisarTurnosLoop()
+{
+    while (running_notificaciones)
+    {
+        { // Bloque para el lock_guard
+            std::lock_guard<std::mutex> lock(mtx);
+
+            for (auto &turno : agenda)
+            {
+                if (turno.activo && !turno.recordatorioEnviado)
+                {
+                    // Lógica para verificar si es hora de enviar
+                    std::tm turno_tm = {};
+                    sscanf(turno.fecha.c_str(), "%d-%d-%d", &turno_tm.tm_year, &turno_tm.tm_mon, &turno_tm.tm_mday);
+                    turno_tm.tm_hour = turno.minOfDay / 60;
+                    turno_tm.tm_min = turno.minOfDay % 60;
+
+                    turno_tm.tm_year -= 1900;
+                    turno_tm.tm_mon -= 1;
+
+                    time_t tiempoTurno = mktime(&turno_tm);
+                    time_t tiempoRecordatorio = tiempoTurno - 30 * 60; // 30 mins antes
+                    time_t tiempoActual = time(nullptr);
+
+                    if (tiempoActual >= tiempoRecordatorio)
+                    {
+                        const Paciente* pac = buscarPacientePorId(turno.pacienteId);
+                        if (pac && !pac->getMail().empty())
+                        {
+                            std::string nombreCompleto = pac->getNombre() + " " + pac->getApellido();
+                            std::string hora_str;
+                            char buf[6];
+                            snprintf(buf, sizeof(buf), "%02d:%02d", turno_tm.tm_hour, turno_tm.tm_min);
+                            hora_str = buf;
+
+                            // Construimos el comando
+                            std::string comando = "python scripts/enviar_mail.py \"" + nombreCompleto + "\" " + pac->getMail() + " " + turno.fecha + " " + hora_str;
+
+                            // Descomentar para depurar el comando que se ejecuta
+                            // message_center("DEBUG", comando.c_str());
+
+                            system(comando.c_str());
+                            turno.recordatorioEnviado = true;
+                        }
+                    }
+                }
+            }
+        } // El lock_guard se libera aquí
+        std::this_thread::sleep_for(std::chrono::seconds(5)); // Revisar cada 5 seg
+    }
+}
+
 
 // ================== PACIENTES ==================
 
@@ -61,14 +135,15 @@ void EmpresaSanatorio::actualizarPaciente(int id,
                                           const std::string &nombre,
                                           const std::string &apellido,
                                           int nroAfiliado,
-                                          const std::string &obraSocial)
+                                          const std::string &obraSocial,
+                                          const std::string &mail)
 {
     for (int i = 0; i < cantidadPacientes; ++i)
     {
         if (listaPacientes[i] && listaPacientes[i]->getId() == id)
         {
             Paciente *viejo = listaPacientes[i];
-            listaPacientes[i] = new Paciente(id, nombre, apellido, nroAfiliado, obraSocial);
+            listaPacientes[i] = new Paciente(id, nombre, apellido,mail, nroAfiliado, obraSocial);
             delete viejo;
             return;
         }
@@ -100,6 +175,7 @@ EmpresaSanatorio::~EmpresaSanatorio()
     for (int i = 0; i < cantidadEspecialidades; ++i)
         delete especialidades[i];
     delete[] especialidades;
+    detenerServicioNotificaciones();
 }
 
 // ================== CRECIMIENTO DE LISTAS ==================
@@ -268,7 +344,8 @@ Paciente *EmpresaSanatorio::nuevoPaciente()
     string nombre = validarTexto("Ingrese nombre: ");
     string apellido = validarTexto("Ingrese apellido: ");
     string obraSocial = validarTexto("Ingrese obra Social: ");
-    return new Paciente(id, nombre, apellido, numAfiliado, obraSocial);
+    string mail = validarTexto("Ingrese Mail: ");
+    return new Paciente(id, nombre, apellido,mail,numAfiliado, obraSocial);
 }
 
 Profesional *EmpresaSanatorio::nuevoProfesional()
@@ -278,6 +355,7 @@ Profesional *EmpresaSanatorio::nuevoProfesional()
     int idEsp = validarEntero("Ingrese ID de especialidad: ");
     string nombre = validarTexto("Ingrese nombre: ");
     string apellido = validarTexto("Ingrese apellido: ");
+    string mail = validarTexto("Ingrese su mail: ");
 
     Especialidad *esp = buscarEspecialidadPorId(idEsp);
     if (!esp)
@@ -286,7 +364,7 @@ Profesional *EmpresaSanatorio::nuevoProfesional()
         return nullptr;
     }
     // Constructor: (numero, Especialidad, id, nombre, apellido)
-    return new Profesional(numProfesional, *esp, id, nombre, apellido);
+    return new Profesional(numProfesional, *esp, id, nombre, apellido,mail);
 }
 
 Sanatorio *EmpresaSanatorio::nuevoSanatorio()
@@ -557,6 +635,7 @@ static bool solapan(int aStart, int aDur, int bStart, int bDur)
 bool EmpresaSanatorio::agendarTurno(int idTurno, int idPaciente, int idProfesional, int idEspecialidad,
                                     const std::string &fechaHora, int durMin, std::string &error)
 {
+    std::lock_guard<std::mutex> lock(mtx);// <-- AÑADIR LOCK
     // Validaciones de existencia
     if (!buscarPacientePorId(idPaciente))
     {
@@ -621,6 +700,7 @@ bool EmpresaSanatorio::agendarTurno(int idTurno, int idPaciente, int idProfesion
 
 bool EmpresaSanatorio::cancelarTurnoPorId(int idTurno)
 {
+    std::lock_guard<std::mutex> lock(mtx); // <-- AÑADIR LOCK
     for (auto &t : agenda)
     {
         if (t.id == idTurno && t.activo)

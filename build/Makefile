@@ -56,10 +56,10 @@ RM = C:\msys64\ucrt64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio
+CMAKE_SOURCE_DIR = C:\Users\tomyl\SistemaSanatorio
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\build
+CMAKE_BINARY_DIR = C:\Users\tomyl\SistemaSanatorio\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\build\CMakeFiles C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\build\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles C:\Users\tomyl\SistemaSanatorio\build\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\juanc\OneDrive\Desktop\SistemaSanatorio\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -200,6 +200,30 @@ src/Profesional.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.s
 .PHONY : src/Profesional.cpp.s
 
+src/Sanatorio.obj: src/Sanatorio.cpp.obj
+.PHONY : src/Sanatorio.obj
+
+# target to build an object file
+src/Sanatorio.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj
+.PHONY : src/Sanatorio.cpp.obj
+
+src/Sanatorio.i: src/Sanatorio.cpp.i
+.PHONY : src/Sanatorio.i
+
+# target to preprocess a source file
+src/Sanatorio.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.i
+.PHONY : src/Sanatorio.cpp.i
+
+src/Sanatorio.s: src/Sanatorio.cpp.s
+.PHONY : src/Sanatorio.s
+
+# target to generate assembly for a file
+src/Sanatorio.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.s
+.PHONY : src/Sanatorio.cpp.s
+
 src/SistemaSanatorio.obj: src/SistemaSanatorio.cpp.obj
 .PHONY : src/SistemaSanatorio.obj
 
@@ -223,6 +247,30 @@ src/SistemaSanatorio.s: src/SistemaSanatorio.cpp.s
 src/SistemaSanatorio.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.s
 .PHONY : src/SistemaSanatorio.cpp.s
+
+src/Turno.obj: src/Turno.cpp.obj
+.PHONY : src/Turno.obj
+
+# target to build an object file
+src/Turno.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj
+.PHONY : src/Turno.cpp.obj
+
+src/Turno.i: src/Turno.cpp.i
+.PHONY : src/Turno.i
+
+# target to preprocess a source file
+src/Turno.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.i
+.PHONY : src/Turno.cpp.i
+
+src/Turno.s: src/Turno.cpp.s
+.PHONY : src/Turno.s
+
+# target to generate assembly for a file
+src/Turno.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.s
+.PHONY : src/Turno.cpp.s
 
 src/main.obj: src/main.cpp.obj
 .PHONY : src/main.obj
@@ -290,9 +338,15 @@ help:
 	@echo ... src/Profesional.obj
 	@echo ... src/Profesional.i
 	@echo ... src/Profesional.s
+	@echo ... src/Sanatorio.obj
+	@echo ... src/Sanatorio.i
+	@echo ... src/Sanatorio.s
 	@echo ... src/SistemaSanatorio.obj
 	@echo ... src/SistemaSanatorio.i
 	@echo ... src/SistemaSanatorio.s
+	@echo ... src/Turno.obj
+	@echo ... src/Turno.i
+	@echo ... src/Turno.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s

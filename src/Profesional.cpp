@@ -7,8 +7,9 @@ Profesional::Profesional(int numero,
                          const Especialidad &esp,
                          int id,
                          const std::string &nombre,
-                         const std::string &apellido)
-    : Persona(id, nombre, apellido),
+                         const std::string &apellido,
+                         const std::string &mail)
+    : Persona(id, nombre, apellido,mail),
       estado(true),
       numeroDeProfesional(numero),
       especialidad(esp)

@@ -12,12 +12,12 @@ private:
     static int cantidad;
 
 public:
-    Paciente(int id, const std::string &nombre, const std::string &apellido,
+    Paciente(int id, const std::string &nombre, const std::string &apellido, const std::string& mail,
              int numeroAfiliado, const std::string &obraSocial)
-        : Persona(id, nombre, apellido),
-          obraSocial(obraSocial),
-          numeroDeAfiliado(numeroAfiliado),
-          estadoPaciente(true) { ++cantidad; }
+            : Persona(id, nombre, apellido, mail), // <-- Pasar mail al constructor base
+              obraSocial(obraSocial),
+              numeroDeAfiliado(numeroAfiliado),
+              estadoPaciente(true) { ++cantidad; }
 
     void modificarEstado();
     void instanciasVivas();
