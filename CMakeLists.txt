@@ -20,6 +20,8 @@ add_executable(SistemaSanatorio
         src/Sanatorio.cpp
         src/Turno.cpp
         ui/menu.cpp
+        src/GeocodificadorAPI.cpp
+        src/HTTPClient.cpp
 )
 target_include_directories(SistemaSanatorio PRIVATE ${CURSES_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/ui ${CMAKE_SOURCE_DIR}/src)
 
