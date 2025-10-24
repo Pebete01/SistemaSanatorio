@@ -11,6 +11,12 @@ find_package(Curses REQUIRED)
 # ---- ENCONTRAR LIBRERÍA DE HILOS ----
 find_package(Threads REQUIRED)
 
+# ---- ENCONTRAR CURL (para geocodificación)
+find_package(CURL REQUIRED) # <-- NUEVO
+
+# ---- ENCONTRAR nlohmann_json (para parsear JSON)
+find_package(nlohmann_json 3.2.0 REQUIRED) # <-- NUEVO
+
 add_executable(SistemaSanatorio
         src/main.cpp
         src/SistemaSanatorio.cpp
@@ -26,8 +32,12 @@ add_executable(SistemaSanatorio
 target_include_directories(SistemaSanatorio PRIVATE ${CURSES_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/ui ${CMAKE_SOURCE_DIR}/src)
 
 # ---- ENLAZAR LIBRERÍA DE HILOS ----
-target_link_libraries(SistemaSanatorio PRIVATE ${CURSES_LIBRARIES} Threads::Threads)
-
+target_link_libraries(SistemaSanatorio PRIVATE
+        ${CURSES_LIBRARIES}
+        Threads::Threads
+        CURL::libcurl              # <-- NUEVO
+        nlohmann_json::nlohmann_json  # <-- NUEVO
+)
 if(NOT CURSES_LIBRARIES)
   target_link_libraries(SistemaSanatorio PRIVATE ncursesw)
 endif()
@@ -44,3 +54,6 @@ add_custom_command(TARGET SistemaSanatorio POST_BUILD
         $<TARGET_FILE_DIR:SistemaSanatorio>/scripts/enviar_mail.py
         COMMENT "Copiando script de Python al directorio de compilacion..."
 )
+
+target_link_libraries(${PROJECT_NAME} PRIVATE curl ws2_32)
+#ver si saco esto

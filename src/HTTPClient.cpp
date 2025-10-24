@@ -18,9 +18,9 @@ HTTPClient::HTTPClient() {
     curl = curl_easy_init();
 
     if (curl) {
-        std::cout << "✓ HTTPClient inicializado correctamente" << std::endl;
+        //std::cout << "✓ HTTPClient inicializado correctamente" << std::endl;
     } else {
-        std::cerr << "❌ Error al inicializar HTTPClient" << std::endl;
+        //std::cerr << "❌ Error al inicializar HTTPClient" << std::endl;
     }
 }
 
@@ -65,7 +65,7 @@ std::string HTTPClient::get(const std::string& url) {
         CURLcode res = curl_easy_perform(curl);
 
         if (res != CURLE_OK) {
-            std::cerr << "Error en request HTTP: " << curl_easy_strerror(res) << std::endl;
+            //std::cerr << "Error en request HTTP: " << curl_easy_strerror(res) << std::endl;
             return "";
         }
 
@@ -74,7 +74,7 @@ std::string HTTPClient::get(const std::string& url) {
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
 
         if (response_code != 200) {
-            std::cerr << "Error HTTP: " << response_code << std::endl;
+            //std::cerr << "Error HTTP: " << response_code << std::endl;
             return "";
         }
     }

@@ -5,6 +5,8 @@
 #include "mutex"
 #include <atomic>
 #include <chrono>
+#include "GeocodificadorAPI.h"
+
 
 // Forward declarations
 class Paciente;
@@ -12,10 +14,12 @@ class Profesional;
 class Turno;
 class Sanatorio;
 class Especialidad;
+class GeocodificadorAPI;
 
 class EmpresaSanatorio
 {
 private:
+    GeocodificadorAPI geocodificadorApi;
     // --- Almacenamiento ---
     Paciente **listaPacientes = nullptr;
     Profesional **profesionales = nullptr;
@@ -53,7 +57,7 @@ private:
 
 public:
     // --- Ciclo de vida / Regla de 5 ---
-    EmpresaSanatorio();
+    EmpresaSanatorio(){geocodificadorApi.configurarRegion("AR");};
     ~EmpresaSanatorio();
     EmpresaSanatorio(const EmpresaSanatorio &) = delete;
     EmpresaSanatorio &operator=(const EmpresaSanatorio &) = delete;
@@ -72,7 +76,10 @@ public:
                             const std::string &apellido,
                             int nroAfiliado,
                             const std::string &obraSocial,
-                            const std::string &mail);
+                            const std::string &mail,
+                            const std::string &direccion,
+                            double lat,
+                            double lon);
     std::vector<std::string> listarPacientesTexto() const;
     void agregarPaciente(Paciente *p);
     void agrandarListaPaciente();
@@ -95,6 +102,16 @@ public:
     std::vector<std::string> listarEspecialidadesTexto() const;
     void agregarEspecialidad(Especialidad *p);
     void agrandarListaEspecialidad();
+
+
+    // =================== SANATORIOS ==================
+    Sanatorio* buscarSanatorioPorIndice(int idx);
+    const Sanatorio* buscarSanatorioPorIndice(int idx) const;
+    int getCantidadSanatorios() const { return cantidadSanatorios; }
+    Sanatorio** getSanatorios() { return sanatorios; }
+    const Sanatorio* const* getSanatorios() const { return sanatorios; }
+    void agregarSanatorio(Sanatorio* s);
+    void agrandarListaSanatorios();
 
     // ======================= TURNOS ======================
     // fechaHora: "YYYY-MM-DD HH:MM"
@@ -123,4 +140,8 @@ public:
     void subMenuMostrar();
     void subMenuAgregar();
     void subMenuEliminar();
+
+    std::pair<double, double> geocodificarDireccion(const std::string& direccion) {
+        return geocodificadorApi.obtenerCoordenadas(direccion);
+    }
 };

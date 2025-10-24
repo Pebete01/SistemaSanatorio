@@ -22,12 +22,26 @@ static int to_int(const std::string &s)
 // ---------------- Pacientes ----------------
 static void ui_agregar_paciente(EmpresaSanatorio &app)
 {
+
     std::string sid = input_box("Pacientes - Agregar", "ID:", 10);
     std::string snaf = input_box("Pacientes - Agregar", "Nro Afiliado:", 10);
     std::string nombre = input_box("Pacientes - Agregar", "Nombre:", 40);
     std::string apellido = input_box("Pacientes - Agregar", "Apellido:", 40);
+    std::string direccion;
+    std::pair<double, double> direcCoordenadas;
+
+    while (true) {
+        direccion = input_box("Pacientes - Agregar", "Direccion:", 50);
+        direcCoordenadas = app.geocodificarDireccion(direccion);
+
+        if (direcCoordenadas.first != 0.0 || direcCoordenadas.second != 0.0)
+            break; // Dirección válida
+        message_center("Error", "Direccion invalida. Intente nuevamente.");
+    }
+
     std::string mail = input_box("Pacientes - Agregar", "Email:", 50); // <-- NUEVA LÍNEA
     std::string obra = input_box("Pacientes - Agregar", "Obra social:", 40);
+
     if (!confirm_box("Confirmar", "Guardar?"))
     {
         message_center("Alta", "Cancelado");
@@ -37,8 +51,12 @@ static void ui_agregar_paciente(EmpresaSanatorio &app)
     {
         int id = to_int(sid), naf = to_int(snaf);
         // --- LLAMADA AL CONSTRUCTOR MODIFICADA ---
-        app.agregarPaciente(new Paciente(id, nombre, apellido, mail, naf, obra));
+
+        app.agregarPaciente(new Paciente(id, nombre, apellido, mail, direccion, naf, obra,direcCoordenadas.first, direcCoordenadas.second));
         message_center("Alta", "OK");
+        //PRUEBA
+        message_center("Coordenadas", "Lat: " + std::to_string(direcCoordenadas.first) +
+                                      ", Lon: " + std::to_string(direcCoordenadas.second));
     }
     catch (const std::exception &e)
     {
@@ -83,6 +101,19 @@ static void ui_editar_paciente(EmpresaSanatorio &app)
         std::string snaf = input_box("Editar Paciente", "Nro Afiliado (" + std::to_string(p->getNumeroDeAfiliado()) + "):", 10);
         std::string obra = input_box("Editar Paciente", "Obra social (" + p->getObraSocial() + "):", 40);
         std::string mail = input_box("Editar Paciente", "Mail (" + p->getMail() + "):", 40);
+//AGREGAR LAT Y LON ASI COMO ABAJO
+        std::string direccion;
+        std::pair<double, double> direcCoordenadas;
+
+        while (true) {
+            direccion = input_box("Editar Paciente", "Direccion (" + p->getDireccion() + "):", 50);
+            if(direccion.empty())break;
+            direcCoordenadas = app.geocodificarDireccion(direccion);
+
+            if (direcCoordenadas.first != 0.0 || direcCoordenadas.second != 0.0)
+                break; // Dirección válida
+            message_center("Error", "Direccion invalida. Intente nuevamente.");
+        }
 
         if (!confirm_box("Confirmar", "Guardar cambios?"))
         {
@@ -95,10 +126,15 @@ static void ui_editar_paciente(EmpresaSanatorio &app)
                                nombre.empty() ? p->getNombre() : nombre,
                                apellido.empty() ? p->getApellido() : apellido,
                                naf,
-                               obra.empty() ? p->getObraSocial() : obra, mail.empty() ? p->getMail() : mail);
+                               obra.empty() ? p->getObraSocial() : obra,
+                               mail.empty() ? p->getMail() : mail,
+                               direccion.empty() ? p->getDireccion() : direccion,
+                               direccion.empty() ? p->getLatitud() : direcCoordenadas.first,
+                               direccion.empty() ? p->getLongitud() : direcCoordenadas.second);
 
         message_center("Editar", "Cambios guardados");
     }
+
     catch (...)
     {
         message_center("Error", "Campo numerico invalido");
@@ -235,6 +271,9 @@ static void ui_agendar_turno(EmpresaSanatorio &app)
     {
         std::string fh = f + " " + h;
         std::string err;
+
+        //Paciente* p = app.buscarPacientePorId(to_int(sid));
+
         bool ok = app.agendarTurno(
             to_int(sid), to_int(sidP), to_int(sidR), to_int(sidE),
             fh, to_int(sdur), err);
@@ -277,11 +316,11 @@ int main()
     EmpresaSanatorio app;
     app.iniciarServicioNotificaciones(); // <-- INICIAMOS RECORDATORIOS
     init_ui();
-    std::vector<std::string> principal = {"Pacientes", "Profesionales", "Especialidades", "Turnos", "Salir"};
+    std::vector<std::string> principal = {"Sanatorios","Pacientes", "Profesionales", "Especialidades", "Turnos", "Salir"};
 
     for (;;)
     {
-        int i = run_menu_titled("Sanatorio", principal);
+        int i = run_menu_titled("Empresa Sanatorio", principal);
         if (i < 0 || principal[i] == "Salir")
         {
             app.detenerServicioNotificaciones(); // <-- DETENEMOS EL SERVICIO ANTES DE SALIR
@@ -349,6 +388,9 @@ int main()
                 ui_cancelar_turno(app);
             else if (s == 2)
                 ui_listar_turnos(app);
+        }
+        else if (principal[i] == "Sanatorios"){
+            int s = run_submenu("Sanatorios", {"Listar", "Agregar", "Listar"});
         }
     }
     return 0;

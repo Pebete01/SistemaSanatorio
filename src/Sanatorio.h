@@ -6,16 +6,20 @@
 #include "Profesional.h"
 #include "Paciente.h"
 #include "Especialidad.h"
-#include "Turno.h"
+
 using namespace std;
 
 #ifndef SISTEMASANATORIO_SANATORIO_H
 #define SISTEMASANATORIO_SANATORIO_H
+
+class Turno;
 class Sanatorio
 {
 private:
     string nombre;
-    string ubicacion;
+    string ubicacion;//VER SI SACAR
+    double latitud;
+    double longitud;
     Paciente **listaPacientes;
     Profesional **listaProfesionales;
     Turno **listaTurno;
@@ -24,7 +28,11 @@ private:
     int capacidadPacientes, capacidadProfe, capacidadTurno, capacidadEspecialidad;
 
 public:
-    Sanatorio(string nombre, string ubicacion) : nombre(nombre), ubicacion(ubicacion), listaEspecialidades(NULL), listaPacientes(NULL), listaProfesionales(NULL), listaTurno(NULL) {}
+    Sanatorio(string nombre, string ubicacion, double lat, double lon) : nombre(nombre), ubicacion(ubicacion), latitud (lat), longitud (lon), listaEspecialidades(nullptr), listaPacientes(nullptr), listaProfesionales(nullptr), listaTurno(nullptr) {}
+
+    double getLatitud() const { return latitud; }
+    double getLongitud() const { return longitud; }
+    string getNombre() const { return nombre;}
 
     void agrandarListaPaciente();
     void agregarPaciente(Paciente *p);

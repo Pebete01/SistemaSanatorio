@@ -1,6 +1,10 @@
 file(REMOVE_RECURSE
   "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj"
   "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj.d"
+  "CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj"
+  "CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj.d"
+  "CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj"
+  "CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj.d"
   "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj"
   "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj.d"
   "CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj"

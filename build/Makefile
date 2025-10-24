@@ -56,10 +56,10 @@ RM = C:\msys64\ucrt64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\tomyl\SistemaSanatorio
+CMAKE_SOURCE_DIR = C:\Users\Carol\Desktop\SistemaSanatorio
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\tomyl\SistemaSanatorio\build
+CMAKE_BINARY_DIR = C:\Users\Carol\Desktop\SistemaSanatorio\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles C:\Users\tomyl\SistemaSanatorio\build\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles C:\Users\Carol\Desktop\SistemaSanatorio\build\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -151,6 +151,54 @@ src/Especialidad.s: src/Especialidad.cpp.s
 src/Especialidad.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.s
 .PHONY : src/Especialidad.cpp.s
+
+src/GeocodificadorAPI.obj: src/GeocodificadorAPI.cpp.obj
+.PHONY : src/GeocodificadorAPI.obj
+
+# target to build an object file
+src/GeocodificadorAPI.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj
+.PHONY : src/GeocodificadorAPI.cpp.obj
+
+src/GeocodificadorAPI.i: src/GeocodificadorAPI.cpp.i
+.PHONY : src/GeocodificadorAPI.i
+
+# target to preprocess a source file
+src/GeocodificadorAPI.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.i
+.PHONY : src/GeocodificadorAPI.cpp.i
+
+src/GeocodificadorAPI.s: src/GeocodificadorAPI.cpp.s
+.PHONY : src/GeocodificadorAPI.s
+
+# target to generate assembly for a file
+src/GeocodificadorAPI.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.s
+.PHONY : src/GeocodificadorAPI.cpp.s
+
+src/HTTPClient.obj: src/HTTPClient.cpp.obj
+.PHONY : src/HTTPClient.obj
+
+# target to build an object file
+src/HTTPClient.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj
+.PHONY : src/HTTPClient.cpp.obj
+
+src/HTTPClient.i: src/HTTPClient.cpp.i
+.PHONY : src/HTTPClient.i
+
+# target to preprocess a source file
+src/HTTPClient.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.i
+.PHONY : src/HTTPClient.cpp.i
+
+src/HTTPClient.s: src/HTTPClient.cpp.s
+.PHONY : src/HTTPClient.s
+
+# target to generate assembly for a file
+src/HTTPClient.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.s
+.PHONY : src/HTTPClient.cpp.s
 
 src/Paciente.obj: src/Paciente.cpp.obj
 .PHONY : src/Paciente.obj
@@ -332,6 +380,12 @@ help:
 	@echo ... src/Especialidad.obj
 	@echo ... src/Especialidad.i
 	@echo ... src/Especialidad.s
+	@echo ... src/GeocodificadorAPI.obj
+	@echo ... src/GeocodificadorAPI.i
+	@echo ... src/GeocodificadorAPI.s
+	@echo ... src/HTTPClient.obj
+	@echo ... src/HTTPClient.i
+	@echo ... src/HTTPClient.s
 	@echo ... src/Paciente.obj
 	@echo ... src/Paciente.i
 	@echo ... src/Paciente.s

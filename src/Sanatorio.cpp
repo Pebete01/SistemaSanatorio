@@ -5,6 +5,7 @@
 #include "string"
 #include "Sanatorio.h"
 #include "list"
+#include "Turno.h"
 using namespace std;
 
 void Sanatorio::agrandarListaPaciente()

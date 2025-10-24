@@ -9,8 +9,9 @@ void Paciente::mostrar() { std::cout << *this << '\n'; }
 std::ostream &operator<<(std::ostream &os, const Paciente &p)
 {
     os << "[" << p.getId() << "] " << p.getApellido() << ", " << p.getNombre()
-       << " | OS: " << p.getObraSocial()
-       << " | Afiliado: " << p.getNumeroDeAfiliado();
+        << " | Direc.: " << p.getDireccion()
+        << " | OS: " << p.getObraSocial()
+        << " | Afiliado: " << p.getNumeroDeAfiliado();
     return os;
 }
 bool Paciente::operator<(const Paciente &o) const

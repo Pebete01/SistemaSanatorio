@@ -5,14 +5,26 @@
 #ifndef HTTPCLIENT_H
 #define HTTPCLIENT_H
 
-#include <string>
+
+// ⚙️ Evitar conflictos entre std::byte y byte de Windows
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
+#define byte win_byte_override
+
 #include <curl/curl.h>
+
+#undef byte
+
+#include <string>
 
 // Para Windows
 #ifdef _WIN32
 #include <winsock2.h>
 #include <windows.h>
 #endif
+
 
 class HTTPClient {
 public:

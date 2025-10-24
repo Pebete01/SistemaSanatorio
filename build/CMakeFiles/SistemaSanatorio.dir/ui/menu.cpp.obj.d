@@ -1,5 +1,5 @@
 CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj: \
- C:\Users\tomyl\SistemaSanatorio\ui\menu.cpp \
+ C:\Users\Carol\Desktop\SistemaSanatorio\ui\menu.cpp \
  C:/msys64/ucrt64/include/ncursesw/curses.h \
  C:/msys64/ucrt64/include/ncursesw/ncurses_dll.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \

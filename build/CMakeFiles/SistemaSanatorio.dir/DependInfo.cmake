@@ -8,14 +8,16 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/tomyl/SistemaSanatorio/src/Especialidad.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj.d"
-  "C:/Users/tomyl/SistemaSanatorio/src/Paciente.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj.d"
-  "C:/Users/tomyl/SistemaSanatorio/src/Profesional.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj.d"
-  "C:/Users/tomyl/SistemaSanatorio/src/Sanatorio.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj.d"
-  "C:/Users/tomyl/SistemaSanatorio/src/SistemaSanatorio.cpp" "CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj.d"
-  "C:/Users/tomyl/SistemaSanatorio/src/Turno.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj.d"
-  "C:/Users/tomyl/SistemaSanatorio/src/main.cpp" "CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj.d"
-  "C:/Users/tomyl/SistemaSanatorio/ui/menu.cpp" "CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj.d"
+  "C:/Users/Carol/Desktop/SistemaSanatorio/src/Especialidad.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj.d"
+  "C:/Users/Carol/Desktop/SistemaSanatorio/src/GeocodificadorAPI.cpp" "CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj.d"
+  "C:/Users/Carol/Desktop/SistemaSanatorio/src/HTTPClient.cpp" "CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj.d"
+  "C:/Users/Carol/Desktop/SistemaSanatorio/src/Paciente.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj.d"
+  "C:/Users/Carol/Desktop/SistemaSanatorio/src/Profesional.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj.d"
+  "C:/Users/Carol/Desktop/SistemaSanatorio/src/Sanatorio.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj.d"
+  "C:/Users/Carol/Desktop/SistemaSanatorio/src/SistemaSanatorio.cpp" "CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj.d"
+  "C:/Users/Carol/Desktop/SistemaSanatorio/src/Turno.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj.d"
+  "C:/Users/Carol/Desktop/SistemaSanatorio/src/main.cpp" "CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj.d"
+  "C:/Users/Carol/Desktop/SistemaSanatorio/ui/menu.cpp" "CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

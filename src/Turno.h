@@ -5,8 +5,9 @@
 #include "string"
 #include "Profesional.h"
 #include "Paciente.h"
-using namespace std;
+#include "Sanatorio.h"
 
+using namespace std;
 class Turno
 {
 private:
@@ -14,10 +15,11 @@ private:
     string fecha, hora, diagnosticoAsistido;
     Paciente cliente;
     Profesional medico;
+    Sanatorio sanatorio;
 
 public:
-    Turno(int id, string fecha, string hora, string diagnostico, Paciente cliente, Profesional medico)
-        : id(id), fecha(fecha), hora(hora), diagnosticoAsistido(diagnostico), cliente(cliente), medico(medico) {}
+    Turno(int id, string fecha, string hora, string diagnostico, Paciente cliente, Profesional medico, Sanatorio sanatorio)
+        : id(id), fecha(fecha), hora(hora), diagnosticoAsistido(diagnostico), cliente(cliente), medico(medico), sanatorio(sanatorio) {}
 
     ~Turno() {}
 

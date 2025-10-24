@@ -13,6 +13,8 @@
 #include "Turno.h"
 #include "Sanatorio.h"
 #include "SistemaSanatorio.h"
+#include "GeocodificadorAPI.h"
+
 
 using namespace std;
 
@@ -136,14 +138,17 @@ void EmpresaSanatorio::actualizarPaciente(int id,
                                           const std::string &apellido,
                                           int nroAfiliado,
                                           const std::string &obraSocial,
-                                          const std::string &mail)
+                                          const std::string &mail,
+                                          const std::string &direccion,
+                                          double lat,
+                                          double lon)
 {
     for (int i = 0; i < cantidadPacientes; ++i)
     {
         if (listaPacientes[i] && listaPacientes[i]->getId() == id)
         {
             Paciente *viejo = listaPacientes[i];
-            listaPacientes[i] = new Paciente(id, nombre, apellido,mail, nroAfiliado, obraSocial);
+            listaPacientes[i] = new Paciente(id, nombre, apellido,mail,direccion, nroAfiliado, obraSocial,lat,lon);
             delete viejo;
             return;
         }
@@ -151,8 +156,6 @@ void EmpresaSanatorio::actualizarPaciente(int id,
 }
 
 // ================== CONSTRUCCIÓN/DESTRUCCIÓN ==================
-
-EmpresaSanatorio::EmpresaSanatorio() = default;
 
 EmpresaSanatorio::~EmpresaSanatorio()
 {
@@ -345,7 +348,14 @@ Paciente *EmpresaSanatorio::nuevoPaciente()
     string apellido = validarTexto("Ingrese apellido: ");
     string obraSocial = validarTexto("Ingrese obra Social: ");
     string mail = validarTexto("Ingrese Mail: ");
-    return new Paciente(id, nombre, apellido,mail,numAfiliado, obraSocial);
+    string direccion = validarTexto("Ingrese su direccion: ");
+    auto coords = geocodificadorApi.obtenerCoordenadas(direccion);
+    while (coords.first == 0.0 and coords.second == 0.0){
+        direccion = validarTexto("Ingrese su direccion: ");
+        coords = geocodificadorApi.obtenerCoordenadas(direccion);
+    }
+    return new Paciente(id, nombre, apellido, mail, direccion,
+                        numAfiliado, obraSocial, coords.first, coords.second);
 }
 
 Profesional *EmpresaSanatorio::nuevoProfesional()
@@ -371,7 +381,9 @@ Sanatorio *EmpresaSanatorio::nuevoSanatorio()
 {
     string nombre = validarTexto("Ingrese nombre del sanatorio: ");
     string ubicacion = validarTexto("Ingrese ubicacion del sanatorio: ");
-    return new Sanatorio(nombre, ubicacion);
+    double lat, lon;
+    pair<double,double> coordenadasUbicacion = geocodificadorApi.obtenerCoordenadas(ubicacion);
+    return new Sanatorio(nombre, ubicacion,coordenadasUbicacion.first,coordenadasUbicacion.second);
 }
 
 // ================== PROFESIONALES ==================
@@ -694,6 +706,7 @@ bool EmpresaSanatorio::agendarTurno(int idTurno, int idPaciente, int idProfesion
 
     // Alta en agenda
     agenda.push_back(TurnoRec{
+        //aca tengo q agregar el sanatorio
         idTurno, idPaciente, idProfesional, idEspecialidad, fecha, minOfDay, durMin, true});
     return true;
 }
@@ -797,4 +810,41 @@ const Especialidad *EmpresaSanatorio::buscarEspecialidadPorId(int id) const
         if (especialidades[i] && especialidades[i]->getId() == id)
             return especialidades[i];
     return nullptr;
+}
+
+
+// =================== SANATORIOS ==================  // <-- NUEVO: sección completa
+
+Sanatorio* EmpresaSanatorio::buscarSanatorioPorIndice(int idx)  // <-- NUEVO
+{
+    if (idx < 0 || idx >= cantidadSanatorios)
+        return nullptr;
+    return sanatorios[idx];
+}
+
+const Sanatorio* EmpresaSanatorio::buscarSanatorioPorIndice(int idx) const  // <-- NUEVO
+{
+    if (idx < 0 || idx >= cantidadSanatorios)
+        return nullptr;
+    return sanatorios[idx];
+}
+
+void EmpresaSanatorio::agrandarListaSanatorios()  // <-- NUEVO
+{
+    int capacidadNueva = (capacidadSanatorios == 0) ? 4 : capacidadSanatorios * 2;
+    auto **listaNueva = new Sanatorio *[capacidadNueva];
+    for (int i = 0; i < cantidadSanatorios; ++i)
+        listaNueva[i] = sanatorios[i];
+    delete[] sanatorios;
+    sanatorios = listaNueva;
+    capacidadSanatorios = capacidadNueva;
+}
+
+void EmpresaSanatorio::agregarSanatorio(Sanatorio* s)  // <-- NUEVO
+{
+    if (!s)
+        return;
+    if (capacidadSanatorios == cantidadSanatorios)
+        agrandarListaSanatorios();
+    sanatorios[cantidadSanatorios++] = s;
 }

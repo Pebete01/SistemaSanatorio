@@ -1,6 +1,7 @@
 #include "Turno.h"
 #include "iostream"
 #include "string"
+#include "Sanatorio.h"
 using namespace std;
 
 void Turno::cancelar()
@@ -28,4 +29,6 @@ void Turno::mostrar()
 
     cout << "Profesional: ";
     medico.mostrar();
+
+    cout << "Sanatorio: " << sanatorio.getNombre();
 }
