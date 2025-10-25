@@ -14,3 +14,8 @@ std::string input_box(const std::string &title, const std::string &prompt, int m
 bool confirm_box(const std::string &title, const std::string &question);
 
 void list_box(const std::string &title, const std::vector<std::string> &lines);
+
+std::string input_box_with_list(const std::string &title,
+                                const std::vector<std::string> &items,
+                                const std::string &prompt,
+                                int maxlen);

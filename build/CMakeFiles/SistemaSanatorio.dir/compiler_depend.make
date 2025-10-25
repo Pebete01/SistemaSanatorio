@@ -4009,6 +4009,7 @@ CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: C:/Users/Carol/Desktop/Sistema
   C:/msys64/ucrt64/include/c++/15.2.0/iomanip \
   C:/msys64/ucrt64/include/c++/15.2.0/ios \
   C:/msys64/ucrt64/include/c++/15.2.0/iosfwd \
+  C:/msys64/ucrt64/include/c++/15.2.0/iostream \
   C:/msys64/ucrt64/include/c++/15.2.0/istream \
   C:/msys64/ucrt64/include/c++/15.2.0/iterator \
   C:/msys64/ucrt64/include/c++/15.2.0/limits \
@@ -4440,6 +4441,7 @@ CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: C:/Users/Carol/Desktop/Sistema
   C:/Users/Carol/Desktop/SistemaSanatorio/src/Paciente.h \
   C:/Users/Carol/Desktop/SistemaSanatorio/src/Persona.h \
   C:/Users/Carol/Desktop/SistemaSanatorio/src/Profesional.h \
+  C:/Users/Carol/Desktop/SistemaSanatorio/src/Sanatorio.h \
   C:/Users/Carol/Desktop/SistemaSanatorio/src/SistemaSanatorio.h
 
 CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj: C:/Users/Carol/Desktop/SistemaSanatorio/ui/menu.cpp \

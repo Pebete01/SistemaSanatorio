@@ -264,3 +264,66 @@ void Sanatorio::mostrarSanatorio()
         listaTurno[i]->mostrar();
     }
 }
+
+
+// ============================================================================
+// <-- NUEVAS IMPLEMENTACIONES: Gestión de especialidades y profesionales
+// ============================================================================
+
+bool Sanatorio::tieneEspecialidad(int idEspecialidad) const  // <-- NUEVO
+{
+    for (int i = 0; i < cantidadEspecialidad; ++i)
+    {
+        if (listaEspecialidades[i] && listaEspecialidades[i]->getId() == idEspecialidad)
+            return true;
+    }
+    return false;
+}
+
+bool Sanatorio::tieneProfesional(int idProfesional) const  // <-- NUEVO
+{
+    for (int i = 0; i < cantidadProfe; ++i)
+    {
+        if (listaProfesionales[i] && listaProfesionales[i]->getId() == idProfesional)
+            return true;
+    }
+    return false;
+}
+
+void Sanatorio::eliminarEspecialidad(int idEspecialidad)  // <-- NUEVO
+{
+    for (int i = 0; i < cantidadEspecialidad; ++i)
+    {
+        if (listaEspecialidades[i] && listaEspecialidades[i]->getId() == idEspecialidad)
+        {
+            // NO eliminamos el objeto, solo lo quitamos del array
+            // (el objeto pertenece a EmpresaSanatorio)
+            for (int j = i; j < cantidadEspecialidad - 1; ++j)
+            {
+                listaEspecialidades[j] = listaEspecialidades[j + 1];
+            }
+            listaEspecialidades[cantidadEspecialidad - 1] = nullptr;
+            --cantidadEspecialidad;
+            return;
+        }
+    }
+}
+
+void Sanatorio::eliminarProfesional(int idProfesional)  // <-- NUEVO
+{
+    for (int i = 0; i < cantidadProfe; ++i)
+    {
+        if (listaProfesionales[i] && listaProfesionales[i]->getId() == idProfesional)
+        {
+            // NO eliminamos el objeto, solo lo quitamos del array
+            // (el objeto pertenece a EmpresaSanatorio)
+            for (int j = i; j < cantidadProfe - 1; ++j)
+            {
+                listaProfesionales[j] = listaProfesionales[j + 1];
+            }
+            listaProfesionales[cantidadProfe - 1] = nullptr;
+            --cantidadProfe;
+            return;
+        }
+    }
+}

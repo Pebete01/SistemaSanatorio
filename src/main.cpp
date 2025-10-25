@@ -4,10 +4,12 @@
 #include "Paciente.h"
 #include "Profesional.h"
 #include "Especialidad.h"
+#include "Sanatorio.h"
 
 #include <vector>
 #include <stdexcept>
 #include <string>
+#include <cmath>
 
 // ---------------- utils ----------------
 static int to_int(const std::string &s)
@@ -18,6 +20,88 @@ static int to_int(const std::string &s)
         throw std::invalid_argument("nan");
     return v;
 }
+
+static double calcularDistancia(double lat1, double lon1, double lat2, double lon2)
+{
+    const double R = 6371.0; // Radio de la Tierra en km
+    const double PI = 3.14159265358979323846;
+
+    double dLat = (lat2 - lat1) * PI / 180.0;
+    double dLon = (lon2 - lon1) * PI / 180.0;
+
+    double a = sin(dLat/2) * sin(dLat/2) +
+               cos(lat1 * PI / 180.0) * cos(lat2 * PI / 180.0) *
+               sin(dLon/2) * sin(dLon/2);
+
+    double c = 2 * atan2(sqrt(a), sqrt(1-a));
+    return R * c;
+}
+
+
+// ---------------- Sanatorios ---------------
+
+static void ui_agregar_sanatorio(EmpresaSanatorio &app)
+{
+    std::string nombre = input_box("Sanatorios - Agregar", "Nombre:", 50);
+    std::string direccion;
+    std::pair<double, double> coordenadas;
+
+    while (true) {
+        direccion = input_box("Sanatorios - Agregar", "Direccion:", 50);
+        coordenadas = app.geocodificarDireccion(direccion);
+
+        if (coordenadas.first != 0.0 || coordenadas.second != 0.0)
+            break;
+        message_center("Error", "Direccion invalida. Intente nuevamente.");
+    }
+
+    if (!confirm_box("Confirmar", "Guardar?"))
+    {
+        message_center("Alta", "Cancelado");
+        return;
+    }
+
+    try
+    {
+        Sanatorio* nuevo = new Sanatorio(nombre, direccion,
+                                         coordenadas.first, coordenadas.second);
+        app.agregarSanatorio(nuevo);
+        message_center("Alta", "Sanatorio agregado correctamente");
+    }
+    catch (const std::exception &e)
+    {
+        message_center("Error", std::string(e.what()));
+    }
+}
+
+static void ui_listar_sanatorios(EmpresaSanatorio &app)
+{
+    int cant = app.getCantidadSanatorios();
+    if (cant == 0)
+    {
+        message_center("Sanatorios", "No hay sanatorios registrados");
+        return;
+    }
+
+    std::vector<std::string> lista;
+    Sanatorio** sanatorios = app.getSanatorios();
+
+    for (int i = 0; i < cant; ++i)
+    {
+        if (sanatorios[i])
+        {
+            std::string linea =
+                    std::to_string(i + 1) + ". " +
+                    sanatorios[i]->getNombre() +
+                    " | " + sanatorios[i]->getDireccion();
+            lista.push_back(linea);
+        }
+    }
+
+    list_box("Sanatorios", lista);
+}
+
+
 
 // ---------------- Pacientes ----------------
 static void ui_agregar_paciente(EmpresaSanatorio &app)
@@ -142,48 +226,265 @@ static void ui_editar_paciente(EmpresaSanatorio &app)
 }
 
 // ---------------- Especialidades ----------------
+
+
 static void ui_agregar_especialidad(EmpresaSanatorio &app)
 {
+    if (app.getCantidadSanatorios() == 0)
+    {
+        message_center("Error", "Primero debe agregar sanatorios");
+        return;
+    }
+
     std::string sid = input_box("Especialidades - Agregar", "ID:", 10);
     std::string nom = input_box("Especialidades - Agregar", "Nombre:", 40);
+
+    std::vector<std::string> listaSanatorios;
+    Sanatorio** sanatorios = app.getSanatorios();
+    int cantSan = app.getCantidadSanatorios();
+
+    for (int i = 0; i < cantSan; ++i)
+    {
+        if (sanatorios[i])
+        {
+            listaSanatorios.push_back(
+                    std::to_string(i + 1) + ". " + sanatorios[i]->getNombre()
+            );
+        }
+    }
+
+
+    std::string sSan = input_box_with_list(
+            "Especialidades - Agregar",
+            listaSanatorios,
+            "Numeros de sanatorios (ej: 1,2,4) o 'todos':",
+            50
+    );
+
+
     if (!confirm_box("Confirmar", "Guardar?"))
     {
         message_center("Alta", "Cancelado");
         return;
     }
+
     try
     {
         int id = to_int(sid);
+
         if (app.buscarEspecialidadPorId(id))
         {
             message_center("Error", "ID existente");
             return;
         }
-        app.agregarEspecialidad(new Especialidad(id, nom));
-        message_center("Alta", "Especialidad guardada");
+
+        // ✅ NUEVO: Crear especialidad una vez
+        Especialidad* nueva = new Especialidad(id, nom);
+        app.agregarEspecialidad(nueva);
+
+        // ✅ NUEVO: Procesar selección de sanatorios
+        std::vector<int> indicesSanatorios;
+        int cantSan = app.getCantidadSanatorios();
+
+        if (sSan == "todos" || sSan == "TODOS")
+        {
+            // Agregar a todos
+            for (int i = 0; i < cantSan; ++i)
+            {
+                indicesSanatorios.push_back(i);
+            }
+        }
+        else
+        {
+            // Parsear números separados por coma
+            std::string numero;
+            sSan += ','; // Para procesar el último número
+
+            for (char c : sSan)
+            {
+                if (c == ',' || c == ' ')
+                {
+                    if (!numero.empty())
+                    {
+                        try
+                        {
+                            int n = to_int(numero) - 1; // Convertir a índice base 0
+                            if (n >= 0 && n < cantSan)
+                            {
+                                indicesSanatorios.push_back(n);
+                            }
+                            numero.clear();
+                        }
+                        catch (...)
+                        {
+                            // Ignorar números inválidos
+                        }
+                    }
+                }
+                else
+                {
+                    numero += c;
+                }
+            }
+        }
+
+        // ✅ NUEVO: Agregar a todos los sanatorios seleccionados
+        for (int idx : indicesSanatorios)
+        {
+            app.agregarEspecialidadASanatorio(idx, nueva);
+        }
+
+        message_center("Alta",
+                       "Especialidad guardada en " + std::to_string(indicesSanatorios.size()) + " sanatorio(s)");
     }
     catch (...)
     {
-        message_center("Error", "ID invalido");
+        message_center("Error", "Dato invalido");
     }
 }
+
 
 static void ui_eliminar_especialidad(EmpresaSanatorio &app)
 {
     std::string sid = input_box("Especialidades - Eliminar", "ID:", 10);
-    if (!confirm_box("Confirmar", "Eliminar?"))
-    {
-        message_center("Eliminar", "Cancelado");
-        return;
-    }
+
     try
     {
         int id = to_int(sid);
-        message_center("Eliminar", app.eliminarEspecialidadPorId(id) ? "Especialidad eliminada" : "ID inexistente");
+        Especialidad* esp = app.buscarEspecialidadPorId(id);
+
+        if (!esp)
+        {
+            message_center("Error", "Especialidad inexistente");
+            return;
+        }
+
+        // ✅ NUEVO: Preguntar de dónde eliminar
+        std::vector<std::string> opciones = {
+                "Eliminar de sanatorios especificos",
+                "Eliminar de TODOS los sanatorios"
+        };
+
+        int eleccion = run_submenu("Eliminar Especialidad", opciones);
+
+        if (eleccion < 0)
+        {
+            message_center("Eliminar", "Cancelado");
+            return;
+        }
+
+        if (eleccion == 0)  // ✅ Eliminar de específicos
+        {
+            // Mostrar sanatorios que tienen esta especialidad
+            std::vector<std::string> sanatoriosConEsp;
+            std::vector<int> indicesSanatorios;
+
+            Sanatorio** sanatorios = app.getSanatorios();
+            int cantSan = app.getCantidadSanatorios();
+
+            for (int i = 0; i < cantSan; ++i)
+            {
+                if (sanatorios[i] && sanatorios[i]->tieneEspecialidad(id))
+                {
+                    sanatoriosConEsp.push_back(
+                            std::to_string(indicesSanatorios.size() + 1) + ". " +
+                            sanatorios[i]->getNombre()
+                    );
+                    indicesSanatorios.push_back(i);
+                }
+            }
+
+            if (sanatoriosConEsp.empty())
+            {
+                message_center("Info", "Esta especialidad no esta en ningun sanatorio");
+                return;
+            }
+
+            list_box("Sanatorios con esta especialidad", sanatoriosConEsp);
+
+            // ✅ NUEVO: Pedir múltiples sanatorios separados por coma
+            std::string seleccion = input_box(
+                    "Eliminar",
+                    "Numeros separados por coma (ej: 1,3,5) o 'todos':",
+                    50
+            );
+
+            if (!confirm_box("Confirmar", "Eliminar de los sanatorios seleccionados?"))
+            {
+                message_center("Eliminar", "Cancelado");
+                return;
+            }
+
+            // Procesar selección
+            if (seleccion == "todos" || seleccion == "TODOS")
+            {
+                // Eliminar de todos los sanatorios que la tienen
+                for (int idx : indicesSanatorios)
+                {
+                    app.eliminarEspecialidadDeSanatorio(idx, id);
+                }
+                message_center("Eliminar", "Especialidad eliminada de todos los sanatorios");
+            }
+            else
+            {
+                // Parsear números separados por coma
+                std::vector<int> numerosSeleccionados;
+                std::string numero;
+                seleccion += ','; // Para procesar el último número
+
+                for (char c : seleccion)
+                {
+                    if (c == ',' || c == ' ')
+                    {
+                        if (!numero.empty())
+                        {
+                            try
+                            {
+                                int n = to_int(numero) - 1; // Convertir a índice base 0
+                                if (n >= 0 && n < (int)indicesSanatorios.size())
+                                {
+                                    numerosSeleccionados.push_back(indicesSanatorios[n]);
+                                }
+                                numero.clear();
+                            }
+                            catch (...)
+                            {
+                                // Ignorar números inválidos
+                            }
+                        }
+                    }
+                    else
+                    {
+                        numero += c;
+                    }
+                }
+
+                // Eliminar de los seleccionados
+                for (int idx : numerosSeleccionados)
+                {
+                    app.eliminarEspecialidadDeSanatorio(idx, id);
+                }
+
+                message_center("Eliminar",
+                               "Eliminada de " + std::to_string(numerosSeleccionados.size()) + " sanatorio(s)");
+            }
+        }
+        else  // ✅ Eliminar de TODOS
+        {
+            if (!confirm_box("CONFIRMAR", "Eliminar de TODOS los sanatorios Y del sistema?"))
+            {
+                message_center("Eliminar", "Cancelado");
+                return;
+            }
+
+            // Eliminar completamente (de todos los sanatorios y del sistema global)
+            bool ok = app.eliminarEspecialidadPorId(id);
+            message_center("Eliminar", ok ? "Especialidad eliminada completamente" : "Error al eliminar");
+        }
     }
     catch (...)
     {
-        message_center("Error", "ID invqlido");
+        message_center("Error", "ID invalido");
     }
 }
 
@@ -194,30 +495,118 @@ static void ui_listar_especialidades(EmpresaSanatorio &app)
 }
 
 // ---------------- Profesionales ----------------
+// ============================================================================
+// ✅ MODIFICADO: Agregar profesional a múltiples sanatorios
+// ============================================================================
+
 static void ui_agregar_profesional(EmpresaSanatorio &app)
 {
+    if (app.getCantidadSanatorios() == 0)
+    {
+        message_center("Error", "Primero debe agregar sanatorios");
+        return;
+    }
+
     std::string sid = input_box("Profesionales - Agregar", "ID:", 10);
     std::string snum = input_box("Profesionales - Agregar", "Nro Profesional:", 10);
     std::string sidE = input_box("Profesionales - Agregar", "ID Especialidad:", 10);
     std::string nom = input_box("Profesionales - Agregar", "Nombre:", 40);
     std::string ape = input_box("Profesionales - Agregar", "Apellido:", 40);
-    std::string mail = input_box("Profesionales - Agregar", "Email:", 50); // <-- AÑADE ESTA LÍNEA
+    std::string mail = input_box("Profesionales - Agregar", "Email:", 50);
+
+    std::vector<std::string> listaSanatorios;
+    Sanatorio** sanatorios = app.getSanatorios();
+    int cantSan = app.getCantidadSanatorios();
+
+    for (int i = 0; i < cantSan; ++i)
+    {
+        if (sanatorios[i])
+        {
+            listaSanatorios.push_back(
+                    std::to_string(i + 1) + ". " + sanatorios[i]->getNombre()
+            );
+        }
+    }
+
+
+    std::string sSan = input_box_with_list(
+            "Profesionales - Agregar",
+            listaSanatorios,
+            "Numeros de sanatorios (ej: 1,2,4) o 'todos':",
+            50
+    );
+
     if (!confirm_box("Confirmar", "Guardar?"))
     {
         message_center("Alta", "Cancelado");
         return;
     }
+
     try
     {
         int id = to_int(sid), num = to_int(snum), idE = to_int(sidE);
+
         auto *esp = app.buscarEspecialidadPorId(idE);
         if (!esp)
         {
             message_center("Error", "Especialidad inexistente");
             return;
         }
-        app.agregarProfesional(new Profesional(num, *esp, id, nom, ape,mail));
-        message_center("Alta", "Profesional guardado");
+
+        // ✅ NUEVO: Crear profesional una vez
+        Profesional* nuevo = new Profesional(num, *esp, id, nom, ape, mail);
+        app.agregarProfesional(nuevo);
+
+        // ✅ NUEVO: Procesar selección de sanatorios
+        std::vector<int> indicesSanatorios;
+        int cantSan = app.getCantidadSanatorios();
+
+        if (sSan == "todos" || sSan == "TODOS")
+        {
+            for (int i = 0; i < cantSan; ++i)
+            {
+                indicesSanatorios.push_back(i);
+            }
+        }
+        else
+        {
+            // Parsear números
+            std::string numero;
+            sSan += ',';
+
+            for (char c : sSan)
+            {
+                if (c == ',' || c == ' ')
+                {
+                    if (!numero.empty())
+                    {
+                        try
+                        {
+                            int n = to_int(numero) - 1;
+                            if (n >= 0 && n < cantSan)
+                            {
+                                indicesSanatorios.push_back(n);
+                            }
+                            numero.clear();
+                        }
+                        catch (...) {}
+                    }
+                }
+                else
+                {
+                    numero += c;
+                }
+            }
+        }
+
+        // ✅ NUEVO: Agregar a todos los sanatorios seleccionados
+        for (int idx : indicesSanatorios)
+        {
+            app.agregarProfesionalASanatorio(idx, nuevo);
+        }
+
+        message_center("Alta",
+                       "Profesional guardado en " + std::to_string(indicesSanatorios.size()) + " sanatorio(s)");
     }
     catch (...)
     {
@@ -225,18 +614,139 @@ static void ui_agregar_profesional(EmpresaSanatorio &app)
     }
 }
 
+// ============================================================================
+// ✅ MODIFICADO: Eliminar profesional de sanatorios específicos
+// ============================================================================
+
 static void ui_eliminar_profesional(EmpresaSanatorio &app)
 {
     std::string sid = input_box("Profesionales - Eliminar", "ID:", 10);
-    if (!confirm_box("Confirmar", "Eliminar?"))
-    {
-        message_center("Eliminar", "Cancelado");
-        return;
-    }
+
     try
     {
         int id = to_int(sid);
-        message_center("Eliminar", app.eliminarProfesionalPorId(id) ? "Profesional eliminado" : "ID inexistente");
+        Profesional* prof = app.buscarProfesionalPorId(id);
+
+        if (!prof)
+        {
+            message_center("Error", "Profesional inexistente");
+            return;
+        }
+
+        // ✅ NUEVO: Preguntar de dónde eliminar
+        std::vector<std::string> opciones = {
+                "Eliminar de sanatorios especificos",
+                "Eliminar de TODOS los sanatorios"
+        };
+
+        int eleccion = run_submenu("Eliminar Profesional", opciones);
+
+        if (eleccion < 0)
+        {
+            message_center("Eliminar", "Cancelado");
+            return;
+        }
+
+        if (eleccion == 0)  // Eliminar de específicos
+        {
+            // Mostrar sanatorios donde trabaja
+            std::vector<std::string> sanatoriosConProf;
+            std::vector<int> indicesSanatorios;
+
+            Sanatorio** sanatorios = app.getSanatorios();
+            int cantSan = app.getCantidadSanatorios();
+
+            for (int i = 0; i < cantSan; ++i)
+            {
+                if (sanatorios[i] && sanatorios[i]->tieneProfesional(id))
+                {
+                    sanatoriosConProf.push_back(
+                            std::to_string(indicesSanatorios.size() + 1) + ". " +
+                            sanatorios[i]->getNombre()
+                    );
+                    indicesSanatorios.push_back(i);
+                }
+            }
+
+            if (sanatoriosConProf.empty())
+            {
+                message_center("Info", "Este profesional no trabaja en ningun sanatorio");
+                return;
+            }
+
+            list_box("Sanatorios donde trabaja", sanatoriosConProf);
+
+            std::string seleccion = input_box(
+                    "Eliminar",
+                    "Numeros separados por coma o 'todos':",
+                    50
+            );
+
+            if (!confirm_box("Confirmar", "Eliminar de los sanatorios seleccionados?"))
+            {
+                message_center("Eliminar", "Cancelado");
+                return;
+            }
+
+            if (seleccion == "todos" || seleccion == "TODOS")
+            {
+                for (int idx : indicesSanatorios)
+                {
+                    app.eliminarProfesionalDeSanatorio(idx, id);
+                }
+                message_center("Eliminar", "Profesional eliminado de todos los sanatorios");
+            }
+            else
+            {
+                // Parsear selección
+                std::vector<int> numerosSeleccionados;
+                std::string numero;
+                seleccion += ',';
+
+                for (char c : seleccion)
+                {
+                    if (c == ',' || c == ' ')
+                    {
+                        if (!numero.empty())
+                        {
+                            try
+                            {
+                                int n = to_int(numero) - 1;
+                                if (n >= 0 && n < (int)indicesSanatorios.size())
+                                {
+                                    numerosSeleccionados.push_back(indicesSanatorios[n]);
+                                }
+                                numero.clear();
+                            }
+                            catch (...) {}
+                        }
+                    }
+                    else
+                    {
+                        numero += c;
+                    }
+                }
+
+                for (int idx : numerosSeleccionados)
+                {
+                    app.eliminarProfesionalDeSanatorio(idx, id);
+                }
+
+                message_center("Eliminar",
+                               "Eliminado de " + std::to_string(numerosSeleccionados.size()) + " sanatorio(s)");
+            }
+        }
+        else  // Eliminar de TODOS
+        {
+            if (!confirm_box("CONFIRMAR", "Eliminar de TODOS los sanatorios Y del sistema?"))
+            {
+                message_center("Eliminar", "Cancelado");
+                return;
+            }
+
+            bool ok = app.eliminarProfesionalPorId(id);
+            message_center("Eliminar", ok ? "Profesional eliminado completamente" : "Error al eliminar");
+        }
     }
     catch (...)
     {
@@ -328,7 +838,24 @@ int main()
             break;
         }
 
-        if (principal[i] == "Pacientes")
+        if (principal[i] == "Sanatorios")
+        {
+            for (;;)
+            {
+                int s = run_submenu("Sanatorios", {
+                        "Agregar",
+                        "Listar"
+                });
+
+                if (s < 0) break;
+
+                if (s == 0)
+                    ui_agregar_sanatorio(app);
+                else if (s == 1)
+                    ui_listar_sanatorios(app);
+            }
+        }
+        else if (principal[i] == "Pacientes")
         {
             for (;;)
             {
@@ -389,9 +916,7 @@ int main()
             else if (s == 2)
                 ui_listar_turnos(app);
         }
-        else if (principal[i] == "Sanatorios"){
-            int s = run_submenu("Sanatorios", {"Listar", "Agregar", "Listar"});
-        }
+
     }
     return 0;
 }

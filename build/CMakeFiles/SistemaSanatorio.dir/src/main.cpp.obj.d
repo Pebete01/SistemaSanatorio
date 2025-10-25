@@ -570,4 +570,6 @@ CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: \
  C:\Users\Carol\Desktop\SistemaSanatorio\src\Paciente.h \
  C:\Users\Carol\Desktop\SistemaSanatorio\src\Persona.h \
  C:\Users\Carol\Desktop\SistemaSanatorio\src\Profesional.h \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\Especialidad.h
+ C:\Users\Carol\Desktop\SistemaSanatorio\src\Especialidad.h \
+ C:\Users\Carol\Desktop\SistemaSanatorio\src\Sanatorio.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/iostream

@@ -17,7 +17,7 @@ class Sanatorio
 {
 private:
     string nombre;
-    string ubicacion;//VER SI SACAR
+    string direccion;
     double latitud;
     double longitud;
     Paciente **listaPacientes;
@@ -28,11 +28,16 @@ private:
     int capacidadPacientes, capacidadProfe, capacidadTurno, capacidadEspecialidad;
 
 public:
-    Sanatorio(string nombre, string ubicacion, double lat, double lon) : nombre(nombre), ubicacion(ubicacion), latitud (lat), longitud (lon), listaEspecialidades(nullptr), listaPacientes(nullptr), listaProfesionales(nullptr), listaTurno(nullptr) {}
-
+    Sanatorio(string nombre, string direccion, double lat =0.0, double lon = 0.0) :
+    nombre(nombre), direccion(direccion), latitud (lat), longitud (lon),
+    listaEspecialidades(nullptr), listaPacientes(nullptr), listaProfesionales(nullptr),
+    listaTurno(nullptr), cantidadPacientes(0), cantidadProfe(0), cantidadTurno(0), cantidadEspecialidad(0),
+    capacidadPacientes(0), capacidadProfe(0), capacidadTurno(0), capacidadEspecialidad(0){}
+    const string& getNombre() const { return nombre; }
+    const string& getDireccion() const { return direccion; }
     double getLatitud() const { return latitud; }
     double getLongitud() const { return longitud; }
-    string getNombre() const { return nombre;}
+    void setCoordenadas(double lat, double lon) { latitud = lat; longitud = lon; }
 
     void agrandarListaPaciente();
     void agregarPaciente(Paciente *p);
@@ -47,6 +52,11 @@ public:
     void sacarEspecialidad();
     void cancelarTurno();
     void mostrarSanatorio();
+
+    bool tieneEspecialidad(int idEspecialidad) const;
+    bool tieneProfesional(int idProfesional) const;
+    void eliminarEspecialidad(int idEspecialidad);
+    void eliminarProfesional(int idProfesional);
 
     ~Sanatorio() {}
 };

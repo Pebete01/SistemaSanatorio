@@ -16,8 +16,7 @@ class Sanatorio;
 class Especialidad;
 class GeocodificadorAPI;
 
-class EmpresaSanatorio
-{
+class EmpresaSanatorio {
 private:
     GeocodificadorAPI geocodificadorApi;
     // --- Almacenamiento ---
@@ -35,8 +34,7 @@ private:
     int capacidadEspecialidad = 0, cantidadEspecialidades = 0;
 
     // =================== AGENDA (Turnos) ===================
-    struct TurnoRec
-    {
+    struct TurnoRec {
         int id;
         int pacienteId;
         int profesionalId;
@@ -47,7 +45,7 @@ private:
         bool activo{true};
         bool recordatorioEnviado{false}; // evita reenvio
     };
-    std::vector<TurnoRec> agenda;
+    std::vector <TurnoRec> agenda;
 
     // ---- NUEVOS MIEMBROS/METODOS PARA EL SERVICIO DE NOTIFICACIONES ----
     std::thread worker_notificaciones;
@@ -57,20 +55,30 @@ private:
 
 public:
     // --- Ciclo de vida / Regla de 5 ---
-    EmpresaSanatorio(){geocodificadorApi.configurarRegion("AR");};
+    EmpresaSanatorio() { geocodificadorApi.configurarRegion("AR"); };
+
     ~EmpresaSanatorio();
+
     EmpresaSanatorio(const EmpresaSanatorio &) = delete;
+
     EmpresaSanatorio &operator=(const EmpresaSanatorio &) = delete;
+
     EmpresaSanatorio(EmpresaSanatorio &&) = delete;
+
     EmpresaSanatorio &operator=(EmpresaSanatorio &&) = delete;
 
     // ===================== RECORDATORIO =====================
     void iniciarServicioNotificaciones();
+
     void detenerServicioNotificaciones();
+
     // ===================== PACIENTES =====================
     Paciente *buscarPacientePorId(int id);
+
     const Paciente *buscarPacientePorId(int id) const;
+
     bool eliminarPacientePorId(int id);
+
     void actualizarPaciente(int id,
                             const std::string &nombre,
                             const std::string &apellido,
@@ -80,68 +88,107 @@ public:
                             const std::string &direccion,
                             double lat,
                             double lon);
-    std::vector<std::string> listarPacientesTexto() const;
+
+    std::vector <std::string> listarPacientesTexto() const;
+
     void agregarPaciente(Paciente *p);
+
     void agrandarListaPaciente();
+
     void ordenarPacientesPorApellido();
 
     // =================== PROFESIONALES ===================
     Profesional *buscarProfesionalPorId(int id);
+
     const Profesional *buscarProfesionalPorId(int id) const;
+
     bool eliminarProfesionalPorId(int id);
-    std::vector<std::string> listarProfesionalesTexto() const;
+
+    std::vector <std::string> listarProfesionalesTexto() const;
+
     void agregarProfesional(Profesional *p);
+
     void agrandarListaProfesionales();
+
     void ordenarProfesionalesPorApellido();
+
+    void agregarProfesionalASanatorio(int indiceSanatorio, Profesional* prof);  // <-- NUEVO
+    void eliminarProfesionalDeSanatorio(int indiceSanatorio, int idProfesional);  // <-- NUEVO
 
     // =================== ESPECIALIDADES ==================
     Especialidad *buscarEspecialidadPorId(int id);
+
     const Especialidad *buscarEspecialidadPorId(int id) const;
-    
+
     bool eliminarEspecialidadPorId(int id);
-    std::vector<std::string> listarEspecialidadesTexto() const;
+
+    std::vector <std::string> listarEspecialidadesTexto() const;
+
     void agregarEspecialidad(Especialidad *p);
+
     void agrandarListaEspecialidad();
+
+    // <-- NUEVOS MÉTODOS para múltiples sanatorios
+    void agregarEspecialidadASanatorio(int indiceSanatorio, Especialidad *esp);  // <-- NUEVO
+    void eliminarEspecialidadDeSanatorio(int indiceSanatorio, int idEspecialidad);  // <-- NUEVO
+
 
 
     // =================== SANATORIOS ==================
-    Sanatorio* buscarSanatorioPorIndice(int idx);
-    const Sanatorio* buscarSanatorioPorIndice(int idx) const;
+    Sanatorio *buscarSanatorioPorIndice(int idx);
+
+    const Sanatorio *buscarSanatorioPorIndice(int idx) const;
+
     int getCantidadSanatorios() const { return cantidadSanatorios; }
-    Sanatorio** getSanatorios() { return sanatorios; }
-    const Sanatorio* const* getSanatorios() const { return sanatorios; }
-    void agregarSanatorio(Sanatorio* s);
+
+    Sanatorio **getSanatorios() { return sanatorios; }
+
+    const Sanatorio *const *getSanatorios() const { return sanatorios; }
+
+    void agregarSanatorio(Sanatorio *s);
+
     void agrandarListaSanatorios();
 
     // ======================= TURNOS ======================
     // fechaHora: "YYYY-MM-DD HH:MM"
     bool agendarTurno(int idTurno, int idPaciente, int idProfesional, int idEspecialidad,
                       const std::string &fechaHora, int durMin, std::string &error);
+
     bool cancelarTurnoPorId(int idTurno);
-    std::vector<std::string> listarTurnosTexto() const;
-    std::vector<std::string> listarTurnosPorProfesionalTexto(int idProfesional) const;
+
+    std::vector <std::string> listarTurnosTexto() const;
+
+    std::vector <std::string> listarTurnosPorProfesionalTexto(int idProfesional) const;
 
     // ======================= OTROS =======================
     void agrandarListaTurnos();
+
     void agregarTurnos(Turno *p); // mantenido para compatibilidad
     Sanatorio *nuevoSanatorio();
 
     // ===================== FACTORÍAS UI ==================
     Paciente *nuevoPaciente();
+
     Especialidad *nuevaEspecialidad();
+
     Profesional *nuevoProfesional();
 
     // ==================== UTILIDADES UI ==================
     int validarEntero(const std::string &mensaje);
+
     std::string validarTexto(const std::string &mensaje);
 
     // ======================== MENÚ =======================
     void menu();
+
     void subMenuMostrar();
+
     void subMenuAgregar();
+
     void subMenuEliminar();
 
-    std::pair<double, double> geocodificarDireccion(const std::string& direccion) {
+    std::pair<double, double> geocodificarDireccion(const std::string &direccion) {
         return geocodificadorApi.obtenerCoordenadas(direccion);
     }
+
 };

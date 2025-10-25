@@ -162,3 +162,70 @@ void list_box(const std::string& title, const std::vector<std::string>& lines){
         else if (ch==KEY_RESIZE){ getmaxyx(stdscr,H,W); w=std::min(W-4,w); y0=(H-h)/2; x0=(W-w)/2; mvwin(win,y0,x0); }
     }
 }
+
+
+// <-- NUEVA FUNCIÓN: Mostrar lista y pedir input en la misma ventana
+std::string input_box_with_list(const std::string &title,
+                                const std::vector<std::string> &items,
+                                const std::string &prompt,
+                                int maxlen)
+{
+    int H, W;
+    getmaxyx(stdscr, H, W);
+
+    // Calcular dimensiones
+    int w = std::max<int>((int)title.size(), (int)prompt.size() + maxlen + 1);
+    for (const auto& s : items)
+        w = std::max<int>(w, (int)s.size());
+    w = std::min(W - 4, w + 4);
+
+    int visibleItems = std::min((int)items.size(), H - 10);  // <-- Dejar espacio para prompt
+    int h = visibleItems + 6;  // <-- Título + items + prompt + input + bordes
+
+    int y0 = (H - h) / 2;
+    int x0 = (W - w) / 2;
+
+    WINDOW* win = newwin(h, w, y0, x0);
+    keypad(win, TRUE);
+
+    int offset = 0;
+
+    // Dibujar ventana
+    box(win, 0, 0);
+
+    // Título
+    wattron(win, COLOR_PAIR(3));
+    mvwprintw(win, 1, (w - (int)title.size()) / 2, "%s", title.c_str());
+    wattroff(win, COLOR_PAIR(3));
+
+    // Lista de items
+    for (int i = 0; i < visibleItems && i < (int)items.size(); ++i)
+    {
+        mvwprintw(win, i + 2, 2, "%.*s", w - 4, items[i + offset].c_str());
+    }
+
+    // Línea separadora
+    mvwhline(win, visibleItems + 2, 1, ACS_HLINE, w - 2);
+
+    // Prompt
+    mvwprintw(win, visibleItems + 3, 2, "%s", prompt.c_str());
+
+    wrefresh(win);
+
+    // Input
+    echo();
+    curs_set(1);
+    char buf[1024];
+    int n = std::min(maxlen, (int)sizeof(buf) - 1);
+    mvwgetnstr(win, visibleItems + 4, 2, buf, n);
+    noecho();
+    curs_set(0);
+
+    std::string result(buf);
+
+    delwin(win);
+    clear();
+    refresh();
+
+    return result;
+}

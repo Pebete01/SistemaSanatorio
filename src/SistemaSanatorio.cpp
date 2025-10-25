@@ -848,3 +848,50 @@ void EmpresaSanatorio::agregarSanatorio(Sanatorio* s)  // <-- NUEVO
         agrandarListaSanatorios();
     sanatorios[cantidadSanatorios++] = s;
 }
+
+
+void EmpresaSanatorio::agregarEspecialidadASanatorio(int indiceSanatorio, Especialidad* esp)  // <-- NUEVO
+{
+    if (!esp)
+        return;
+
+    Sanatorio* san = buscarSanatorioPorIndice(indiceSanatorio);
+    if (san)
+    {
+        san->agregarEspecialidad(esp);
+    }
+}
+
+void EmpresaSanatorio::eliminarEspecialidadDeSanatorio(int indiceSanatorio, int idEspecialidad)  // <-- NUEVO
+{
+    Sanatorio* san = buscarSanatorioPorIndice(indiceSanatorio);
+    if (san)
+    {
+        san->eliminarEspecialidad(idEspecialidad);
+    }
+}
+
+// ============================================================================
+// <-- NUEVAS IMPLEMENTACIONES: Gestión de profesionales en sanatorios
+// ============================================================================
+
+void EmpresaSanatorio::agregarProfesionalASanatorio(int indiceSanatorio, Profesional* prof)  // <-- NUEVO
+{
+    if (!prof)
+        return;
+
+    Sanatorio* san = buscarSanatorioPorIndice(indiceSanatorio);
+    if (san)
+    {
+        san->agregarProfesional(prof);
+    }
+}
+
+void EmpresaSanatorio::eliminarProfesionalDeSanatorio(int indiceSanatorio, int idProfesional)  // <-- NUEVO
+{
+    Sanatorio* san = buscarSanatorioPorIndice(indiceSanatorio);
+    if (san)
+    {
+        san->eliminarProfesional(idProfesional);
+    }
+}
