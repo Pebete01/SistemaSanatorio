@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <cstdlib> // Para system()
 #include <ctime> // Para time() y mktime()
+#include <cmath>
 
 #include "Profesional.h"
 #include "Paciente.h"
@@ -18,6 +19,21 @@
 
 using namespace std;
 
+static double calcularDistancia(double lat1, double lon1, double lat2, double lon2)
+{
+    const double R = 6371.0; // Radio de la Tierra en km
+    const double PI = 3.14159265358979323846;
+
+    double dLat = (lat2 - lat1) * PI / 180.0;
+    double dLon = (lon2 - lon1) * PI / 180.0;
+
+    double a = sin(dLat/2) * sin(dLat/2) +
+               cos(lat1 * PI / 180.0) * cos(lat2 * PI / 180.0) *
+               sin(dLon/2) * sin(dLon/2);
+
+    double c = 2 * atan2(sqrt(a), sqrt(1-a));
+    return R * c;
+}
 // ================== SERVICIOS DE NOTIFICACIONES ==================
 void EmpresaSanatorio::iniciarServicioNotificaciones()
 {
@@ -644,10 +660,12 @@ static bool solapan(int aStart, int aDur, int bStart, int bDur)
 
 // ================== Turnos: agendar/cancelar/listar ==================
 
+// <-- MODIFICADO: Busca esta función y reemplázala completa
 bool EmpresaSanatorio::agendarTurno(int idTurno, int idPaciente, int idProfesional, int idEspecialidad,
                                     const std::string &fechaHora, int durMin, std::string &error)
 {
-    std::lock_guard<std::mutex> lock(mtx);// <-- AÑADIR LOCK
+    std::lock_guard<std::mutex> lock(mtx);
+
     // Validaciones de existencia
     if (!buscarPacientePorId(idPaciente))
     {
@@ -704,10 +722,27 @@ bool EmpresaSanatorio::agendarTurno(int idTurno, int idPaciente, int idProfesion
         }
     }
 
+    // <-- NUEVO: Buscar sanatorio donde trabaja el profesional
+    int sanatorioIdx = -1;
+    for (int i = 0; i < cantidadSanatorios; ++i)
+    {
+        if (sanatorios[i] && sanatorios[i]->tieneProfesional(idProfesional))
+        {
+            sanatorioIdx = i;
+            break;  // Tomar el primero encontrado
+        }
+    }
+
+    if (sanatorioIdx == -1)
+    {
+        error = "Profesional no trabaja en ningún sanatorio";
+        return false;
+    }
+
     // Alta en agenda
     agenda.push_back(TurnoRec{
-        //aca tengo q agregar el sanatorio
-        idTurno, idPaciente, idProfesional, idEspecialidad, fecha, minOfDay, durMin, true});
+            idTurno, idPaciente, idProfesional, idEspecialidad, sanatorioIdx,  // <-- MODIFICADO: agregar sanatorioIdx
+            fecha, minOfDay, durMin, true});
     return true;
 }
 
@@ -725,6 +760,7 @@ bool EmpresaSanatorio::cancelarTurnoPorId(int idTurno)
     return false;
 }
 
+// <-- MODIFICADO: Busca esta función y reemplázala
 std::vector<std::string> EmpresaSanatorio::listarTurnosTexto() const
 {
     std::vector<int> idx;
@@ -733,7 +769,7 @@ std::vector<std::string> EmpresaSanatorio::listarTurnosTexto() const
         if (agenda[i].activo)
             idx.push_back(i);
     std::sort(idx.begin(), idx.end(), [&](int a, int b)
-              {
+    {
         if (agenda[a].fecha != agenda[b].fecha) return agenda[a].fecha < agenda[b].fecha;
         return agenda[a].minOfDay < agenda[b].minOfDay; });
 
@@ -744,15 +780,18 @@ std::vector<std::string> EmpresaSanatorio::listarTurnosTexto() const
         const auto *pr = buscarProfesionalPorId(t.profesionalId);
         const auto *pa = buscarPacientePorId(t.pacienteId);
         const auto *es = buscarEspecialidadPorId(t.especialidadId);
+        const auto *san = buscarSanatorioPorIndice(t.sanatorioIdx);  // <-- NUEVO
+
         char hhmm[6];
         std::snprintf(hhmm, sizeof(hhmm), "%02d:%02d", t.minOfDay / 60, t.minOfDay % 60);
         out.push_back(
-            "T#" + std::to_string(t.id) +
-            " | " + t.fecha + " " + std::string(hhmm) +
-            " | Prof: " + (pr ? pr->getApellido() + ", " + pr->getNombre() : "?") +
-            " | Pac: " + (pa ? pa->getApellido() + ", " + pa->getNombre() : "?") +
-            " | Esp: " + (es ? es->getNombre() : "?") +
-            " | " + std::to_string(t.durMin) + " min");
+                "T#" + std::to_string(t.id) +
+                " | " + t.fecha + " " + std::string(hhmm) +
+                " | Prof: " + (pr ? pr->getApellido() + ", " + pr->getNombre() : "?") +
+                " | Pac: " + (pa ? pa->getApellido() + ", " + pa->getNombre() : "?") +
+                " | Esp: " + (es ? es->getNombre() : "?") +
+                " | San: " + (san ? san->getNombre() : "?") +  // <-- NUEVO
+                " | " + std::to_string(t.durMin) + " min");
     }
     return out;
 }
@@ -895,3 +934,101 @@ void EmpresaSanatorio::eliminarProfesionalDeSanatorio(int indiceSanatorio, int i
         san->eliminarProfesional(idProfesional);
     }
 }
+
+
+// ============================================================================
+// <-- NUEVAS IMPLEMENTACIONES: Búsqueda de sanatorios por especialidad/profesional
+// ============================================================================
+
+std::vector<std::pair<int, double>> EmpresaSanatorio::buscarSanatoriosPorEspecialidad(  // <-- NUEVO
+        int idEspecialidad,
+        double latPaciente,
+        double lonPaciente
+) const
+{
+    std::vector<std::pair<int, double>> resultado;  // pair<indiceSanatorio, distancia>
+
+    for (int i = 0; i < cantidadSanatorios; ++i)
+    {
+        if (sanatorios[i] && sanatorios[i]->tieneEspecialidad(idEspecialidad))
+        {
+            double dist = calcularDistancia(
+                    latPaciente, lonPaciente,
+                    sanatorios[i]->getLatitud(),
+                    sanatorios[i]->getLongitud()
+            );
+            resultado.push_back({i, dist});
+        }
+    }
+
+    // Ordenar por distancia (menor a mayor)
+    std::sort(resultado.begin(), resultado.end(),
+              [](const auto& a, const auto& b) { return a.second < b.second; });
+
+    return resultado;
+}
+
+std::vector<std::pair<int, double>> EmpresaSanatorio::buscarSanatoriosPorProfesional(  // <-- NUEVO
+        int idProfesional,
+        double latPaciente,
+        double lonPaciente
+) const
+{
+    std::vector<std::pair<int, double>> resultado;
+
+    for (int i = 0; i < cantidadSanatorios; ++i)
+    {
+        if (sanatorios[i] && sanatorios[i]->tieneProfesional(idProfesional))
+        {
+            double dist = calcularDistancia(
+                    latPaciente, lonPaciente,
+                    sanatorios[i]->getLatitud(),
+                    sanatorios[i]->getLongitud()
+            );
+            resultado.push_back({i, dist});
+        }
+    }
+
+    // Ordenar por distancia
+    std::sort(resultado.begin(), resultado.end(),
+              [](const auto& a, const auto& b) { return a.second < b.second; });
+
+    return resultado;
+}
+
+std::vector<int> EmpresaSanatorio::obtenerProfesionalesPorEspecialidad(int idEspecialidad) const  // <-- NUEVO
+{
+    std::vector<int> resultado;
+
+    for (int i = 0; i < cantidadProfesionales; ++i)
+    {
+        if (profesionales[i] &&
+            profesionales[i]->getEspecialidad().getId() == idEspecialidad)
+        {
+            resultado.push_back(profesionales[i]->getId());
+        }
+    }
+
+    return resultado;
+}
+
+std::vector<int> EmpresaSanatorio::obtenerProfesionalesPorSanatorio(int indiceSanatorio) const  // <-- NUEVO
+{
+    std::vector<int> resultado;
+
+    const Sanatorio* san = buscarSanatorioPorIndice(indiceSanatorio);
+    if (!san)
+        return resultado;
+
+    for (int i = 0; i < cantidadProfesionales; ++i)
+    {
+        if (profesionales[i] && san->tieneProfesional(profesionales[i]->getId()))
+        {
+            resultado.push_back(profesionales[i]->getId());
+        }
+    }
+
+    return resultado;
+}
+
+

@@ -763,35 +763,401 @@ static void ui_listar_profesionales(EmpresaSanatorio &app)
 // ===== Turnos =====
 static int to_int(const std::string &s); // ya definido arriba
 
-static void ui_agendar_turno(EmpresaSanatorio &app)
+static void ui_agendar_turno_por_profesional(EmpresaSanatorio &app)
 {
-    std::string sid = input_box("Turnos - Agendar", "ID Turno:", 10);
-    std::string sidP = input_box("Turnos - Agendar", "ID Paciente:", 10);
-    std::string sidR = input_box("Turnos - Agendar", "ID Profesional:", 10);
-    std::string sidE = input_box("Turnos - Agendar", "ID Especialidad:", 10);
-    std::string f = input_box("Turnos - Agendar", "Fecha (YYYY-MM-DD):", 12);
-    std::string h = input_box("Turnos - Agendar", "Hora (HH:MM):", 5);
-    std::string sdur = input_box("Turnos - Agendar", "Duracion (min):", 5);
-    if (!confirm_box("Confirmar", "Agendar?"))
-    {
-        message_center("Turnos", "Cancelado");
-        return;
-    }
+    std::string sid = input_box("Turnos - Por Profesional", "ID Turno:", 10);
+    std::string sidP = input_box("Turnos - Por Profesional", "ID Paciente:", 10);
+    std::string sidR = input_box("Turnos - Por Profesional", "ID Profesional:", 10);
+    std::string sidE = input_box("Turnos - Por Profesional", "ID Especialidad:", 10);
+
     try
     {
+        int idPaciente = to_int(sidP);
+        int idProfesional = to_int(sidR);
+
+        // <-- NUEVO: Verificar paciente
+        const Paciente* pac = app.buscarPacientePorId(idPaciente);
+        if (!pac)
+        {
+            message_center("Error", "Paciente inexistente");
+            return;
+        }
+
+        // <-- NUEVO: Verificar profesional
+        const Profesional* prof = app.buscarProfesionalPorId(idProfesional);
+        if (!prof)
+        {
+            message_center("Error", "Profesional inexistente");
+            return;
+        }
+
+        // <-- NUEVO: Buscar sanatorios donde trabaja este profesional, ordenados por distancia
+        auto sanatoriosOrdenados = app.buscarSanatoriosPorProfesional(
+                idProfesional,
+                pac->getLatitud(),
+                pac->getLongitud()
+        );
+
+        if (sanatoriosOrdenados.empty())
+        {
+            message_center("Error", "El profesional no trabaja en ningun sanatorio");
+            return;
+        }
+
+        int indiceSanatorioSeleccionado = sanatoriosOrdenados[0].first;  // <-- Por defecto el más cercano
+
+        // <-- NUEVO: Si trabaja en múltiples sanatorios, dejar elegir
+        if (sanatoriosOrdenados.size() > 1)
+        {
+            std::vector<std::string> listaSanatorios;
+            for (const auto& [idx, dist] : sanatoriosOrdenados)
+            {
+                Sanatorio* san = app.buscarSanatorioPorIndice(idx);
+                if (san)
+                {
+                    char distStr[50];
+                    snprintf(distStr, sizeof(distStr), "%.2f km", dist);
+                    listaSanatorios.push_back(
+                            std::to_string(listaSanatorios.size() + 1) + ". " +
+                            san->getNombre() + " - " + std::string(distStr)
+                    );
+                }
+            }
+
+            std::string sSan = input_box_with_list(
+                    "Turnos - Seleccione Sanatorio",
+                    listaSanatorios,
+                    "Numero de sanatorio (ordenados por cercania):",
+                    10
+            );
+
+            int numSan = to_int(sSan) - 1;
+            if (numSan < 0 || numSan >= (int)sanatoriosOrdenados.size())
+            {
+                message_center("Error", "Numero de sanatorio invalido");
+                return;
+            }
+
+            indiceSanatorioSeleccionado = sanatoriosOrdenados[numSan].first;
+        }
+        else
+        {
+            // <-- NUEVO: Si solo trabaja en un sanatorio, mostrar cuál es
+            Sanatorio* san = app.buscarSanatorioPorIndice(indiceSanatorioSeleccionado);
+            if (san)
+            {
+                char distStr[100];
+                snprintf(distStr, sizeof(distStr), "%.2f km", sanatoriosOrdenados[0].second);
+                message_center("Sanatorio",
+                               san->getNombre() + " - " + std::string(distStr));
+            }
+        }
+
+        std::string f = input_box("Turnos - Por Profesional", "Fecha (YYYY-MM-DD):", 12);
+        std::string h = input_box("Turnos - Por Profesional", "Hora (HH:MM):", 5);
+        std::string sdur = input_box("Turnos - Por Profesional", "Duracion (min):", 5);
+
+        if (!confirm_box("Confirmar", "Agendar?"))
+        {
+            message_center("Turnos", "Cancelado");
+            return;
+        }
+
         std::string fh = f + " " + h;
         std::string err;
 
-        //Paciente* p = app.buscarPacientePorId(to_int(sid));
-
         bool ok = app.agendarTurno(
-            to_int(sid), to_int(sidP), to_int(sidR), to_int(sidE),
-            fh, to_int(sdur), err);
+                to_int(sid), idPaciente, idProfesional, to_int(sidE),
+                fh, to_int(sdur), err);
         message_center("Turnos", ok ? "Turno agendado" : err);
     }
     catch (...)
     {
         message_center("Error", "Campos numericos invalidos");
+    }
+}
+
+
+static void ui_agendar_turno_por_especialidad(EmpresaSanatorio &app)
+{
+    std::string sid = input_box("Turnos - Por Especialidad", "ID Turno:", 10);
+    std::string sidP = input_box("Turnos - Por Especialidad", "ID Paciente:", 10);
+    std::string sidE = input_box("Turnos - Por Especialidad", "ID Especialidad:", 10);
+
+    try
+    {
+        int idPaciente = to_int(sidP);
+        int idEspecialidad = to_int(sidE);
+
+        const Paciente* pac = app.buscarPacientePorId(idPaciente);
+        if (!pac)
+        {
+            message_center("Error", "Paciente inexistente");
+            return;
+        }
+
+        if (pac->getLatitud() == 0.0 && pac->getLongitud() == 0.0)
+        {
+            message_center("Error", "Paciente sin coordenadas registradas");
+            return;
+        }
+
+        // Buscar sanatorios con esta especialidad, ordenados por distancia
+        auto sanatorios = app.buscarSanatoriosPorEspecialidad(
+                idEspecialidad,
+                pac->getLatitud(),
+                pac->getLongitud()
+        );
+
+        if (sanatorios.empty())
+        {
+            message_center("Error", "No hay sanatorios con esa especialidad");
+            return;
+        }
+
+        // Mostrar sanatorios ordenados
+        std::vector<std::string> listaSanatorios;
+        for (const auto& [idx, dist] : sanatorios)
+        {
+            Sanatorio* san = app.buscarSanatorioPorIndice(idx);
+            if (san)
+            {
+                char distStr[50];
+                snprintf(distStr, sizeof(distStr), "%.2f km", dist);
+                listaSanatorios.push_back(
+                        std::to_string(listaSanatorios.size() + 1) + ". " +
+                        san->getNombre() + " - " + std::string(distStr)
+                );
+            }
+        }
+
+        std::string sSan = input_box_with_list(
+                "Sanatorios con esta Especialidad",
+                listaSanatorios,
+                "Numero de sanatorio (ordenados por cercania):",
+                10
+        );
+        int numSan = to_int(sSan) - 1;
+
+        if (numSan < 0 || numSan >= (int)sanatorios.size())
+        {
+            message_center("Error", "Numero de sanatorio invalido");
+            return;
+        }
+
+        int indiceSanatorio = sanatorios[numSan].first;
+
+        // Obtener profesionales de esa especialidad en ese sanatorio
+        std::vector<int> profesionalesIds = app.obtenerProfesionalesPorSanatorio(indiceSanatorio);
+        std::vector<int> profesionalesEsp;
+
+        for (int idProf : profesionalesIds)
+        {
+            const Profesional* prof = app.buscarProfesionalPorId(idProf);
+            if (prof && prof->getEspecialidad().getId() == idEspecialidad)
+            {
+                profesionalesEsp.push_back(idProf);
+            }
+        }
+
+        if (profesionalesEsp.empty())
+        {
+            message_center("Error", "No hay profesionales de esa especialidad en el sanatorio");
+            return;
+        }
+
+        // Mostrar profesionales
+        std::vector<std::string> listaProfesionales;
+        for (int idProf : profesionalesEsp)
+        {
+            const Profesional* prof = app.buscarProfesionalPorId(idProf);
+            if (prof)
+            {
+                listaProfesionales.push_back(
+                        std::to_string(listaProfesionales.size() + 1) + ". " +
+                        prof->getApellido() + ", " + prof->getNombre()
+                );
+            }
+        }
+
+        std::string sProf = input_box_with_list(
+                "Turnos",
+                listaProfesionales,
+                "Numero de profesional:",
+                10
+        );
+
+        int numProf = to_int(sProf) - 1;
+        if (numProf < 0 || numProf >= (int)profesionalesEsp.size())
+        {
+            message_center("Error", "Numero de profesional invalido");
+            return;
+        }
+
+        int idProfesional = profesionalesEsp[numProf];
+
+        std::string f = input_box("Turnos", "Fecha (YYYY-MM-DD):", 12);
+        std::string h = input_box("Turnos", "Hora (HH:MM):", 5);
+        std::string sdur = input_box("Turnos", "Duracion (min):", 5);
+
+        if (!confirm_box("Confirmar", "Agendar?"))
+        {
+            message_center("Turnos", "Cancelado");
+            return;
+        }
+
+        std::string fh = f + " " + h;
+        std::string err;
+
+        bool ok = app.agendarTurno(
+                to_int(sid), idPaciente, idProfesional, idEspecialidad,
+                fh, to_int(sdur), err);
+        message_center("Turnos", ok ? "Turno agendado" : err);
+    }
+    catch (...)
+    {
+        message_center("Error", "Campos numericos invalidos");
+    }
+}
+
+// ============================================================================
+// <-- NUEVA FUNCIÓN: Agendar por sanatorio específico
+// ============================================================================
+static void ui_agendar_turno_por_sanatorio(EmpresaSanatorio &app)
+{
+    if (app.getCantidadSanatorios() == 0)
+    {
+        message_center("Error", "No hay sanatorios registrados");
+        return;
+    }
+
+    std::string sid = input_box("Turnos - Por Sanatorio", "ID Turno:", 10);
+    std::string sidP = input_box("Turnos - Por Sanatorio", "ID Paciente:", 10);
+
+    // Mostrar sanatorios
+    std::vector<std::string> listaSanatorios;
+    Sanatorio** sanatorios = app.getSanatorios();
+    int cantSan = app.getCantidadSanatorios();
+
+    for (int i = 0; i < cantSan; ++i)
+    {
+        if (sanatorios[i])
+        {
+            listaSanatorios.push_back(
+                    std::to_string(i + 1) + ". " + sanatorios[i]->getNombre()
+            );
+        }
+    }
+
+    std::string sSan = input_box_with_list(
+            "Turnos - Por Sanatorio",
+            listaSanatorios,
+            "Numero de sanatorio:",
+            10
+    );
+
+    try
+    {
+        int numSan = to_int(sSan) - 1;
+        if (numSan < 0 || numSan >= cantSan)
+        {
+            message_center("Error", "Numero de sanatorio invalido");
+            return;
+        }
+
+        // Obtener profesionales del sanatorio
+        std::vector<int> profesionalesIds = app.obtenerProfesionalesPorSanatorio(numSan);
+
+        if (profesionalesIds.empty())
+        {
+            message_center("Error", "No hay profesionales en ese sanatorio");
+            return;
+        }
+
+        std::vector<std::string> listaProfesionales;
+        for (int idProf : profesionalesIds)
+        {
+            const Profesional* prof = app.buscarProfesionalPorId(idProf);
+            if (prof)
+            {
+                listaProfesionales.push_back(
+                        std::to_string(listaProfesionales.size() + 1) + ". " +
+                        prof->getApellido() + ", " + prof->getNombre() +
+                        " - " + prof->getEspecialidad().getNombre()
+                );
+            }
+        }
+
+        std::string sProf = input_box_with_list(
+                "Turnos",
+                listaProfesionales,
+                "Numero de profesional:",
+                10
+        );
+
+        int numProf = to_int(sProf) - 1;
+        if (numProf < 0 || numProf >= (int)profesionalesIds.size())
+        {
+            message_center("Error", "Numero de profesional invalido");
+            return;
+        }
+
+        int idProfesional = profesionalesIds[numProf];
+        const Profesional* prof = app.buscarProfesionalPorId(idProfesional);
+        int idEspecialidad = prof->getEspecialidad().getId();
+
+        std::string f = input_box("Turnos", "Fecha (YYYY-MM-DD):", 12);
+        std::string h = input_box("Turnos", "Hora (HH:MM):", 5);
+        std::string sdur = input_box("Turnos", "Duracion (min):", 5);
+
+        if (!confirm_box("Confirmar", "Agendar?"))
+        {
+            message_center("Turnos", "Cancelado");
+            return;
+        }
+
+        std::string fh = f + " " + h;
+        std::string err;
+
+        bool ok = app.agendarTurno(
+                to_int(sid), to_int(sidP), idProfesional, idEspecialidad,
+                fh, to_int(sdur), err);
+        message_center("Turnos", ok ? "Turno agendado" : err);
+    }
+    catch (...)
+    {
+        message_center("Error", "Campos numericos invalidos");
+    }
+}
+
+
+static void ui_agendar_turno(EmpresaSanatorio &app)
+{
+    std::vector<std::string> opciones = {
+            "Por Profesional especifico",
+            "Por Especialidad (busca sanatorio mas cercano)",
+            "Por Sanatorio especifico"
+    };
+
+    int metodo = run_submenu("Agendar Turno - Metodo", opciones);
+
+    if (metodo < 0)
+    {
+        message_center("Turnos", "Cancelado");
+        return;
+    }
+
+    if (metodo == 0)  // Por profesional
+    {
+        ui_agendar_turno_por_profesional(app);
+    }
+    else if (metodo == 1)  // Por especialidad
+    {
+        ui_agendar_turno_por_especialidad(app);
+    }
+    else if (metodo == 2)  // Por sanatorio
+    {
+        ui_agendar_turno_por_sanatorio(app);
     }
 }
 

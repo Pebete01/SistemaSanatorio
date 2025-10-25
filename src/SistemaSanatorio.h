@@ -39,6 +39,7 @@ private:
         int pacienteId;
         int profesionalId;
         int especialidadId;
+        int sanatorioIdx;
         std::string fecha; // "YYYY-MM-DD"
         int minOfDay;      // HH*60 + MM
         int durMin;        // duración en minutos
@@ -160,6 +161,20 @@ public:
 
     std::vector <std::string> listarTurnosPorProfesionalTexto(int idProfesional) const;
 
+    std::vector<std::pair<int, double>> buscarSanatoriosPorEspecialidad(
+            int idEspecialidad,
+            double latPaciente,
+            double lonPaciente
+    ) const;
+
+    std::vector<std::pair<int, double>> buscarSanatoriosPorProfesional(
+            int idProfesional,
+            double latPaciente,
+            double lonPaciente
+    ) const;
+
+    std::vector<int> obtenerProfesionalesPorEspecialidad(int idEspecialidad) const;
+    std::vector<int> obtenerProfesionalesPorSanatorio(int indiceSanatorio) const;
     // ======================= OTROS =======================
     void agrandarListaTurnos();
 

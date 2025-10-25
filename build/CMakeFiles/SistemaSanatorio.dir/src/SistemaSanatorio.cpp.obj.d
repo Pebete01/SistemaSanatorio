@@ -160,6 +160,21 @@ CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/sstream \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/sstream.tcc \
  C:/msys64/ucrt64/include/c++/15.2.0/ctime \
+ C:/msys64/ucrt64/include/c++/15.2.0/cmath \
+ C:/msys64/ucrt64/include/math.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/specfun.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/tr1/gamma.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/tr1/special_function_util.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/tr1/bessel_function.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/tr1/beta_function.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/tr1/ell_integral.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/tr1/exp_integral.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/tr1/hypergeometric.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/tr1/legendre_function.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/tr1/modified_bessel_func.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_hermite.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_laguerre.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/tr1/riemann_zeta.tcc \
  C:\Users\Carol\Desktop\SistemaSanatorio\src\Profesional.h \
  C:\Users\Carol\Desktop\SistemaSanatorio\src\Persona.h \
  C:\Users\Carol\Desktop\SistemaSanatorio\src\Especialidad.h \
@@ -216,21 +231,6 @@ CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_map.h \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_multimap.h \
  C:/msys64/ucrt64/include/c++/15.2.0/valarray \
- C:/msys64/ucrt64/include/c++/15.2.0/cmath \
- C:/msys64/ucrt64/include/math.h \
- C:/msys64/ucrt64/include/c++/15.2.0/bits/specfun.h \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/gamma.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/special_function_util.h \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/bessel_function.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/beta_function.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/ell_integral.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/exp_integral.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/hypergeometric.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/legendre_function.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/modified_bessel_func.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_hermite.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_laguerre.tcc \
- C:/msys64/ucrt64/include/c++/15.2.0/tr1/riemann_zeta.tcc \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/valarray_array.h \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/valarray_array.tcc \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/valarray_before.h \
