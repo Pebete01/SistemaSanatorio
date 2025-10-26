@@ -128,6 +128,30 @@ SistemaSanatorio/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/build
 .PHONY : SistemaSanatorio/fast
 
+src/DatosMocks.obj: src/DatosMocks.cpp.obj
+.PHONY : src/DatosMocks.obj
+
+# target to build an object file
+src/DatosMocks.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj
+.PHONY : src/DatosMocks.cpp.obj
+
+src/DatosMocks.i: src/DatosMocks.cpp.i
+.PHONY : src/DatosMocks.i
+
+# target to preprocess a source file
+src/DatosMocks.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.i
+.PHONY : src/DatosMocks.cpp.i
+
+src/DatosMocks.s: src/DatosMocks.cpp.s
+.PHONY : src/DatosMocks.s
+
+# target to generate assembly for a file
+src/DatosMocks.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.s
+.PHONY : src/DatosMocks.cpp.s
+
 src/Especialidad.obj: src/Especialidad.cpp.obj
 .PHONY : src/Especialidad.obj
 
@@ -329,6 +353,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... SistemaSanatorio
+	@echo ... src/DatosMocks.obj
+	@echo ... src/DatosMocks.i
+	@echo ... src/DatosMocks.s
 	@echo ... src/Especialidad.obj
 	@echo ... src/Especialidad.i
 	@echo ... src/Especialidad.s

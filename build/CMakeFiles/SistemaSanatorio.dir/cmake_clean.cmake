@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj"
+  "CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj.d"
   "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj"
   "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj.d"
   "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj"

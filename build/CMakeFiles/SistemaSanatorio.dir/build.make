@@ -191,6 +191,21 @@ CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.s"
 	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\ui\menu.cpp -o CMakeFiles\SistemaSanatorio.dir\ui\menu.cpp.s
 
+CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj: CMakeFiles/SistemaSanatorio.dir/flags.make
+CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj: CMakeFiles/SistemaSanatorio.dir/includes_CXX.rsp
+CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj: C:/Users/tomyl/SistemaSanatorio/src/DatosMocks.cpp
+CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj: CMakeFiles/SistemaSanatorio.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\DatosMocks.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\DatosMocks.cpp.obj -c C:\Users\tomyl\SistemaSanatorio\src\DatosMocks.cpp
+
+CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.i"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tomyl\SistemaSanatorio\src\DatosMocks.cpp > CMakeFiles\SistemaSanatorio.dir\src\DatosMocks.cpp.i
+
+CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.s"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\src\DatosMocks.cpp -o CMakeFiles\SistemaSanatorio.dir\src\DatosMocks.cpp.s
+
 # Object files for target SistemaSanatorio
 SistemaSanatorio_OBJECTS = \
 "CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj" \
@@ -200,7 +215,8 @@ SistemaSanatorio_OBJECTS = \
 "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj" \
 "CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj" \
 "CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj" \
-"CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj"
+"CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj" \
+"CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj"
 
 # External object files for target SistemaSanatorio
 SistemaSanatorio_EXTERNAL_OBJECTS =
@@ -213,13 +229,14 @@ SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj
+SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/build.make
 SistemaSanatorio.exe: C:/msys64/ucrt64/lib/libncursesw.dll.a
 SistemaSanatorio.exe: C:/msys64/ucrt64/lib/libformw.dll.a
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/linkLibs.rsp
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/objects1.rsp
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable SistemaSanatorio.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable SistemaSanatorio.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\SistemaSanatorio.dir\link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copiando script de Python al directorio de compilacion..."
 	C:\msys64\ucrt64\bin\cmake.exe -E copy C:/Users/tomyl/SistemaSanatorio/scripts/enviar_mail.py C:/Users/tomyl/SistemaSanatorio/build/scripts/enviar_mail.py

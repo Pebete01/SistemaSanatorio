@@ -1,5 +1,6 @@
-CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: \
- C:\Users\tomyl\SistemaSanatorio\src\main.cpp \
+CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj: \
+ C:\Users\tomyl\SistemaSanatorio\src\DatosMocks.cpp \
+ C:\Users\tomyl\SistemaSanatorio\src\DatosMocks.h \
  C:\Users\tomyl\SistemaSanatorio\src\SistemaSanatorio.h \
  C:/msys64/ucrt64/include/c++/15.2.0/string \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
@@ -213,9 +214,8 @@ CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/ranges_algobase.h \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/unicode.h \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/unicode-data.h \
- C:/Users/tomyl/SistemaSanatorio/ui/menu.h \
  C:\Users\tomyl\SistemaSanatorio\src\Paciente.h \
  C:\Users\tomyl\SistemaSanatorio\src\Persona.h \
  C:\Users\tomyl\SistemaSanatorio\src\Profesional.h \
  C:\Users\tomyl\SistemaSanatorio\src\Especialidad.h \
- C:\Users\tomyl\SistemaSanatorio\src\DatosMocks.h
+ C:/Users/tomyl/SistemaSanatorio/ui/menu.h

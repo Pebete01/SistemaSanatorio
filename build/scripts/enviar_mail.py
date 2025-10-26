@@ -43,7 +43,7 @@ try:
         server.login(EMAIL_USUARIO, EMAIL_PASSWORD) # <-- ¡CORRECCIÓN!
 
         server.send_message(mensaje)
-    print(f"Correo enviado correctamente a {destinatario}")
+    #print(f"Correo enviado correctamente a {destinatario}")
 except Exception as e:
     print(f"Error al enviar el correo: {e}")
 

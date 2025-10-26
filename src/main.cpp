@@ -4,6 +4,7 @@
 #include "Paciente.h"
 #include "Profesional.h"
 #include "Especialidad.h"
+#include "DatosMocks.h"
 
 #include <vector>
 #include <stdexcept>
@@ -274,9 +275,14 @@ static void ui_listar_turnos(EmpresaSanatorio &app)
 // ---------------- main ----------------
 int main()
 {
-    EmpresaSanatorio app;
-    app.iniciarServicioNotificaciones(); // <-- INICIAMOS RECORDATORIOS
+    setlocale(LC_ALL, "");//PARA DATOS MOCK
     init_ui();
+
+    EmpresaSanatorio app;
+
+   // cargarDatosMock(app); // PARA DATOS MOCK
+
+    app.iniciarServicioNotificaciones();
     std::vector<std::string> principal = {"Pacientes", "Profesionales", "Especialidades", "Turnos", "Salir"};
 
     for (;;)

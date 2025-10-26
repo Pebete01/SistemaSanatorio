@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "C:/Users/tomyl/SistemaSanatorio/src/DatosMocks.cpp" "CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/DatosMocks.cpp.obj.d"
   "C:/Users/tomyl/SistemaSanatorio/src/Especialidad.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj.d"
   "C:/Users/tomyl/SistemaSanatorio/src/Paciente.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj.d"
   "C:/Users/tomyl/SistemaSanatorio/src/Profesional.cpp" "CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj" "gcc" "CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj.d"
