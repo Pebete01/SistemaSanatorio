@@ -52,6 +52,48 @@ void cargarDatosMock(EmpresaSanatorio &app)
         app.agregarProfesional(new Profesional(102, *derma, 202, "Ana", "Prueba", "dra.prueba@mailfalso.com"));
     }
 
+    // ========== NUEVO: CONFIGURAR DISPONIBILIDAD HORARIA DE PROFESIONALES ==========
+
+    // Profesional 201 (Carlos Demo - Cardiólogo)
+    Profesional* profDemo = app.buscarProfesionalPorId(201);
+    if (profDemo)
+    {
+        // Lunes 8:00 a 12:00
+        profDemo->agregarDisponibilidad("Lunes", 8, 0, 12, 0);
+
+        // Miércoles 14:00 a 18:30
+        profDemo->agregarDisponibilidad("Miércoles", 14, 0, 18, 30);
+
+        // Viernes 9:00 a 13:00
+        profDemo->agregarDisponibilidad("Viernes", 9, 0, 13, 0);
+
+        // Turnos de 30 minutos
+        profDemo->setDuracionTurno(30);
+
+        message_center("Mock Data", "Disponibilidad configurada para Dr. Demo");
+    }
+
+    // Profesional 202 (Ana Prueba - Dermatóloga)
+    Profesional* profPrueba = app.buscarProfesionalPorId(202);
+    if (profPrueba)
+    {
+        // Martes 10:00 a 14:00
+        profPrueba->agregarDisponibilidad("Martes", 10, 0, 14, 0);
+
+        // Jueves 15:00 a 19:00
+        profPrueba->agregarDisponibilidad("Jueves", 15, 0, 19, 0);
+
+        // Sábado 9:00 a 12:30
+        profPrueba->agregarDisponibilidad("Sábado", 9, 0, 12, 30);
+
+        // Turnos de 45 minutos (consultas más largas)
+        profPrueba->setDuracionTurno(45);
+
+        message_center("Mock Data", "Disponibilidad configurada para Dra. Prueba");
+    }
+
+    // ===============================================================================
+
     // --- 3. Pacientes (con dirección y coordenadas) ---
     // Paciente 301 (con tu email)
     app.agregarPaciente(new Paciente(301, "Paciente", "Principal", "tomaslajnis@gmail.com",
@@ -71,7 +113,7 @@ void cargarDatosMock(EmpresaSanatorio &app)
     app.agregarSanatorio(new Sanatorio("Clinica Norte CABA", "Av. Santa Fe 3000, CABA",
                                        -34.5880, -58.4060));
 
-// --- 5. Asignar Especialidades y Profesionales a Sanatorios ---
+    // --- 5. Asignar Especialidades y Profesionales a Sanatorios ---
 
     // Primero, obtenemos los punteros a los Sanatorios
     Sanatorio* sanatorio0 = app.buscarSanatorioPorIndice(0);
@@ -81,9 +123,7 @@ void cargarDatosMock(EmpresaSanatorio &app)
     Especialidad* espCardio = app.buscarEspecialidadPorId(10);
     Especialidad* espDerma = app.buscarEspecialidadPorId(11);
 
-    // Obtenemos los punteros a los Profesionales
-    Profesional* profDemo = app.buscarProfesionalPorId(201);
-    Profesional* profPrueba = app.buscarProfesionalPorId(202);
+    // Los profesionales ya los obtuvimos arriba (profDemo y profPrueba)
 
     // Ahora asignamos, verificando que los punteros no sean nulos
     if (sanatorio0)
@@ -105,8 +145,6 @@ void cargarDatosMock(EmpresaSanatorio &app)
     std::string error;
 
     // --- 7. Agendar los 3 Turnos de Prueba ---
-    // Los turnos ahora requieren el ÍNDICE del sanatorio
-    // --- 7. Agendar los 3 Turnos de Prueba ---
     try
     {
         // TURNO 1: (Notificación Inminente) - En 28 minutos
@@ -114,7 +152,6 @@ void cargarDatosMock(EmpresaSanatorio &app)
         auto tiempo_turno_1 = now + std::chrono::minutes(28);
         std::string str_turno_1 = formatearFechaHora(tiempo_turno_1);
 
-        // ORDEN CORRECTO: (..., fechaHora_str, duracion_int, error_str)
         app.agendarTurno(1001, 301, 201, 10, str_turno_1, 30, error);
 
         // TURNO 2: (Futuro Lejano) - En 2 horas
@@ -122,7 +159,6 @@ void cargarDatosMock(EmpresaSanatorio &app)
         auto tiempo_turno_2 = now + std::chrono::hours(2);
         std::string str_turno_2 = formatearFechaHora(tiempo_turno_2);
 
-        // ORDEN CORRECTO: (..., fechaHora_str, duracion_int, error_str)
         app.agendarTurno(1002, 302, 202, 11, str_turno_2, 45, error);
 
         // TURNO 3: (Día Siguiente) - Mañana
@@ -130,7 +166,6 @@ void cargarDatosMock(EmpresaSanatorio &app)
         auto tiempo_turno_3 = now + std::chrono::hours(24) + std::chrono::minutes(28);
         std::string str_turno_3 = formatearFechaHora(tiempo_turno_3);
 
-        // ORDEN CORRECTO: (..., fechaHora_str, duracion_int, error_str)
         app.agendarTurno(1003, 301, 201, 10, str_turno_3, 30, error);
 
         message_center("Datos Mock", "Turnos de prueba creados con exito.");
