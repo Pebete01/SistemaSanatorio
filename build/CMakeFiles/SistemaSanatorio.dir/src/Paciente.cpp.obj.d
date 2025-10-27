@@ -1,6 +1,6 @@
 CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj: \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\Paciente.cpp \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\Paciente.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Paciente.cpp \
+ C:\Users\tomyl\SistemaSanatorio\src\Paciente.h \
  C:/msys64/ucrt64/include/c++/15.2.0/string \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
@@ -105,8 +105,8 @@ CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator_args.h \
  C:/msys64/ucrt64/include/c++/15.2.0/tuple \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/ranges_util.h \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\Persona.h \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\GeocodificadorAPI.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Persona.h \
+ C:\Users\tomyl\SistemaSanatorio\src\GeocodificadorAPI.h \
  C:/msys64/ucrt64/include/c++/15.2.0/utility \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_relops.h \
  C:/msys64/ucrt64/include/nlohmann/json.hpp \
@@ -313,7 +313,7 @@ CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/any \
  C:/msys64/ucrt64/include/nlohmann/detail/macro_unscope.hpp \
  C:/msys64/ucrt64/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\HTTPClient.h \
+ C:\Users\tomyl\SistemaSanatorio\src\HTTPClient.h \
  C:/msys64/ucrt64/include/curl/curl.h \
  C:/msys64/ucrt64/include/curl/curlver.h \
  C:/msys64/ucrt64/include/curl/system.h \

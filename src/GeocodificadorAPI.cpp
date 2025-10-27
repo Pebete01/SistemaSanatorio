@@ -115,7 +115,7 @@ std::pair<double, double> GeocodificadorAPI::usarGoogleMaps(const std::string& d
 std::pair<double, double> GeocodificadorAPI::usarPositionStack(const std::string& direccion) {
     try {
         // PositionStack - alternativa gratuita limitada
-        std::string url = "https://api.positionstack.com/v1/forward?access_key=afc545760e5a981467674e483fa40a78&query=" +
+        std::string url = "https://api.positionstack.com/v1/forward?access_key=c9573bd45b9d346b1d86624c5676bdf3&query=" +
                           httpClient.urlEncode(direccion); // aca es donde puse mi appi key
 
         //std::cout << "Consultando PositionStack..." << std::endl;

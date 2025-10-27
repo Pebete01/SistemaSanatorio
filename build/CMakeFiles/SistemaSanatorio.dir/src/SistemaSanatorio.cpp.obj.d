@@ -1,5 +1,5 @@
 CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\SistemaSanatorio.cpp \
+ C:\Users\tomyl\SistemaSanatorio\src\SistemaSanatorio.cpp \
  C:/msys64/ucrt64/include/c++/15.2.0/iostream \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
@@ -175,11 +175,11 @@ CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_hermite.tcc \
  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_laguerre.tcc \
  C:/msys64/ucrt64/include/c++/15.2.0/tr1/riemann_zeta.tcc \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\Profesional.h \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\Persona.h \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\Especialidad.h \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\Paciente.h \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\GeocodificadorAPI.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Profesional.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Persona.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Especialidad.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Paciente.h \
+ C:\Users\tomyl\SistemaSanatorio\src\GeocodificadorAPI.h \
  C:/msys64/ucrt64/include/c++/15.2.0/utility \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_relops.h \
  C:/msys64/ucrt64/include/nlohmann/json.hpp \
@@ -313,7 +313,7 @@ CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/any \
  C:/msys64/ucrt64/include/nlohmann/detail/macro_unscope.hpp \
  C:/msys64/ucrt64/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\HTTPClient.h \
+ C:\Users\tomyl\SistemaSanatorio\src\HTTPClient.h \
  C:/msys64/ucrt64/include/curl/curl.h \
  C:/msys64/ucrt64/include/curl/curlver.h \
  C:/msys64/ucrt64/include/curl/system.h \
@@ -548,9 +548,9 @@ CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: \
  C:/msys64/ucrt64/include/curl/header.h \
  C:/msys64/ucrt64/include/curl/websockets.h \
  C:/msys64/ucrt64/include/curl/mprintf.h \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\Turno.h \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\Sanatorio.h \
- C:\Users\Carol\Desktop\SistemaSanatorio\src\SistemaSanatorio.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Turno.h \
+ C:\Users\tomyl\SistemaSanatorio\src\Sanatorio.h \
+ C:\Users\tomyl\SistemaSanatorio\src\SistemaSanatorio.h \
  C:/msys64/ucrt64/include/c++/15.2.0/thread \
  C:/msys64/ucrt64/include/c++/15.2.0/stop_token \
  C:/msys64/ucrt64/include/c++/15.2.0/atomic \

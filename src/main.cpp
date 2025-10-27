@@ -5,6 +5,7 @@
 #include "Profesional.h"
 #include "Especialidad.h"
 #include "Sanatorio.h"
+#include "DatosMock.h" // para datos mock
 
 #include <vector>
 #include <stdexcept>
@@ -1189,7 +1190,9 @@ static void ui_listar_turnos(EmpresaSanatorio &app)
 // ---------------- main ----------------
 int main()
 {
+    setlocale(LC_ALL, ""); // para datos mock
     EmpresaSanatorio app;
+    cargarDatosMock(app); // FUNCION PARA PRUEBAS COMENTAR PARA NO USAR
     app.iniciarServicioNotificaciones(); // <-- INICIAMOS RECORDATORIOS
     init_ui();
     std::vector<std::string> principal = {"Sanatorios","Pacientes", "Profesionales", "Especialidades", "Turnos", "Salir"};

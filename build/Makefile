@@ -56,10 +56,10 @@ RM = C:\msys64\ucrt64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Carol\Desktop\SistemaSanatorio
+CMAKE_SOURCE_DIR = C:\Users\tomyl\SistemaSanatorio
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Carol\Desktop\SistemaSanatorio\build
+CMAKE_BINARY_DIR = C:\Users\tomyl\SistemaSanatorio\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles C:\Users\Carol\Desktop\SistemaSanatorio\build\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles C:\Users\tomyl\SistemaSanatorio\build\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -127,6 +127,30 @@ SistemaSanatorio: cmake_check_build_system
 SistemaSanatorio/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/build
 .PHONY : SistemaSanatorio/fast
+
+src/DatosMock.obj: src/DatosMock.cpp.obj
+.PHONY : src/DatosMock.obj
+
+# target to build an object file
+src/DatosMock.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.obj
+.PHONY : src/DatosMock.cpp.obj
+
+src/DatosMock.i: src/DatosMock.cpp.i
+.PHONY : src/DatosMock.i
+
+# target to preprocess a source file
+src/DatosMock.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.i
+.PHONY : src/DatosMock.cpp.i
+
+src/DatosMock.s: src/DatosMock.cpp.s
+.PHONY : src/DatosMock.s
+
+# target to generate assembly for a file
+src/DatosMock.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\SistemaSanatorio.dir\build.make CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.s
+.PHONY : src/DatosMock.cpp.s
 
 src/Especialidad.obj: src/Especialidad.cpp.obj
 .PHONY : src/Especialidad.obj
@@ -377,6 +401,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... SistemaSanatorio
+	@echo ... src/DatosMock.obj
+	@echo ... src/DatosMock.i
+	@echo ... src/DatosMock.s
 	@echo ... src/Especialidad.obj
 	@echo ... src/Especialidad.i
 	@echo ... src/Especialidad.s

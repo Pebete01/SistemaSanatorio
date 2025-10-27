@@ -1,3 +1,3 @@
-C:/Users/Carol/Desktop/SistemaSanatorio/build/CMakeFiles/SistemaSanatorio.dir
-C:/Users/Carol/Desktop/SistemaSanatorio/build/CMakeFiles/edit_cache.dir
-C:/Users/Carol/Desktop/SistemaSanatorio/build/CMakeFiles/rebuild_cache.dir
+C:/Users/tomyl/SistemaSanatorio/build/CMakeFiles/SistemaSanatorio.dir
+C:/Users/tomyl/SistemaSanatorio/build/CMakeFiles/edit_cache.dir
+C:/Users/tomyl/SistemaSanatorio/build/CMakeFiles/rebuild_cache.dir

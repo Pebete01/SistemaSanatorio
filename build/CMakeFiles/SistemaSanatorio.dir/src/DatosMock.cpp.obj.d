@@ -1,5 +1,6 @@
-CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: \
- C:\Users\tomyl\SistemaSanatorio\src\main.cpp \
+CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.obj: \
+ C:\Users\tomyl\SistemaSanatorio\src\DatosMock.cpp \
+ C:\Users\tomyl\SistemaSanatorio\src\DatosMock.h \
  C:\Users\tomyl\SistemaSanatorio\src\SistemaSanatorio.h \
  C:/msys64/ucrt64/include/c++/15.2.0/string \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
@@ -566,11 +567,10 @@ CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: \
  C:/msys64/ucrt64/include/curl/header.h \
  C:/msys64/ucrt64/include/curl/websockets.h \
  C:/msys64/ucrt64/include/curl/mprintf.h \
- C:/Users/tomyl/SistemaSanatorio/ui/menu.h \
  C:\Users\tomyl\SistemaSanatorio\src\Paciente.h \
  C:\Users\tomyl\SistemaSanatorio\src\Persona.h \
  C:\Users\tomyl\SistemaSanatorio\src\Profesional.h \
  C:\Users\tomyl\SistemaSanatorio\src\Especialidad.h \
  C:\Users\tomyl\SistemaSanatorio\src\Sanatorio.h \
  C:/msys64/ucrt64/include/c++/15.2.0/iostream \
- C:\Users\tomyl\SistemaSanatorio\src\DatosMock.h
+ C:/Users/tomyl/SistemaSanatorio/ui/menu.h

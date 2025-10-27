@@ -52,10 +52,10 @@ RM = C:\msys64\ucrt64\bin\cmake.exe -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\Carol\Desktop\SistemaSanatorio
+CMAKE_SOURCE_DIR = C:\Users\tomyl\SistemaSanatorio
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\Carol\Desktop\SistemaSanatorio\build
+CMAKE_BINARY_DIR = C:\Users\tomyl\SistemaSanatorio\build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/SistemaSanatorio.dir/depend.make
@@ -73,153 +73,168 @@ CMakeFiles/SistemaSanatorio.dir/codegen:
 
 CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: CMakeFiles/SistemaSanatorio.dir/flags.make
 CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: CMakeFiles/SistemaSanatorio.dir/includes_CXX.rsp
-CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: C:/Users/Carol/Desktop/SistemaSanatorio/src/main.cpp
+CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: C:/Users/tomyl/SistemaSanatorio/src/main.cpp
 CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj: CMakeFiles/SistemaSanatorio.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\main.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\main.cpp.obj -c C:\Users\Carol\Desktop\SistemaSanatorio\src\main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/main.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\main.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\main.cpp.obj -c C:\Users\tomyl\SistemaSanatorio\src\main.cpp
 
 CMakeFiles/SistemaSanatorio.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SistemaSanatorio.dir/src/main.cpp.i"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Carol\Desktop\SistemaSanatorio\src\main.cpp > CMakeFiles\SistemaSanatorio.dir\src\main.cpp.i
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tomyl\SistemaSanatorio\src\main.cpp > CMakeFiles\SistemaSanatorio.dir\src\main.cpp.i
 
 CMakeFiles/SistemaSanatorio.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/src/main.cpp.s"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Carol\Desktop\SistemaSanatorio\src\main.cpp -o CMakeFiles\SistemaSanatorio.dir\src\main.cpp.s
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\src\main.cpp -o CMakeFiles\SistemaSanatorio.dir\src\main.cpp.s
 
 CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: CMakeFiles/SistemaSanatorio.dir/flags.make
 CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: CMakeFiles/SistemaSanatorio.dir/includes_CXX.rsp
-CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: C:/Users/Carol/Desktop/SistemaSanatorio/src/SistemaSanatorio.cpp
+CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: C:/Users/tomyl/SistemaSanatorio/src/SistemaSanatorio.cpp
 CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj: CMakeFiles/SistemaSanatorio.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\SistemaSanatorio.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\SistemaSanatorio.cpp.obj -c C:\Users\Carol\Desktop\SistemaSanatorio\src\SistemaSanatorio.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\SistemaSanatorio.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\SistemaSanatorio.cpp.obj -c C:\Users\tomyl\SistemaSanatorio\src\SistemaSanatorio.cpp
 
 CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.i"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Carol\Desktop\SistemaSanatorio\src\SistemaSanatorio.cpp > CMakeFiles\SistemaSanatorio.dir\src\SistemaSanatorio.cpp.i
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tomyl\SistemaSanatorio\src\SistemaSanatorio.cpp > CMakeFiles\SistemaSanatorio.dir\src\SistemaSanatorio.cpp.i
 
 CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/src/SistemaSanatorio.cpp.s"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Carol\Desktop\SistemaSanatorio\src\SistemaSanatorio.cpp -o CMakeFiles\SistemaSanatorio.dir\src\SistemaSanatorio.cpp.s
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\src\SistemaSanatorio.cpp -o CMakeFiles\SistemaSanatorio.dir\src\SistemaSanatorio.cpp.s
 
 CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj: CMakeFiles/SistemaSanatorio.dir/flags.make
 CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj: CMakeFiles/SistemaSanatorio.dir/includes_CXX.rsp
-CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj: C:/Users/Carol/Desktop/SistemaSanatorio/src/Paciente.cpp
+CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj: C:/Users/tomyl/SistemaSanatorio/src/Paciente.cpp
 CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj: CMakeFiles/SistemaSanatorio.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\Paciente.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\Paciente.cpp.obj -c C:\Users\Carol\Desktop\SistemaSanatorio\src\Paciente.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\Paciente.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\Paciente.cpp.obj -c C:\Users\tomyl\SistemaSanatorio\src\Paciente.cpp
 
 CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.i"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Carol\Desktop\SistemaSanatorio\src\Paciente.cpp > CMakeFiles\SistemaSanatorio.dir\src\Paciente.cpp.i
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tomyl\SistemaSanatorio\src\Paciente.cpp > CMakeFiles\SistemaSanatorio.dir\src\Paciente.cpp.i
 
 CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/src/Paciente.cpp.s"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Carol\Desktop\SistemaSanatorio\src\Paciente.cpp -o CMakeFiles\SistemaSanatorio.dir\src\Paciente.cpp.s
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\src\Paciente.cpp -o CMakeFiles\SistemaSanatorio.dir\src\Paciente.cpp.s
 
 CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj: CMakeFiles/SistemaSanatorio.dir/flags.make
 CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj: CMakeFiles/SistemaSanatorio.dir/includes_CXX.rsp
-CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj: C:/Users/Carol/Desktop/SistemaSanatorio/src/Profesional.cpp
+CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj: C:/Users/tomyl/SistemaSanatorio/src/Profesional.cpp
 CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj: CMakeFiles/SistemaSanatorio.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\Profesional.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\Profesional.cpp.obj -c C:\Users\Carol\Desktop\SistemaSanatorio\src\Profesional.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\Profesional.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\Profesional.cpp.obj -c C:\Users\tomyl\SistemaSanatorio\src\Profesional.cpp
 
 CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.i"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Carol\Desktop\SistemaSanatorio\src\Profesional.cpp > CMakeFiles\SistemaSanatorio.dir\src\Profesional.cpp.i
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tomyl\SistemaSanatorio\src\Profesional.cpp > CMakeFiles\SistemaSanatorio.dir\src\Profesional.cpp.i
 
 CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/src/Profesional.cpp.s"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Carol\Desktop\SistemaSanatorio\src\Profesional.cpp -o CMakeFiles\SistemaSanatorio.dir\src\Profesional.cpp.s
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\src\Profesional.cpp -o CMakeFiles\SistemaSanatorio.dir\src\Profesional.cpp.s
 
 CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj: CMakeFiles/SistemaSanatorio.dir/flags.make
 CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj: CMakeFiles/SistemaSanatorio.dir/includes_CXX.rsp
-CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj: C:/Users/Carol/Desktop/SistemaSanatorio/src/Especialidad.cpp
+CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj: C:/Users/tomyl/SistemaSanatorio/src/Especialidad.cpp
 CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj: CMakeFiles/SistemaSanatorio.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\Especialidad.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\Especialidad.cpp.obj -c C:\Users\Carol\Desktop\SistemaSanatorio\src\Especialidad.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\Especialidad.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\Especialidad.cpp.obj -c C:\Users\tomyl\SistemaSanatorio\src\Especialidad.cpp
 
 CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.i"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Carol\Desktop\SistemaSanatorio\src\Especialidad.cpp > CMakeFiles\SistemaSanatorio.dir\src\Especialidad.cpp.i
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tomyl\SistemaSanatorio\src\Especialidad.cpp > CMakeFiles\SistemaSanatorio.dir\src\Especialidad.cpp.i
 
 CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/src/Especialidad.cpp.s"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Carol\Desktop\SistemaSanatorio\src\Especialidad.cpp -o CMakeFiles\SistemaSanatorio.dir\src\Especialidad.cpp.s
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\src\Especialidad.cpp -o CMakeFiles\SistemaSanatorio.dir\src\Especialidad.cpp.s
 
 CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj: CMakeFiles/SistemaSanatorio.dir/flags.make
 CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj: CMakeFiles/SistemaSanatorio.dir/includes_CXX.rsp
-CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj: C:/Users/Carol/Desktop/SistemaSanatorio/src/Sanatorio.cpp
+CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj: C:/Users/tomyl/SistemaSanatorio/src/Sanatorio.cpp
 CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj: CMakeFiles/SistemaSanatorio.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\Sanatorio.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\Sanatorio.cpp.obj -c C:\Users\Carol\Desktop\SistemaSanatorio\src\Sanatorio.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\Sanatorio.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\Sanatorio.cpp.obj -c C:\Users\tomyl\SistemaSanatorio\src\Sanatorio.cpp
 
 CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.i"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Carol\Desktop\SistemaSanatorio\src\Sanatorio.cpp > CMakeFiles\SistemaSanatorio.dir\src\Sanatorio.cpp.i
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tomyl\SistemaSanatorio\src\Sanatorio.cpp > CMakeFiles\SistemaSanatorio.dir\src\Sanatorio.cpp.i
 
 CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/src/Sanatorio.cpp.s"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Carol\Desktop\SistemaSanatorio\src\Sanatorio.cpp -o CMakeFiles\SistemaSanatorio.dir\src\Sanatorio.cpp.s
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\src\Sanatorio.cpp -o CMakeFiles\SistemaSanatorio.dir\src\Sanatorio.cpp.s
 
 CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj: CMakeFiles/SistemaSanatorio.dir/flags.make
 CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj: CMakeFiles/SistemaSanatorio.dir/includes_CXX.rsp
-CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj: C:/Users/Carol/Desktop/SistemaSanatorio/src/Turno.cpp
+CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj: C:/Users/tomyl/SistemaSanatorio/src/Turno.cpp
 CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj: CMakeFiles/SistemaSanatorio.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\Turno.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\Turno.cpp.obj -c C:\Users\Carol\Desktop\SistemaSanatorio\src\Turno.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\Turno.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\Turno.cpp.obj -c C:\Users\tomyl\SistemaSanatorio\src\Turno.cpp
 
 CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.i"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Carol\Desktop\SistemaSanatorio\src\Turno.cpp > CMakeFiles\SistemaSanatorio.dir\src\Turno.cpp.i
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tomyl\SistemaSanatorio\src\Turno.cpp > CMakeFiles\SistemaSanatorio.dir\src\Turno.cpp.i
 
 CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.s"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Carol\Desktop\SistemaSanatorio\src\Turno.cpp -o CMakeFiles\SistemaSanatorio.dir\src\Turno.cpp.s
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\src\Turno.cpp -o CMakeFiles\SistemaSanatorio.dir\src\Turno.cpp.s
 
 CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj: CMakeFiles/SistemaSanatorio.dir/flags.make
 CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj: CMakeFiles/SistemaSanatorio.dir/includes_CXX.rsp
-CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj: C:/Users/Carol/Desktop/SistemaSanatorio/ui/menu.cpp
+CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj: C:/Users/tomyl/SistemaSanatorio/ui/menu.cpp
 CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj: CMakeFiles/SistemaSanatorio.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\ui\menu.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\ui\menu.cpp.obj -c C:\Users\Carol\Desktop\SistemaSanatorio\ui\menu.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\ui\menu.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\ui\menu.cpp.obj -c C:\Users\tomyl\SistemaSanatorio\ui\menu.cpp
 
 CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.i"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Carol\Desktop\SistemaSanatorio\ui\menu.cpp > CMakeFiles\SistemaSanatorio.dir\ui\menu.cpp.i
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tomyl\SistemaSanatorio\ui\menu.cpp > CMakeFiles\SistemaSanatorio.dir\ui\menu.cpp.i
 
 CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.s"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Carol\Desktop\SistemaSanatorio\ui\menu.cpp -o CMakeFiles\SistemaSanatorio.dir\ui\menu.cpp.s
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\ui\menu.cpp -o CMakeFiles\SistemaSanatorio.dir\ui\menu.cpp.s
 
 CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj: CMakeFiles/SistemaSanatorio.dir/flags.make
 CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj: CMakeFiles/SistemaSanatorio.dir/includes_CXX.rsp
-CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj: C:/Users/Carol/Desktop/SistemaSanatorio/src/GeocodificadorAPI.cpp
+CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj: C:/Users/tomyl/SistemaSanatorio/src/GeocodificadorAPI.cpp
 CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj: CMakeFiles/SistemaSanatorio.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\GeocodificadorAPI.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\GeocodificadorAPI.cpp.obj -c C:\Users\Carol\Desktop\SistemaSanatorio\src\GeocodificadorAPI.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\GeocodificadorAPI.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\GeocodificadorAPI.cpp.obj -c C:\Users\tomyl\SistemaSanatorio\src\GeocodificadorAPI.cpp
 
 CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.i"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Carol\Desktop\SistemaSanatorio\src\GeocodificadorAPI.cpp > CMakeFiles\SistemaSanatorio.dir\src\GeocodificadorAPI.cpp.i
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tomyl\SistemaSanatorio\src\GeocodificadorAPI.cpp > CMakeFiles\SistemaSanatorio.dir\src\GeocodificadorAPI.cpp.i
 
 CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.s"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Carol\Desktop\SistemaSanatorio\src\GeocodificadorAPI.cpp -o CMakeFiles\SistemaSanatorio.dir\src\GeocodificadorAPI.cpp.s
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\src\GeocodificadorAPI.cpp -o CMakeFiles\SistemaSanatorio.dir\src\GeocodificadorAPI.cpp.s
 
 CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj: CMakeFiles/SistemaSanatorio.dir/flags.make
 CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj: CMakeFiles/SistemaSanatorio.dir/includes_CXX.rsp
-CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj: C:/Users/Carol/Desktop/SistemaSanatorio/src/HTTPClient.cpp
+CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj: C:/Users/tomyl/SistemaSanatorio/src/HTTPClient.cpp
 CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj: CMakeFiles/SistemaSanatorio.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\HTTPClient.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\HTTPClient.cpp.obj -c C:\Users\Carol\Desktop\SistemaSanatorio\src\HTTPClient.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\HTTPClient.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\HTTPClient.cpp.obj -c C:\Users\tomyl\SistemaSanatorio\src\HTTPClient.cpp
 
 CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.i"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Carol\Desktop\SistemaSanatorio\src\HTTPClient.cpp > CMakeFiles\SistemaSanatorio.dir\src\HTTPClient.cpp.i
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tomyl\SistemaSanatorio\src\HTTPClient.cpp > CMakeFiles\SistemaSanatorio.dir\src\HTTPClient.cpp.i
 
 CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.s"
-	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Carol\Desktop\SistemaSanatorio\src\HTTPClient.cpp -o CMakeFiles\SistemaSanatorio.dir\src\HTTPClient.cpp.s
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\src\HTTPClient.cpp -o CMakeFiles\SistemaSanatorio.dir\src\HTTPClient.cpp.s
+
+CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.obj: CMakeFiles/SistemaSanatorio.dir/flags.make
+CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.obj: CMakeFiles/SistemaSanatorio.dir/includes_CXX.rsp
+CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.obj: C:/Users/tomyl/SistemaSanatorio/src/DatosMock.cpp
+CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.obj: CMakeFiles/SistemaSanatorio.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.obj"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.obj -MF CMakeFiles\SistemaSanatorio.dir\src\DatosMock.cpp.obj.d -o CMakeFiles\SistemaSanatorio.dir\src\DatosMock.cpp.obj -c C:\Users\tomyl\SistemaSanatorio\src\DatosMock.cpp
+
+CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.i"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\tomyl\SistemaSanatorio\src\DatosMock.cpp > CMakeFiles\SistemaSanatorio.dir\src\DatosMock.cpp.i
+
+CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.s"
+	C:\msys64\ucrt64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\tomyl\SistemaSanatorio\src\DatosMock.cpp -o CMakeFiles\SistemaSanatorio.dir\src\DatosMock.cpp.s
 
 # Object files for target SistemaSanatorio
 SistemaSanatorio_OBJECTS = \
@@ -232,7 +247,8 @@ SistemaSanatorio_OBJECTS = \
 "CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj" \
 "CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj" \
 "CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj" \
-"CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj"
+"CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj" \
+"CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.obj"
 
 # External object files for target SistemaSanatorio
 SistemaSanatorio_EXTERNAL_OBJECTS =
@@ -247,6 +263,7 @@ SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/src/Turno.cpp.obj
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/ui/menu.cpp.obj
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/src/GeocodificadorAPI.cpp.obj
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/src/HTTPClient.cpp.obj
+SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/src/DatosMock.cpp.obj
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/build.make
 SistemaSanatorio.exe: C:/msys64/ucrt64/lib/libncursesw.dll.a
 SistemaSanatorio.exe: C:/msys64/ucrt64/lib/libformw.dll.a
@@ -254,10 +271,10 @@ SistemaSanatorio.exe: C:/msys64/ucrt64/lib/libcurl.dll.a
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/linkLibs.rsp
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/objects1.rsp
 SistemaSanatorio.exe: CMakeFiles/SistemaSanatorio.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable SistemaSanatorio.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable SistemaSanatorio.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\SistemaSanatorio.dir\link.txt --verbose=$(VERBOSE)
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copiando script de Python al directorio de compilacion..."
-	C:\msys64\ucrt64\bin\cmake.exe -E copy C:/Users/Carol/Desktop/SistemaSanatorio/scripts/enviar_mail.py C:/Users/Carol/Desktop/SistemaSanatorio/build/scripts/enviar_mail.py
+	C:\msys64\ucrt64\bin\cmake.exe -E copy C:/Users/tomyl/SistemaSanatorio/scripts/enviar_mail.py C:/Users/tomyl/SistemaSanatorio/build/scripts/enviar_mail.py
 
 # Rule to build all files generated by this target.
 CMakeFiles/SistemaSanatorio.dir/build: SistemaSanatorio.exe
@@ -268,6 +285,6 @@ CMakeFiles/SistemaSanatorio.dir/clean:
 .PHONY : CMakeFiles/SistemaSanatorio.dir/clean
 
 CMakeFiles/SistemaSanatorio.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Carol\Desktop\SistemaSanatorio C:\Users\Carol\Desktop\SistemaSanatorio C:\Users\Carol\Desktop\SistemaSanatorio\build C:\Users\Carol\Desktop\SistemaSanatorio\build C:\Users\Carol\Desktop\SistemaSanatorio\build\CMakeFiles\SistemaSanatorio.dir\DependInfo.cmake "--color=$(COLOR)"
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\tomyl\SistemaSanatorio C:\Users\tomyl\SistemaSanatorio C:\Users\tomyl\SistemaSanatorio\build C:\Users\tomyl\SistemaSanatorio\build C:\Users\tomyl\SistemaSanatorio\build\CMakeFiles\SistemaSanatorio.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/SistemaSanatorio.dir/depend
 
