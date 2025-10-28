@@ -429,20 +429,21 @@ bool EmpresaSanatorio::eliminarProfesionalPorId(int id)
     }
     return false;
 }
-
 std::vector<std::string> EmpresaSanatorio::listarProfesionalesTexto() const
 {
     std::vector<std::string> out;
     out.reserve(cantidadProfesionales);
+    int contador = 1;
     for (int i = 0; i < cantidadProfesionales; ++i)
     {
         if (!profesionales[i])
             continue;
-        const auto *pr = profesionales[i];
+        const auto* pr = profesionales[i];
         out.push_back(
-            "ID " + std::to_string(pr->getId()) +
-            " | " + pr->getApellido() + ", " + pr->getNombre() +
-            " | Nº Prof: " + std::to_string(pr->getNumeroProfesional()));
+                std::to_string(contador++) + ". " +
+                pr->getApellido() + ", " + pr->getNombre() +
+                " | Nº Prof: " + std::to_string(pr->getNumeroProfesional())
+        );
     }
     return out;
 }
@@ -479,17 +480,19 @@ std::vector<std::string> EmpresaSanatorio::listarEspecialidadesTexto() const
 {
     std::vector<std::string> out;
     out.reserve(cantidadEspecialidades);
+    int contador = 1;
     for (int i = 0; i < cantidadEspecialidades; ++i)
     {
         if (!especialidades[i])
             continue;
-        const auto *e = especialidades[i];
+        const auto* e = especialidades[i];
         out.push_back(
-            "ID " + std::to_string(e->getId()) +
-            " | " + e->getNombre());
+                std::to_string(contador++) + ". " + e->getNombre()
+        );
     }
     return out;
 }
+
 
 // ================== SUBMENÚS Y MENÚ ==================
 
@@ -1031,4 +1034,109 @@ std::vector<int> EmpresaSanatorio::obtenerProfesionalesPorSanatorio(int indiceSa
     return resultado;
 }
 
+
+// ============================================================================
+// ✅ NUEVAS IMPLEMENTACIONES: Búsqueda por nombre
+// ============================================================================
+
+Paciente *EmpresaSanatorio::buscarPacientePorNombre(const std::string &nombre, const std::string &apellido)
+{
+    for (int i = 0; i < cantidadPacientes; ++i)
+    {
+        if (listaPacientes[i] &&
+            listaPacientes[i]->getNombre() == nombre &&
+            listaPacientes[i]->getApellido() == apellido)
+        {
+            return listaPacientes[i];
+        }
+    }
+    return nullptr;
+}
+
+const Paciente *EmpresaSanatorio::buscarPacientePorNombre(const std::string &nombre, const std::string &apellido) const
+{
+    for (int i = 0; i < cantidadPacientes; ++i)
+    {
+        if (listaPacientes[i] &&
+            listaPacientes[i]->getNombre() == nombre &&
+            listaPacientes[i]->getApellido() == apellido)
+        {
+            return listaPacientes[i];
+        }
+    }
+    return nullptr;
+}
+
+Profesional *EmpresaSanatorio::buscarProfesionalPorNombre(const std::string &nombre, const std::string &apellido)
+{
+    for (int i = 0; i < cantidadProfesionales; ++i)
+    {
+        if (profesionales[i] &&
+            profesionales[i]->getNombre() == nombre &&
+            profesionales[i]->getApellido() == apellido)
+        {
+            return profesionales[i];
+        }
+    }
+    return nullptr;
+}
+
+const Profesional *EmpresaSanatorio::buscarProfesionalPorNombre(const std::string &nombre, const std::string &apellido) const
+{
+    for (int i = 0; i < cantidadProfesionales; ++i)
+    {
+        if (profesionales[i] &&
+            profesionales[i]->getNombre() == nombre &&
+            profesionales[i]->getApellido() == apellido)
+        {
+            return profesionales[i];
+        }
+    }
+    return nullptr;
+}
+
+Especialidad *EmpresaSanatorio::buscarEspecialidadPorNombre(const std::string &nombre)
+{
+    for (int i = 0; i < cantidadEspecialidades; ++i)
+    {
+        if (especialidades[i] && especialidades[i]->getNombre() == nombre)
+        {
+            return especialidades[i];
+        }
+    }
+    return nullptr;
+}
+
+const Especialidad *EmpresaSanatorio::buscarEspecialidadPorNombre(const std::string &nombre) const
+{
+    for (int i = 0; i < cantidadEspecialidades; ++i)
+    {
+        if (especialidades[i] && especialidades[i]->getNombre() == nombre)
+        {
+            return especialidades[i];
+        }
+    }
+    return nullptr;
+}
+
+std::vector<int> EmpresaSanatorio::obtenerProfesionalesPorEspecialidadEnSanatorio(int idEspecialidad, int indiceSanatorio) const
+{
+    std::vector<int> resultado;
+
+    const Sanatorio* san = buscarSanatorioPorIndice(indiceSanatorio);
+    if (!san)
+        return resultado;
+
+    for (int i = 0; i < cantidadProfesionales; ++i)
+    {
+        if (profesionales[i] &&
+            profesionales[i]->getEspecialidad().getId() == idEspecialidad &&
+            san->tieneProfesional(profesionales[i]->getId()))
+        {
+            resultado.push_back(profesionales[i]->getId());
+        }
+    }
+
+    return resultado;
+}
 

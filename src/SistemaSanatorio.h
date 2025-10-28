@@ -78,6 +78,10 @@ public:
 
     const Paciente *buscarPacientePorId(int id) const;
 
+    // ✅ NUEVO: Buscar paciente por nombre y apellido
+    Paciente *buscarPacientePorNombre(const std::string &nombre, const std::string &apellido);
+    const Paciente *buscarPacientePorNombre(const std::string &nombre, const std::string &apellido) const;
+
     bool eliminarPacientePorId(int id);
 
     void actualizarPaciente(int id,
@@ -103,6 +107,10 @@ public:
 
     const Profesional *buscarProfesionalPorId(int id) const;
 
+    // ✅ NUEVO: Buscar profesional por nombre y apellido
+    Profesional *buscarProfesionalPorNombre(const std::string &nombre, const std::string &apellido);
+    const Profesional *buscarProfesionalPorNombre(const std::string &nombre, const std::string &apellido) const;
+
     bool eliminarProfesionalPorId(int id);
 
     std::vector <std::string> listarProfesionalesTexto() const;
@@ -113,13 +121,17 @@ public:
 
     void ordenarProfesionalesPorApellido();
 
-    void agregarProfesionalASanatorio(int indiceSanatorio, Profesional* prof);  // <-- NUEVO
-    void eliminarProfesionalDeSanatorio(int indiceSanatorio, int idProfesional);  // <-- NUEVO
+    void agregarProfesionalASanatorio(int indiceSanatorio, Profesional* prof);
+    void eliminarProfesionalDeSanatorio(int indiceSanatorio, int idProfesional);
 
     // =================== ESPECIALIDADES ==================
     Especialidad *buscarEspecialidadPorId(int id);
 
     const Especialidad *buscarEspecialidadPorId(int id) const;
+
+    // ✅ NUEVO: Buscar especialidad por nombre
+    Especialidad *buscarEspecialidadPorNombre(const std::string &nombre);
+    const Especialidad *buscarEspecialidadPorNombre(const std::string &nombre) const;
 
     bool eliminarEspecialidadPorId(int id);
 
@@ -129,11 +141,8 @@ public:
 
     void agrandarListaEspecialidad();
 
-    // <-- NUEVOS MÉTODOS para múltiples sanatorios
-    void agregarEspecialidadASanatorio(int indiceSanatorio, Especialidad *esp);  // <-- NUEVO
-    void eliminarEspecialidadDeSanatorio(int indiceSanatorio, int idEspecialidad);  // <-- NUEVO
-
-
+    void agregarEspecialidadASanatorio(int indiceSanatorio, Especialidad *esp);
+    void eliminarEspecialidadDeSanatorio(int indiceSanatorio, int idEspecialidad);
 
     // =================== SANATORIOS ==================
     Sanatorio *buscarSanatorioPorIndice(int idx);
@@ -175,6 +184,10 @@ public:
 
     std::vector<int> obtenerProfesionalesPorEspecialidad(int idEspecialidad) const;
     std::vector<int> obtenerProfesionalesPorSanatorio(int indiceSanatorio) const;
+
+    // ✅ NUEVO: Obtener profesionales por especialidad EN un sanatorio específico
+    std::vector<int> obtenerProfesionalesPorEspecialidadEnSanatorio(int idEspecialidad, int indiceSanatorio) const;
+
     // ======================= OTROS =======================
     void agrandarListaTurnos();
 
