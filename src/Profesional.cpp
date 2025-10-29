@@ -12,11 +12,10 @@ Profesional::Profesional(int numero,
                          int id,
                          const std::string &nombre,
                          const std::string &apellido,
-                         const std::string &mail)
-    : Persona(id, nombre, apellido,mail),
-      estado(true),
-      numeroDeProfesional(numero),
-      especialidad(esp)
+                         const std::string &mail): Persona(id, nombre, apellido, mail),
+          estado(true),
+          numeroDeProfesional(numero),
+          especialidad(esp)
 {
     ++numProfesionales;
 }
@@ -55,19 +54,66 @@ void Profesional::instanciasVivas()
     std::cout << "Profesionales vivos: " << numProfesionales << '\n';
 }
 
-void Profesional::agregarDisponibilidad(const std::string &dia, int horaInicio, int minutoInicio, int horaFin, int minutoFin)
+// ✅ MODIFICADO: Ahora agregar disponibilidad incluye el sanatorio
+void Profesional::agregarDisponibilidad(int indiceSanatorio, const std::string &dia,
+                                        int horaInicio, int minutoInicio,
+                                        int horaFin, int minutoFin)
 {
-    disponibilidad.push_back({dia, horaInicio, minutoInicio, horaFin, minutoFin});
+    // Buscar si ya existe disponibilidad para este sanatorio
+    for (auto &dispSan : disponibilidadPorSanatorio)
+    {
+        if (dispSan.indiceSanatorio == indiceSanatorio)
+        {
+            // Ya existe, agregar la franja horaria
+            dispSan.franjas.push_back({dia, horaInicio, minutoInicio, horaFin, minutoFin});
+            return;
+        }
+    }
+
+    // No existe, crear nueva disponibilidad para este sanatorio
+    DisponibilidadSanatorio nuevaDisp;
+    nuevaDisp.indiceSanatorio = indiceSanatorio;
+    nuevaDisp.franjas.push_back({dia, horaInicio, minutoInicio, horaFin, minutoFin});
+    disponibilidadPorSanatorio.push_back(nuevaDisp);
+}
+
+// ✅ NUEVO: Verificar si trabaja en un sanatorio
+bool Profesional::trabajaEnSanatorio(int indiceSanatorio) const
+{
+    for (const auto &dispSan : disponibilidadPorSanatorio)
+    {
+        if (dispSan.indiceSanatorio == indiceSanatorio)
+            return true;
+    }
+    return false;
+}
+
+// ✅ NUEVO: Obtener horarios en un sanatorio específico
+std::vector<FranjaHoraria> Profesional::obtenerHorariosSanatorio(int indiceSanatorio) const
+{
+    for (const auto &dispSan : disponibilidadPorSanatorio)
+    {
+        if (dispSan.indiceSanatorio == indiceSanatorio)
+            return dispSan.franjas;
+    }
+    return std::vector<FranjaHoraria>(); // Vacío si no trabaja ahí
 }
 
 void Profesional::mostrarDisponibilidad() const
 {
     std::cout << "\nDisponibilidad de " << getNombre() << " " << getApellido() << ":\n";
-    for (const auto &f : disponibilidad) {
-        std::cout << " - " << f.dia << ": "
-                  << std::setw(2) << std::setfill('0') << f.horaInicio << ":" << std::setw(2) << f.minutoInicio
-                  << " a "
-                  << std::setw(2) << f.horaFin << ":" << std::setw(2) << f.minutoFin << '\n';
+
+    for (const auto &dispSan : disponibilidadPorSanatorio)
+    {
+        std::cout << "  Sanatorio (índice " << dispSan.indiceSanatorio << "):\n";
+        for (const auto &f : dispSan.franjas)
+        {
+            std::cout << "   - " << f.dia << ": "
+                      << std::setw(2) << std::setfill('0') << f.horaInicio << ":"
+                      << std::setw(2) << f.minutoInicio << " a "
+                      << std::setw(2) << f.horaFin << ":"
+                      << std::setw(2) << f.minutoFin << '\n';
+        }
     }
 }
 
@@ -96,26 +142,47 @@ static std::string nombreDia(int wday)
     return dias[wday];
 }
 
-std::vector<std::pair<std::string, std::string>> Profesional::obtenerTurnosDisponibles(int diasDesdeHoy)
+// ✅ MODIFICADO: Ahora obtener turnos disponibles es por sanatorio
+std::vector<std::pair<std::string, std::string>> Profesional::obtenerTurnosDisponibles(
+        int indiceSanatorio, int diasDesdeHoy)
 {
     std::vector<std::pair<std::string, std::string>> disponibles;
+
+    // Buscar la disponibilidad para este sanatorio
+    std::vector<FranjaHoraria> horariosSanatorio;
+    for (const auto &dispSan : disponibilidadPorSanatorio)
+    {
+        if (dispSan.indiceSanatorio == indiceSanatorio)
+        {
+            horariosSanatorio = dispSan.franjas;
+            break;
+        }
+    }
+
+    if (horariosSanatorio.empty())
+        return disponibles; // No trabaja en este sanatorio
+
     auto hoy = std::chrono::system_clock::now();
 
-    for (int d = 0; d < diasDesdeHoy; ++d) {
+    for (int d = 0; d < diasDesdeHoy; ++d)
+    {
         auto fecha = hoy + std::chrono::hours(24 * d);
         int wday = diaSemana(fecha);
         std::string diaTexto = nombreDia(wday);
 
-        // Buscar si el profesional atiende este día
-        for (const auto &f : disponibilidad) {
-            if (f.dia == diaTexto) {
+        // Buscar si el profesional atiende este día en este sanatorio
+        for (const auto &f : horariosSanatorio)
+        {
+            if (f.dia == diaTexto)
+            {
                 std::string fechaStr = fechaToStr(fecha);
 
                 // Generar todos los slots de tiempo
                 int minutosInicio = f.horaInicio * 60 + f.minutoInicio;
                 int minutosFin = f.horaFin * 60 + f.minutoFin;
 
-                for (int m = minutosInicio; m < minutosFin; m += duracionTurnoMin) {
+                for (int m = minutosInicio; m < minutosFin; m += duracionTurnoMin)
+                {
                     int h = m / 60;
                     int min = m % 60;
 
@@ -126,7 +193,8 @@ std::vector<std::pair<std::string, std::string>> Profesional::obtenerTurnosDispo
 
                     // Verificar si no está ocupado
                     auto &ocupados = turnosOcupados[fechaStr];
-                    if (std::find(ocupados.begin(), ocupados.end(), hora) == ocupados.end()) {
+                    if (std::find(ocupados.begin(), ocupados.end(), hora) == ocupados.end())
+                    {
                         disponibles.emplace_back(fechaStr, hora);
                     }
                 }
@@ -139,13 +207,8 @@ std::vector<std::pair<std::string, std::string>> Profesional::obtenerTurnosDispo
 
 bool Profesional::reservarTurno(const std::string &fecha, const std::string &hora)
 {
-    auto disponibles = obtenerTurnosDisponibles(60); // buscar dentro de los próximos 60 días
-    auto it = std::find_if(disponibles.begin(), disponibles.end(),
-                           [&](const auto &par) { return par.first == fecha && par.second == hora; });
-
-    if (it != disponibles.end()) {
-        turnosOcupados[fecha].push_back(hora);
-        return true;
-    }
-    return false; // no estaba disponible o fecha inválida
+    // Nota: Esta función ahora reserva el turno globalmente (en todos los sanatorios)
+    // porque un profesional no puede estar en dos lugares al mismo tiempo
+    turnosOcupados[fecha].push_back(hora);
+    return true;
 }

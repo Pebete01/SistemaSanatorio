@@ -433,21 +433,19 @@ std::vector<std::string> EmpresaSanatorio::listarProfesionalesTexto() const
 {
     std::vector<std::string> out;
     out.reserve(cantidadProfesionales);
-    int contador = 1;
     for (int i = 0; i < cantidadProfesionales; ++i)
     {
         if (!profesionales[i])
             continue;
         const auto* pr = profesionales[i];
         out.push_back(
-                std::to_string(contador++) + ". " +
+                "ID: " + std::to_string(pr->getId()) + " | " +
                 pr->getApellido() + ", " + pr->getNombre() +
                 " | Nº Prof: " + std::to_string(pr->getNumeroProfesional())
         );
     }
     return out;
 }
-
 // ================== ESPECIALIDADES ==================
 
 Especialidad *EmpresaSanatorio::buscarEspecialidadPorId(int id)
@@ -480,19 +478,17 @@ std::vector<std::string> EmpresaSanatorio::listarEspecialidadesTexto() const
 {
     std::vector<std::string> out;
     out.reserve(cantidadEspecialidades);
-    int contador = 1;
     for (int i = 0; i < cantidadEspecialidades; ++i)
     {
         if (!especialidades[i])
             continue;
         const auto* e = especialidades[i];
         out.push_back(
-                std::to_string(contador++) + ". " + e->getNombre()
+                "ID: " + std::to_string(e->getId()) + " | " + e->getNombre()
         );
     }
     return out;
 }
-
 
 // ================== SUBMENÚS Y MENÚ ==================
 
