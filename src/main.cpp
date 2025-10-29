@@ -103,7 +103,6 @@ static void ui_listar_sanatorios(EmpresaSanatorio &app)
 }
 
 
-
 // ---------------- Pacientes ----------------
 static void ui_agregar_paciente(EmpresaSanatorio &app)
 {
@@ -124,7 +123,7 @@ static void ui_agregar_paciente(EmpresaSanatorio &app)
         message_center("Error", "Direccion invalida. Intente nuevamente.");
     }
 
-    std::string mail = input_box("Pacientes - Agregar", "Email:", 50); // <-- NUEVA LÍNEA
+    std::string mail = input_box("Pacientes - Agregar", "Email:", 50);
     std::string obra = input_box("Pacientes - Agregar", "Obra social:", 40);
 
     if (!confirm_box("Confirmar", "Guardar?"))
@@ -135,7 +134,6 @@ static void ui_agregar_paciente(EmpresaSanatorio &app)
     try
     {
         int id = to_int(sid), naf = to_int(snaf);
-        // --- LLAMADA AL CONSTRUCTOR MODIFICADA ---
 
         app.agregarPaciente(new Paciente(id, nombre, apellido, mail, direccion, naf, obra,direcCoordenadas.first, direcCoordenadas.second));
         message_center("Alta", "OK");
@@ -145,6 +143,7 @@ static void ui_agregar_paciente(EmpresaSanatorio &app)
         message_center("Alta", "Error: " + std::string(e.what()));
     }
 }
+
 
 static void ui_eliminar_paciente(EmpresaSanatorio &app)
 {

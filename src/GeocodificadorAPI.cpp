@@ -3,10 +3,31 @@
 //
 
 #include "GeocodificadorAPI.h"
-#include "GeocodificadorAPI.h"
 #include <iostream>
 #include <thread>
 #include <chrono>
+#include <fstream>      // ✅ AGREGADO
+#include <sstream>      // ✅ AGREGADO
+
+// ✅ NUEVA FUNCIÓN: Leer API_KEY desde archivo .env
+std::string leerAPIKeyDesdeEnv() {
+    std::ifstream file(".env");
+    if (!file.is_open()) {
+        std::cerr << "Error: No se pudo abrir el archivo .env" << std::endl;
+        return "";
+    }
+
+    std::string line;
+    while (std::getline(file, line)) {
+        // Buscar línea que empiece con "API_KEY="
+        if (line.find("API_KEY=") == 0) {
+            return line.substr(8);  // Extraer después de "API_KEY="
+        }
+    }
+
+    std::cerr << "Error: API_KEY no encontrada en .env" << std::endl;
+    return "";
+}
 
 GeocodificadorAPI::GeocodificadorAPI() : regionPorDefecto("AR") {
     //std::cout << "Geocodificador API inicializado\n";
@@ -114,9 +135,16 @@ std::pair<double, double> GeocodificadorAPI::usarGoogleMaps(const std::string& d
 
 std::pair<double, double> GeocodificadorAPI::usarPositionStack(const std::string& direccion) {
     try {
+        // ✅ MODIFICADO: Leer API_KEY desde .env
+        std::string API_KEY = leerAPIKeyDesdeEnv();
+        if (API_KEY.empty()) {
+            //logError("API_KEY no configurada en .env");
+            return {0.0, 0.0};
+        }
+
         // PositionStack - alternativa gratuita limitada
-        std::string url = "https://api.positionstack.com/v1/forward?access_key=c9573bd45b9d346b1d86624c5676bdf3&query=" +
-                          httpClient.urlEncode(direccion); // aca es donde puse mi appi key
+        std::string url = "https://api.positionstack.com/v1/forward?access_key=" + API_KEY + "&query=" +
+                          httpClient.urlEncode(direccion);
 
         //std::cout << "Consultando PositionStack..." << std::endl;
 
@@ -190,5 +218,5 @@ bool GeocodificadorAPI::coordenadasValidas(double lat, double lon) {
 }
 
 void GeocodificadorAPI::logError(const std::string& mensaje) {
-    std::cerr << "❌ " << mensaje << std::endl;
+    std::cerr << "✖ " << mensaje << std::endl;
 }
