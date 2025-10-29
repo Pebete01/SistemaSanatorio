@@ -6,10 +6,9 @@
 #include <iostream>
 #include <thread>
 #include <chrono>
-#include <fstream>      // ✅ AGREGADO
-#include <sstream>      // ✅ AGREGADO
+#include <fstream>
+#include <sstream>
 
-// ✅ NUEVA FUNCIÓN: Leer API_KEY desde archivo .env
 std::string leerAPIKeyDesdeEnv() {
     std::ifstream file(".env");
     if (!file.is_open()) {
@@ -42,82 +41,65 @@ void GeocodificadorAPI::configurarRegion(const std::string& pais) {
 }
 
 std::pair<double, double> GeocodificadorAPI::obtenerCoordenadas(const std::string& direccion) {
-    //std::cout << "Geocodificando: " << direccion << "..." << std::endl;
 
-    // Intentar primero con Nominatim (GRATIS)
     auto resultado = usarNominatim(direccion);
     if (coordenadasValidas(resultado.first, resultado.second)) {
-        //std::cout << "✓ Coordenadas encontradas: " << resultado.first << ", " << resultado.second << std::endl;
         return resultado;
     }
 
-    // Si falla, intentar con Google Maps (requiere API key)
     if (!apiKey.empty()) {
         resultado = usarGoogleMaps(direccion);
         if (coordenadasValidas(resultado.first, resultado.second)) {
-            //std::cout << "✓ Coordenadas encontradas (Google): " << resultado.first << ", " << resultado.second << std::endl;
+
             return resultado;
         }
     }
 
-    // Como último recurso, PositionStack
     resultado = usarPositionStack(direccion);
     if (coordenadasValidas(resultado.first, resultado.second)) {
-        //std::cout << "✓ Coordenadas encontradas (PositionStack): " << resultado.first << ", " << resultado.second << std::endl;
         return resultado;
     }
 
-    //logError("No se pudieron obtener coordenadas para: " + direccion);
     return {0.0, 0.0};
 }
 
 std::pair<double, double> GeocodificadorAPI::usarNominatim(const std::string& direccion) {
     try {
-        // Construir URL para Nominatim (OpenStreetMap - GRATIS)
         std::string url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" +
                           httpClient.urlEncode(direccion);
 
-        // Agregar país para mejorar resultados
+
         if (!regionPorDefecto.empty()) {
             url += "&countrycodes=" + regionPorDefecto;
         }
 
-        //std::cout << "Consultando Nominatim..." << std::endl;
-
-        // Realizar request
         std::string respuesta = httpClient.get(url);
         if (respuesta.empty()) {
             return {0.0, 0.0};
         }
 
-        // Parsear JSON
         json jsonRespuesta = json::parse(respuesta);
         return parsearNominatim(jsonRespuesta);
 
     } catch (const std::exception& e) {
-        //logError("Error en Nominatim: " + std::string(e.what()));
         return {0.0, 0.0};
     }
 }
 
 std::pair<double, double> GeocodificadorAPI::usarGoogleMaps(const std::string& direccion) {
     if (apiKey.empty()) {
-        //logError("API Key de Google Maps no configurada");
+
         return {0.0, 0.0};
     }
 
     try {
-        // Construir URL para Google Maps Geocoding API
         std::string url = "https://maps.googleapis.com/maps/api/geocode/json?address=" +
                           httpClient.urlEncode(direccion) +
                           "&key=" + apiKey;
 
-        // Agregar región
         if (!regionPorDefecto.empty()) {
             url += "&region=" + regionPorDefecto;
         }
-
-        //std::cout << "Consultando Google Maps..." << std::endl;
 
         std::string respuesta = httpClient.get(url);
         if (respuesta.empty()) {
@@ -128,25 +110,19 @@ std::pair<double, double> GeocodificadorAPI::usarGoogleMaps(const std::string& d
         return parsearGoogleMaps(jsonRespuesta);
 
     } catch (const std::exception& e) {
-        //logError("Error en Google Maps: " + std::string(e.what()));
         return {0.0, 0.0};
     }
 }
 
 std::pair<double, double> GeocodificadorAPI::usarPositionStack(const std::string& direccion) {
     try {
-        // ✅ MODIFICADO: Leer API_KEY desde .env
         std::string API_KEY = leerAPIKeyDesdeEnv();
         if (API_KEY.empty()) {
-            //logError("API_KEY no configurada en .env");
             return {0.0, 0.0};
         }
-
-        // PositionStack - alternativa gratuita limitada
         std::string url = "https://api.positionstack.com/v1/forward?access_key=" + API_KEY + "&query=" +
                           httpClient.urlEncode(direccion);
 
-        //std::cout << "Consultando PositionStack..." << std::endl;
 
         std::string respuesta = httpClient.get(url);
         if (respuesta.empty()) {
@@ -157,7 +133,6 @@ std::pair<double, double> GeocodificadorAPI::usarPositionStack(const std::string
         return parsearPositionStack(jsonRespuesta);
 
     } catch (const std::exception& e) {
-        //logError("Error en PositionStack: " + std::string(e.what()));
         return {0.0, 0.0};
     }
 }
@@ -170,7 +145,7 @@ std::pair<double, double> GeocodificadorAPI::parsearNominatim(const json& respue
             double lat = std::stod(primer_resultado["lat"].get<std::string>());
             double lon = std::stod(primer_resultado["lon"].get<std::string>());
 
-            //std::cout << "Dirección encontrada: " << primer_resultado.value("display_name", "Sin nombre") << std::endl;
+
             return {lat, lon};
         }
     }
@@ -190,7 +165,6 @@ std::pair<double, double> GeocodificadorAPI::parsearGoogleMaps(const json& respu
             double lat = location["lat"];
             double lon = location["lng"];
 
-            //std::cout << "Dirección encontrada: " << primer_resultado.value("formatted_address", "Sin nombre") << std::endl;
             return {lat, lon};
         }
     }

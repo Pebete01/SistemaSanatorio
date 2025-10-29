@@ -4,7 +4,6 @@
 
 #include "DatosMock.h"
 
-// Includes necesarios
 #include "SistemaSanatorio.h"
 #include "Paciente.h"
 #include "Profesional.h"
@@ -19,9 +18,6 @@
 #include <string>
 #include <cmath>
 
-/*
- * @brief Convierte un time_point de C++ a un string "YYYY-MM-DD HH:MM".
- */
 static std::string formatearFechaHora(const std::chrono::system_clock::time_point& time_point)
 {
     std::time_t t = std::chrono::system_clock::to_time_t(time_point);
@@ -31,10 +27,6 @@ static std::string formatearFechaHora(const std::chrono::system_clock::time_poin
     return oss.str();
 }
 
-/*
- * @brief Encuentra el próximo turno disponible del profesional a partir de una fecha/hora objetivo.
- * @return String con formato "YYYY-MM-DD HH:MM" o vacío si no hay turnos disponibles
- */
 static std::string encontrarProximoTurnoDisponible(
         Profesional* prof,
         int indiceSanatorio,
@@ -43,15 +35,12 @@ static std::string encontrarProximoTurnoDisponible(
 {
     if (!prof) return "";
 
-    // Obtener turnos disponibles del profesional en ese sanatorio
     auto turnosDisponibles = prof->obtenerTurnosDisponibles(indiceSanatorio, diasBusqueda);
 
     if (turnosDisponibles.empty()) return "";
 
-    // Convertir objetivo a time_t para comparar
     std::time_t t_objetivo = std::chrono::system_clock::to_time_t(objetivo);
 
-    // Buscar el primer turno que sea >= al objetivo
     for (const auto& [fecha, hora] : turnosDisponibles)
     {
         // Parsear fecha y hora del turno
@@ -72,26 +61,19 @@ static std::string encontrarProximoTurnoDisponible(
     return ""; // No se encontró turno disponible
 }
 
-/**
- * @brief Implementación de la función para cargar datos mock realistas.
- */
+
 void cargarDatosMock(EmpresaSanatorio &app)
 {
     message_center("Mock Data", "Iniciando carga de datos de prueba...");
 
-    // ============================================================================
-    // 1️⃣ ESPECIALIDADES (5)
-    // ============================================================================
+
     app.agregarEspecialidad(new Especialidad(1, "Cardiologia"));
     app.agregarEspecialidad(new Especialidad(2, "Dermatologia"));
     app.agregarEspecialidad(new Especialidad(3, "Traumatologia"));
     app.agregarEspecialidad(new Especialidad(4, "Pediatria"));
     app.agregarEspecialidad(new Especialidad(5, "Clinica Medica"));
 
-    // ============================================================================
-    // 2️⃣ SANATORIOS (5) - Direcciones reales de CABA
-    // ============================================================================
-    // Sanatorio 0
+
     app.agregarSanatorio(new Sanatorio(
             "Sanatorio Guemes",
             "Av. Corrientes 2678, CABA",
@@ -126,9 +108,7 @@ void cargarDatosMock(EmpresaSanatorio &app)
             -34.5780, -58.4280
     ));
 
-    // ============================================================================
-    // 3️⃣ PROFESIONALES (10) - Nombres realistas
-    // ============================================================================
+
     Especialidad* cardio = app.buscarEspecialidadPorId(1);
     Especialidad* derma = app.buscarEspecialidadPorId(2);
     Especialidad* trauma = app.buscarEspecialidadPorId(3);
@@ -205,9 +185,6 @@ void cargarDatosMock(EmpresaSanatorio &app)
         ));
     }
 
-    // ============================================================================
-    // 4️⃣ ASIGNAR PROFESIONALES Y ESPECIALIDADES A SANATORIOS
-    // ============================================================================
 
     // SANATORIO 0 - Guemes (Cardiología, Dermatología, Clínica)
     app.agregarEspecialidadASanatorio(0, cardio);
@@ -256,10 +233,6 @@ void cargarDatosMock(EmpresaSanatorio &app)
     app.agregarProfesionalASanatorio(4, app.buscarProfesionalPorId(7));
     app.agregarProfesionalASanatorio(4, app.buscarProfesionalPorId(8));
     app.agregarProfesionalASanatorio(4, app.buscarProfesionalPorId(4));
-
-    // ============================================================================
-    // 5️⃣ CONFIGURAR DISPONIBILIDAD HORARIA DE PROFESIONALES
-    // ============================================================================
 
     // Profesional 1 - Fernandez (Cardio) - Trabaja en Sanatorio 0 y 3
     Profesional* prof1 = app.buscarProfesionalPorId(1);
@@ -350,10 +323,6 @@ void cargarDatosMock(EmpresaSanatorio &app)
         prof10->setDuracionTurno(20);
     }
 
-    // ============================================================================
-    // 6️⃣ PACIENTES (10) - Nombres realistas y direcciones de CABA
-    // ============================================================================
-
     app.agregarPaciente(new Paciente(
             1, "Juan", "Perez", "jperez@gmail.com",
             "Av. Corrientes 1500, CABA", 10001, "OSDE",
@@ -414,16 +383,12 @@ void cargarDatosMock(EmpresaSanatorio &app)
             -34.5880, -58.3990
     ));
 
-    // ============================================================================
-    // 7️⃣ TURNOS DE PRUEBA - ✅ AHORA USAN HORARIOS REALES DE DISPONIBILIDAD
-    // ============================================================================
     auto now = std::chrono::system_clock::now();
     std::string error;
 
     try
     {
-        // ✅ TURNO 1: Próximo turno disponible cerca de 28 minutos
-        // Paciente 8 (Tomas) con Dr. Fernandez (prof1) en Sanatorio 0
+
         if (prof1) {
             auto objetivo1 = now + std::chrono::minutes(25);
             std::string fechaHora1 = encontrarProximoTurnoDisponible(prof1, 0, objetivo1, 7);
@@ -436,8 +401,6 @@ void cargarDatosMock(EmpresaSanatorio &app)
             }
         }
 
-        // ✅ TURNO 2: Próximo turno disponible cerca de 2 horas
-        // Paciente 1 con Dra. Rodriguez (prof4) en Sanatorio 2
         if (prof4) {
             auto objetivo2 = now + std::chrono::hours(2);
             std::string fechaHora2 = encontrarProximoTurnoDisponible(prof4, 2, objetivo2, 7);
@@ -450,8 +413,6 @@ void cargarDatosMock(EmpresaSanatorio &app)
             }
         }
 
-        // ✅ TURNO 3: Próximo turno disponible mañana
-        // Paciente 5 con Dr. Sanchez (prof7) en Sanatorio 1
         if (prof7) {
             auto objetivo3 = now + std::chrono::hours(24);
             std::string fechaHora3 = encontrarProximoTurnoDisponible(prof7, 1, objetivo3, 7);

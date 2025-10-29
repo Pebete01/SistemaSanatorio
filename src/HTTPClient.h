@@ -6,7 +6,6 @@
 #define HTTPCLIENT_H
 
 
-// ⚙️ Evitar conflictos entre std::byte y byte de Windows
 #ifndef NOMINMAX
 #define NOMINMAX
 #endif
@@ -31,16 +30,13 @@ public:
     HTTPClient();
     ~HTTPClient();
 
-    // Realizar request GET y devolver respuesta
     std::string get(const std::string& url);
 
-    // Escapar caracteres especiales en URL
     std::string urlEncode(const std::string& text);
 
 private:
     CURL* curl;
 
-    // Callback para escribir la respuesta
     static size_t writeCallback(void* contents, size_t size, size_t nmemb, std::string* data);
 };
 

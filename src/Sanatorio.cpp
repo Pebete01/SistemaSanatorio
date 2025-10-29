@@ -265,12 +265,7 @@ void Sanatorio::mostrarSanatorio()
     }
 }
 
-
-// ============================================================================
-// <-- NUEVAS IMPLEMENTACIONES: Gestión de especialidades y profesionales
-// ============================================================================
-
-bool Sanatorio::tieneEspecialidad(int idEspecialidad) const  // <-- NUEVO
+bool Sanatorio::tieneEspecialidad(int idEspecialidad) const
 {
     for (int i = 0; i < cantidadEspecialidad; ++i)
     {
@@ -280,7 +275,7 @@ bool Sanatorio::tieneEspecialidad(int idEspecialidad) const  // <-- NUEVO
     return false;
 }
 
-bool Sanatorio::tieneProfesional(int idProfesional) const  // <-- NUEVO
+bool Sanatorio::tieneProfesional(int idProfesional) const
 {
     for (int i = 0; i < cantidadProfe; ++i)
     {
@@ -290,14 +285,13 @@ bool Sanatorio::tieneProfesional(int idProfesional) const  // <-- NUEVO
     return false;
 }
 
-void Sanatorio::eliminarEspecialidad(int idEspecialidad)  // <-- NUEVO
+void Sanatorio::eliminarEspecialidad(int idEspecialidad)
 {
     for (int i = 0; i < cantidadEspecialidad; ++i)
     {
         if (listaEspecialidades[i] && listaEspecialidades[i]->getId() == idEspecialidad)
         {
-            // NO eliminamos el objeto, solo lo quitamos del array
-            // (el objeto pertenece a EmpresaSanatorio)
+
             for (int j = i; j < cantidadEspecialidad - 1; ++j)
             {
                 listaEspecialidades[j] = listaEspecialidades[j + 1];
@@ -309,14 +303,13 @@ void Sanatorio::eliminarEspecialidad(int idEspecialidad)  // <-- NUEVO
     }
 }
 
-void Sanatorio::eliminarProfesional(int idProfesional)  // <-- NUEVO
+void Sanatorio::eliminarProfesional(int idProfesional)
 {
     for (int i = 0; i < cantidadProfe; ++i)
     {
         if (listaProfesionales[i] && listaProfesionales[i]->getId() == idProfesional)
         {
-            // NO eliminamos el objeto, solo lo quitamos del array
-            // (el objeto pertenece a EmpresaSanatorio)
+
             for (int j = i; j < cantidadProfe - 1; ++j)
             {
                 listaProfesionales[j] = listaProfesionales[j + 1];

@@ -34,7 +34,7 @@ static double calcularDistancia(double lat1, double lon1, double lat2, double lo
     double c = 2 * atan2(sqrt(a), sqrt(1-a));
     return R * c;
 }
-// ================== SERVICIOS DE NOTIFICACIONES ==================
+
 void EmpresaSanatorio::iniciarServicioNotificaciones()
 {
     if (!running_notificaciones)
@@ -91,9 +91,6 @@ void EmpresaSanatorio::revisarTurnosLoop()
                             // Construimos el comando
                             std::string comando = "python scripts/enviar_mail.py \"" + nombreCompleto + "\" " + pac->getMail() + " " + turno.fecha + " " + hora_str;
 
-                            // Descomentar para depurar el comando que se ejecuta
-                            // message_center("DEBUG", comando.c_str());
-
                             system(comando.c_str());
                             turno.recordatorioEnviado = true;
                         }
@@ -105,8 +102,6 @@ void EmpresaSanatorio::revisarTurnosLoop()
     }
 }
 
-
-// ================== PACIENTES ==================
 
 std::vector<std::string> EmpresaSanatorio::listarPacientesTexto() const
 {
@@ -171,8 +166,6 @@ void EmpresaSanatorio::actualizarPaciente(int id,
     }
 }
 
-// ================== CONSTRUCCIÓN/DESTRUCCIÓN ==================
-
 EmpresaSanatorio::~EmpresaSanatorio()
 {
     for (int i = 0; i < cantidadPacientes; ++i)
@@ -196,8 +189,6 @@ EmpresaSanatorio::~EmpresaSanatorio()
     delete[] especialidades;
     detenerServicioNotificaciones();
 }
-
-// ================== CRECIMIENTO DE LISTAS ==================
 
 void EmpresaSanatorio::agrandarListaPaciente()
 {
@@ -282,8 +273,6 @@ void EmpresaSanatorio::agregarTurnos(Turno *p)
     turnos[cantidadTurnos++] = p;
 }
 
-// ================== ORDENAMIENTOS ==================
-
 void EmpresaSanatorio::ordenarPacientesPorApellido()
 {
     for (int i = 1; i < cantidadPacientes; ++i)
@@ -311,8 +300,6 @@ void EmpresaSanatorio::ordenarProfesionalesPorApellido()
                   return a->getNombre() < b->getNombre();
               });
 }
-
-// ================== VALIDACIONES IO ==================
 
 int EmpresaSanatorio::validarEntero(const string &mensaje)
 {
@@ -346,8 +333,6 @@ string EmpresaSanatorio::validarTexto(const string &mensaje)
         cout << "El texto no puede estar vacío." << endl;
     }
 }
-
-// ================== FACTORÍAS ==================
 
 Especialidad *EmpresaSanatorio::nuevaEspecialidad()
 {
@@ -389,7 +374,7 @@ Profesional *EmpresaSanatorio::nuevoProfesional()
         cout << "Especialidad inexistente. Cancele o cargue la especialidad antes." << endl;
         return nullptr;
     }
-    // Constructor: (numero, Especialidad, id, nombre, apellido)
+
     return new Profesional(numProfesional, *esp, id, nombre, apellido,mail);
 }
 
@@ -401,8 +386,6 @@ Sanatorio *EmpresaSanatorio::nuevoSanatorio()
     pair<double,double> coordenadasUbicacion = geocodificadorApi.obtenerCoordenadas(ubicacion);
     return new Sanatorio(nombre, ubicacion,coordenadasUbicacion.first,coordenadasUbicacion.second);
 }
-
-// ================== PROFESIONALES ==================
 
 Profesional *EmpresaSanatorio::buscarProfesionalPorId(int id)
 {
@@ -446,7 +429,6 @@ std::vector<std::string> EmpresaSanatorio::listarProfesionalesTexto() const
     }
     return out;
 }
-// ================== ESPECIALIDADES ==================
 
 Especialidad *EmpresaSanatorio::buscarEspecialidadPorId(int id)
 {
@@ -489,8 +471,6 @@ std::vector<std::string> EmpresaSanatorio::listarEspecialidadesTexto() const
     }
     return out;
 }
-
-// ================== SUBMENÚS Y MENÚ ==================
 
 void EmpresaSanatorio::subMenuAgregar()
 {
@@ -657,15 +637,11 @@ static bool solapan(int aStart, int aDur, int bStart, int bDur)
     return (aStart < bEnd) && (bStart < aEnd);
 }
 
-// ================== Turnos: agendar/cancelar/listar ==================
-
-// <-- MODIFICADO: Busca esta función y reemplázala completa
 bool EmpresaSanatorio::agendarTurno(int idTurno, int idPaciente, int idProfesional, int idEspecialidad,
                                     const std::string &fechaHora, int durMin, std::string &error)
 {
     std::lock_guard<std::mutex> lock(mtx);
 
-    // Validaciones de existencia
     if (!buscarPacientePorId(idPaciente))
     {
         error = "Paciente inexistente";
@@ -721,7 +697,6 @@ bool EmpresaSanatorio::agendarTurno(int idTurno, int idPaciente, int idProfesion
         }
     }
 
-    // <-- NUEVO: Buscar sanatorio donde trabaja el profesional
     int sanatorioIdx = -1;
     for (int i = 0; i < cantidadSanatorios; ++i)
     {
@@ -747,7 +722,7 @@ bool EmpresaSanatorio::agendarTurno(int idTurno, int idPaciente, int idProfesion
 
 bool EmpresaSanatorio::cancelarTurnoPorId(int idTurno)
 {
-    std::lock_guard<std::mutex> lock(mtx); // <-- AÑADIR LOCK
+    std::lock_guard<std::mutex> lock(mtx);
     for (auto &t : agenda)
     {
         if (t.id == idTurno && t.activo)
@@ -759,7 +734,6 @@ bool EmpresaSanatorio::cancelarTurnoPorId(int idTurno)
     return false;
 }
 
-// <-- MODIFICADO: Busca esta función y reemplázala
 std::vector<std::string> EmpresaSanatorio::listarTurnosTexto() const
 {
     std::vector<int> idx;
@@ -779,7 +753,7 @@ std::vector<std::string> EmpresaSanatorio::listarTurnosTexto() const
         const auto *pr = buscarProfesionalPorId(t.profesionalId);
         const auto *pa = buscarPacientePorId(t.pacienteId);
         const auto *es = buscarEspecialidadPorId(t.especialidadId);
-        const auto *san = buscarSanatorioPorIndice(t.sanatorioIdx);  // <-- NUEVO
+        const auto *san = buscarSanatorioPorIndice(t.sanatorioIdx);
 
         char hhmm[6];
         std::snprintf(hhmm, sizeof(hhmm), "%02d:%02d", t.minOfDay / 60, t.minOfDay % 60);
@@ -789,7 +763,7 @@ std::vector<std::string> EmpresaSanatorio::listarTurnosTexto() const
                 " | Prof: " + (pr ? pr->getApellido() + ", " + pr->getNombre() : "?") +
                 " | Pac: " + (pa ? pa->getApellido() + ", " + pa->getNombre() : "?") +
                 " | Esp: " + (es ? es->getNombre() : "?") +
-                " | San: " + (san ? san->getNombre() : "?") +  // <-- NUEVO
+                " | San: " + (san ? san->getNombre() : "?") +
                 " | " + std::to_string(t.durMin) + " min");
     }
     return out;
@@ -825,7 +799,7 @@ std::vector<std::string> EmpresaSanatorio::listarTurnosPorProfesionalTexto(int i
     return out;
 }
 
-// === Overloads const requeridos por listarTurnos* ===
+
 const Paciente *EmpresaSanatorio::buscarPacientePorId(int id) const
 {
     for (int i = 0; i < cantidadPacientes; ++i)
@@ -851,23 +825,22 @@ const Especialidad *EmpresaSanatorio::buscarEspecialidadPorId(int id) const
 }
 
 
-// =================== SANATORIOS ==================  // <-- NUEVO: sección completa
 
-Sanatorio* EmpresaSanatorio::buscarSanatorioPorIndice(int idx)  // <-- NUEVO
+Sanatorio* EmpresaSanatorio::buscarSanatorioPorIndice(int idx)
 {
     if (idx < 0 || idx >= cantidadSanatorios)
         return nullptr;
     return sanatorios[idx];
 }
 
-const Sanatorio* EmpresaSanatorio::buscarSanatorioPorIndice(int idx) const  // <-- NUEVO
+const Sanatorio* EmpresaSanatorio::buscarSanatorioPorIndice(int idx) const
 {
     if (idx < 0 || idx >= cantidadSanatorios)
         return nullptr;
     return sanatorios[idx];
 }
 
-void EmpresaSanatorio::agrandarListaSanatorios()  // <-- NUEVO
+void EmpresaSanatorio::agrandarListaSanatorios()
 {
     int capacidadNueva = (capacidadSanatorios == 0) ? 4 : capacidadSanatorios * 2;
     auto **listaNueva = new Sanatorio *[capacidadNueva];
@@ -878,7 +851,7 @@ void EmpresaSanatorio::agrandarListaSanatorios()  // <-- NUEVO
     capacidadSanatorios = capacidadNueva;
 }
 
-void EmpresaSanatorio::agregarSanatorio(Sanatorio* s)  // <-- NUEVO
+void EmpresaSanatorio::agregarSanatorio(Sanatorio* s)
 {
     if (!s)
         return;
@@ -888,7 +861,7 @@ void EmpresaSanatorio::agregarSanatorio(Sanatorio* s)  // <-- NUEVO
 }
 
 
-void EmpresaSanatorio::agregarEspecialidadASanatorio(int indiceSanatorio, Especialidad* esp)  // <-- NUEVO
+void EmpresaSanatorio::agregarEspecialidadASanatorio(int indiceSanatorio, Especialidad* esp)
 {
     if (!esp)
         return;
@@ -900,7 +873,7 @@ void EmpresaSanatorio::agregarEspecialidadASanatorio(int indiceSanatorio, Especi
     }
 }
 
-void EmpresaSanatorio::eliminarEspecialidadDeSanatorio(int indiceSanatorio, int idEspecialidad)  // <-- NUEVO
+void EmpresaSanatorio::eliminarEspecialidadDeSanatorio(int indiceSanatorio, int idEspecialidad)
 {
     Sanatorio* san = buscarSanatorioPorIndice(indiceSanatorio);
     if (san)
@@ -909,11 +882,7 @@ void EmpresaSanatorio::eliminarEspecialidadDeSanatorio(int indiceSanatorio, int 
     }
 }
 
-// ============================================================================
-// <-- NUEVAS IMPLEMENTACIONES: Gestión de profesionales en sanatorios
-// ============================================================================
-
-void EmpresaSanatorio::agregarProfesionalASanatorio(int indiceSanatorio, Profesional* prof)  // <-- NUEVO
+void EmpresaSanatorio::agregarProfesionalASanatorio(int indiceSanatorio, Profesional* prof)
 {
     if (!prof)
         return;
@@ -925,7 +894,7 @@ void EmpresaSanatorio::agregarProfesionalASanatorio(int indiceSanatorio, Profesi
     }
 }
 
-void EmpresaSanatorio::eliminarProfesionalDeSanatorio(int indiceSanatorio, int idProfesional)  // <-- NUEVO
+void EmpresaSanatorio::eliminarProfesionalDeSanatorio(int indiceSanatorio, int idProfesional)
 {
     Sanatorio* san = buscarSanatorioPorIndice(indiceSanatorio);
     if (san)
@@ -935,11 +904,7 @@ void EmpresaSanatorio::eliminarProfesionalDeSanatorio(int indiceSanatorio, int i
 }
 
 
-// ============================================================================
-// <-- NUEVAS IMPLEMENTACIONES: Búsqueda de sanatorios por especialidad/profesional
-// ============================================================================
-
-std::vector<std::pair<int, double>> EmpresaSanatorio::buscarSanatoriosPorEspecialidad(  // <-- NUEVO
+std::vector<std::pair<int, double>> EmpresaSanatorio::buscarSanatoriosPorEspecialidad(
         int idEspecialidad,
         double latPaciente,
         double lonPaciente
@@ -967,7 +932,7 @@ std::vector<std::pair<int, double>> EmpresaSanatorio::buscarSanatoriosPorEspecia
     return resultado;
 }
 
-std::vector<std::pair<int, double>> EmpresaSanatorio::buscarSanatoriosPorProfesional(  // <-- NUEVO
+std::vector<std::pair<int, double>> EmpresaSanatorio::buscarSanatoriosPorProfesional(
         int idProfesional,
         double latPaciente,
         double lonPaciente
@@ -995,7 +960,7 @@ std::vector<std::pair<int, double>> EmpresaSanatorio::buscarSanatoriosPorProfesi
     return resultado;
 }
 
-std::vector<int> EmpresaSanatorio::obtenerProfesionalesPorEspecialidad(int idEspecialidad) const  // <-- NUEVO
+std::vector<int> EmpresaSanatorio::obtenerProfesionalesPorEspecialidad(int idEspecialidad) const
 {
     std::vector<int> resultado;
 
@@ -1011,7 +976,7 @@ std::vector<int> EmpresaSanatorio::obtenerProfesionalesPorEspecialidad(int idEsp
     return resultado;
 }
 
-std::vector<int> EmpresaSanatorio::obtenerProfesionalesPorSanatorio(int indiceSanatorio) const  // <-- NUEVO
+std::vector<int> EmpresaSanatorio::obtenerProfesionalesPorSanatorio(int indiceSanatorio) const
 {
     std::vector<int> resultado;
 
@@ -1029,11 +994,6 @@ std::vector<int> EmpresaSanatorio::obtenerProfesionalesPorSanatorio(int indiceSa
 
     return resultado;
 }
-
-
-// ============================================================================
-// ✅ NUEVAS IMPLEMENTACIONES: Búsqueda por nombre
-// ============================================================================
 
 Paciente *EmpresaSanatorio::buscarPacientePorNombre(const std::string &nombre, const std::string &apellido)
 {

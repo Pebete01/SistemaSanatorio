@@ -54,12 +54,11 @@ void Profesional::instanciasVivas()
     std::cout << "Profesionales vivos: " << numProfesionales << '\n';
 }
 
-// ✅ MODIFICADO: Ahora agregar disponibilidad incluye el sanatorio
 void Profesional::agregarDisponibilidad(int indiceSanatorio, const std::string &dia,
                                         int horaInicio, int minutoInicio,
                                         int horaFin, int minutoFin)
 {
-    // Buscar si ya existe disponibilidad para este sanatorio
+
     for (auto &dispSan : disponibilidadPorSanatorio)
     {
         if (dispSan.indiceSanatorio == indiceSanatorio)
@@ -77,7 +76,7 @@ void Profesional::agregarDisponibilidad(int indiceSanatorio, const std::string &
     disponibilidadPorSanatorio.push_back(nuevaDisp);
 }
 
-// ✅ NUEVO: Verificar si trabaja en un sanatorio
+
 bool Profesional::trabajaEnSanatorio(int indiceSanatorio) const
 {
     for (const auto &dispSan : disponibilidadPorSanatorio)
@@ -88,7 +87,7 @@ bool Profesional::trabajaEnSanatorio(int indiceSanatorio) const
     return false;
 }
 
-// ✅ NUEVO: Obtener horarios en un sanatorio específico
+
 std::vector<FranjaHoraria> Profesional::obtenerHorariosSanatorio(int indiceSanatorio) const
 {
     for (const auto &dispSan : disponibilidadPorSanatorio)
@@ -117,7 +116,6 @@ void Profesional::mostrarDisponibilidad() const
     }
 }
 
-// Utilidad: convertir time_point a string YYYY-MM-DD
 static std::string fechaToStr(std::chrono::system_clock::time_point tp)
 {
     std::time_t t = std::chrono::system_clock::to_time_t(tp);
@@ -127,7 +125,6 @@ static std::string fechaToStr(std::chrono::system_clock::time_point tp)
     return oss.str();
 }
 
-// Utilidad: obtener día de semana (0=domingo, 1=lunes, ..., 6=sábado)
 static int diaSemana(std::chrono::system_clock::time_point tp)
 {
     std::time_t t = std::chrono::system_clock::to_time_t(tp);
@@ -135,14 +132,12 @@ static int diaSemana(std::chrono::system_clock::time_point tp)
     return tm->tm_wday;
 }
 
-// Días mapeados a texto
 static std::string nombreDia(int wday)
 {
     static const char *dias[] = {"Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"};
     return dias[wday];
 }
 
-// ✅ MODIFICADO: Ahora obtener turnos disponibles es por sanatorio
 std::vector<std::pair<std::string, std::string>> Profesional::obtenerTurnosDisponibles(
         int indiceSanatorio, int diasDesdeHoy)
 {

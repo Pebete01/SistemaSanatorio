@@ -6,8 +6,6 @@
 #define SISTEMASANATORIO_DATOSMOCK_H
 #pragma once
 
-// Forward declaration para evitar includes circulares
-// y mantener los .h limpios
 class EmpresaSanatorio;
 
 void cargarDatosMock(EmpresaSanatorio &app);

@@ -19,21 +19,18 @@ class GeocodificadorAPI;
 class EmpresaSanatorio {
 private:
     GeocodificadorAPI geocodificadorApi;
-    // --- Almacenamiento ---
     Paciente **listaPacientes = nullptr;
     Profesional **profesionales = nullptr;
     Turno **turnos = nullptr;
     Sanatorio **sanatorios = nullptr;
     Especialidad **especialidades = nullptr;
 
-    // --- Capacidades y contadores ---
     int capacidadPacientes = 0, cantidadPacientes = 0;
     int capacidadProfesionales = 0, cantidadProfesionales = 0;
     int capacidadTurno = 0, cantidadTurnos = 0;
     int capacidadSanatorios = 0, cantidadSanatorios = 0;
     int capacidadEspecialidad = 0, cantidadEspecialidades = 0;
 
-    // =================== AGENDA (Turnos) ===================
     struct TurnoRec {
         int id;
         int pacienteId;
@@ -48,14 +45,13 @@ private:
     };
     std::vector <TurnoRec> agenda;
 
-    // ---- NUEVOS MIEMBROS/METODOS PARA EL SERVICIO DE NOTIFICACIONES ----
     std::thread worker_notificaciones;
     std::atomic<bool> running_notificaciones{false};
     mutable std::mutex mtx; // Mutex para proteger el acceso a 'agenda' y 'listaPacientes'
     void revisarTurnosLoop();
 
 public:
-    // --- Ciclo de vida / Regla de 5 ---
+
     EmpresaSanatorio() { geocodificadorApi.configurarRegion("AR"); };
 
     ~EmpresaSanatorio();
@@ -68,17 +64,15 @@ public:
 
     EmpresaSanatorio &operator=(EmpresaSanatorio &&) = delete;
 
-    // ===================== RECORDATORIO =====================
+
     void iniciarServicioNotificaciones();
 
     void detenerServicioNotificaciones();
 
-    // ===================== PACIENTES =====================
     Paciente *buscarPacientePorId(int id);
 
     const Paciente *buscarPacientePorId(int id) const;
 
-    // ✅ NUEVO: Buscar paciente por nombre y apellido
     Paciente *buscarPacientePorNombre(const std::string &nombre, const std::string &apellido);
     const Paciente *buscarPacientePorNombre(const std::string &nombre, const std::string &apellido) const;
 
@@ -102,12 +96,10 @@ public:
 
     void ordenarPacientesPorApellido();
 
-    // =================== PROFESIONALES ===================
     Profesional *buscarProfesionalPorId(int id);
 
     const Profesional *buscarProfesionalPorId(int id) const;
 
-    // ✅ NUEVO: Buscar profesional por nombre y apellido
     Profesional *buscarProfesionalPorNombre(const std::string &nombre, const std::string &apellido);
     const Profesional *buscarProfesionalPorNombre(const std::string &nombre, const std::string &apellido) const;
 
@@ -124,12 +116,10 @@ public:
     void agregarProfesionalASanatorio(int indiceSanatorio, Profesional* prof);
     void eliminarProfesionalDeSanatorio(int indiceSanatorio, int idProfesional);
 
-    // =================== ESPECIALIDADES ==================
     Especialidad *buscarEspecialidadPorId(int id);
 
     const Especialidad *buscarEspecialidadPorId(int id) const;
 
-    // ✅ NUEVO: Buscar especialidad por nombre
     Especialidad *buscarEspecialidadPorNombre(const std::string &nombre);
     const Especialidad *buscarEspecialidadPorNombre(const std::string &nombre) const;
 
@@ -144,7 +134,6 @@ public:
     void agregarEspecialidadASanatorio(int indiceSanatorio, Especialidad *esp);
     void eliminarEspecialidadDeSanatorio(int indiceSanatorio, int idEspecialidad);
 
-    // =================== SANATORIOS ==================
     Sanatorio *buscarSanatorioPorIndice(int idx);
 
     const Sanatorio *buscarSanatorioPorIndice(int idx) const;
@@ -159,7 +148,6 @@ public:
 
     void agrandarListaSanatorios();
 
-    // ======================= TURNOS ======================
     // fechaHora: "YYYY-MM-DD HH:MM"
     bool agendarTurno(int idTurno, int idPaciente, int idProfesional, int idEspecialidad,
                       const std::string &fechaHora, int durMin, std::string &error);
@@ -185,28 +173,24 @@ public:
     std::vector<int> obtenerProfesionalesPorEspecialidad(int idEspecialidad) const;
     std::vector<int> obtenerProfesionalesPorSanatorio(int indiceSanatorio) const;
 
-    // ✅ NUEVO: Obtener profesionales por especialidad EN un sanatorio específico
     std::vector<int> obtenerProfesionalesPorEspecialidadEnSanatorio(int idEspecialidad, int indiceSanatorio) const;
 
-    // ======================= OTROS =======================
     void agrandarListaTurnos();
 
     void agregarTurnos(Turno *p); // mantenido para compatibilidad
     Sanatorio *nuevoSanatorio();
 
-    // ===================== FACTORÍAS UI ==================
+
     Paciente *nuevoPaciente();
 
     Especialidad *nuevaEspecialidad();
 
     Profesional *nuevoProfesional();
 
-    // ==================== UTILIDADES UI ==================
     int validarEntero(const std::string &mensaje);
 
     std::string validarTexto(const std::string &mensaje);
 
-    // ======================== MENÚ =======================
     void menu();
 
     void subMenuMostrar();

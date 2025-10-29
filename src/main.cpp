@@ -12,7 +12,7 @@
 #include <string>
 #include <cmath>
 
-// ---------------- utils ----------------
+
 static int to_int(const std::string &s)
 {
     size_t p = 0;
@@ -38,8 +38,6 @@ static double calcularDistancia(double lat1, double lon1, double lat2, double lo
     return R * c;
 }
 
-
-// ---------------- Sanatorios ---------------
 
 static void ui_agregar_sanatorio(EmpresaSanatorio &app)
 {
@@ -103,7 +101,6 @@ static void ui_listar_sanatorios(EmpresaSanatorio &app)
 }
 
 
-// ---------------- Pacientes ----------------
 static void ui_agregar_paciente(EmpresaSanatorio &app)
 {
 
@@ -182,7 +179,7 @@ static void ui_editar_paciente(EmpresaSanatorio &app)
         std::string snaf = input_box("Editar Paciente", "Nro Afiliado (" + std::to_string(p->getNumeroDeAfiliado()) + "):", 10);
         std::string obra = input_box("Editar Paciente", "Obra social (" + p->getObraSocial() + "):", 40);
         std::string mail = input_box("Editar Paciente", "Mail (" + p->getMail() + "):", 40);
-//AGREGAR LAT Y LON ASI COMO ABAJO
+
         std::string direccion;
         std::pair<double, double> direcCoordenadas;
 
@@ -221,8 +218,6 @@ static void ui_editar_paciente(EmpresaSanatorio &app)
         message_center("Error", "Campo numerico invalido");
     }
 }
-
-// ---------------- Especialidades ----------------
 
 
 static void ui_agregar_especialidad(EmpresaSanatorio &app)
@@ -275,11 +270,9 @@ static void ui_agregar_especialidad(EmpresaSanatorio &app)
             return;
         }
 
-        // ✅ NUEVO: Crear especialidad una vez
         Especialidad* nueva = new Especialidad(id, nom);
         app.agregarEspecialidad(nueva);
 
-        // ✅ NUEVO: Procesar selección de sanatorios
         std::vector<int> indicesSanatorios;
         int cantSan = app.getCantidadSanatorios();
 
@@ -325,7 +318,6 @@ static void ui_agregar_especialidad(EmpresaSanatorio &app)
             }
         }
 
-        // ✅ NUEVO: Agregar a todos los sanatorios seleccionados
         for (int idx : indicesSanatorios)
         {
             app.agregarEspecialidadASanatorio(idx, nueva);
@@ -356,7 +348,6 @@ static void ui_eliminar_especialidad(EmpresaSanatorio &app)
             return;
         }
 
-        // ✅ NUEVO: Preguntar de dónde eliminar
         std::vector<std::string> opciones = {
                 "Eliminar de sanatorios especificos",
                 "Eliminar de TODOS los sanatorios"
@@ -370,7 +361,7 @@ static void ui_eliminar_especialidad(EmpresaSanatorio &app)
             return;
         }
 
-        if (eleccion == 0)  // ✅ Eliminar de específicos
+        if (eleccion == 0)
         {
             // Mostrar sanatorios que tienen esta especialidad
             std::vector<std::string> sanatoriosConEsp;
@@ -399,7 +390,6 @@ static void ui_eliminar_especialidad(EmpresaSanatorio &app)
 
             list_box("Sanatorios con esta especialidad", sanatoriosConEsp);
 
-            // ✅ NUEVO: Pedir múltiples sanatorios separados por coma
             std::string seleccion = input_box(
                     "Eliminar",
                     "Numeros separados por coma (ej: 1,3,5) o 'todos':",
@@ -466,7 +456,7 @@ static void ui_eliminar_especialidad(EmpresaSanatorio &app)
                                "Eliminada de " + std::to_string(numerosSeleccionados.size()) + " sanatorio(s)");
             }
         }
-        else  // ✅ Eliminar de TODOS
+        else
         {
             if (!confirm_box("CONFIRMAR", "Eliminar de TODOS los sanatorios Y del sistema?"))
             {
@@ -490,11 +480,6 @@ static void ui_listar_especialidades(EmpresaSanatorio &app)
     auto v = app.listarEspecialidadesTexto();
     v.empty() ? message_center("Especialidades", "No hay registros") : list_box("Especialidades", v);
 }
-
-// ---------------- Profesionales ----------------
-// ============================================================================
-// ✅ MODIFICADO: Agregar profesional a múltiples sanatorios
-// ============================================================================
 
 static void ui_agregar_profesional(EmpresaSanatorio &app)
 {
@@ -550,11 +535,11 @@ static void ui_agregar_profesional(EmpresaSanatorio &app)
             return;
         }
 
-        // ✅ NUEVO: Crear profesional una vez
+
         Profesional* nuevo = new Profesional(num, *esp, id, nom, ape, mail);
         app.agregarProfesional(nuevo);
 
-        // ✅ NUEVO: Procesar selección de sanatorios
+
         std::vector<int> indicesSanatorios;
         int cantSan = app.getCantidadSanatorios();
 
@@ -596,7 +581,6 @@ static void ui_agregar_profesional(EmpresaSanatorio &app)
             }
         }
 
-        // ✅ NUEVO: Agregar a todos los sanatorios seleccionados
         for (int idx : indicesSanatorios)
         {
             app.agregarProfesionalASanatorio(idx, nuevo);
@@ -610,10 +594,6 @@ static void ui_agregar_profesional(EmpresaSanatorio &app)
         message_center("Error", "Campos numericos invalidos");
     }
 }
-
-// ============================================================================
-// ✅ MODIFICADO: Eliminar profesional de sanatorios específicos
-// ============================================================================
 
 static void ui_eliminar_profesional(EmpresaSanatorio &app)
 {
@@ -630,7 +610,6 @@ static void ui_eliminar_profesional(EmpresaSanatorio &app)
             return;
         }
 
-        // ✅ NUEVO: Preguntar de dónde eliminar
         std::vector<std::string> opciones = {
                 "Eliminar de sanatorios especificos",
                 "Eliminar de TODOS los sanatorios"
@@ -757,16 +736,16 @@ static void ui_listar_profesionales(EmpresaSanatorio &app)
     v.empty() ? message_center("Profesionales", "No hay registros") : list_box("Profesionales", v);
 }
 
-// ===== Turnos =====
+
 static int to_int(const std::string &s); // ya definido arriba
 
-// ============================================================================
+
 static void ui_agendar_turno_por_profesional(EmpresaSanatorio &app)
 {
-    // 1️⃣ PEDIR ID DE TURNO
+
     std::string sid = input_box("Turnos - Por Profesional", "ID Turno (numero unico):", 10);
 
-    // 2️⃣ PEDIR DATOS DEL PACIENTE (por nombre)
+
     std::string nombrePac = input_box("Turnos - Por Profesional", "Nombre del Paciente:", 40);
     std::string apellidoPac = input_box("Turnos - Por Profesional", "Apellido del Paciente:", 40);
 
@@ -777,7 +756,7 @@ static void ui_agendar_turno_por_profesional(EmpresaSanatorio &app)
         return;
     }
 
-    // 3️⃣ LISTAR Y ELEGIR PROFESIONAL
+
     auto listaProfesionales = app.listarProfesionalesTexto();
     if (listaProfesionales.empty())
     {
@@ -809,7 +788,6 @@ static void ui_agendar_turno_por_profesional(EmpresaSanatorio &app)
 
     int idEspecialidad = prof->getEspecialidad().getId();
 
-    // 4️⃣ BUSCAR SANATORIOS DONDE TRABAJA EL PROFESIONAL (ordenados por cercanía)
     auto sanatoriosOrdenados = app.buscarSanatoriosPorProfesional(
             idProfesional,
             pac->getLatitud(),
@@ -871,7 +849,7 @@ static void ui_agendar_turno_por_profesional(EmpresaSanatorio &app)
         }
     }
 
-    // 5️⃣ ✅ MODIFICADO: Obtener turnos disponibles EN ESE SANATORIO ESPECÍFICO
+
     auto turnosDisponibles = prof->obtenerTurnosDisponibles(indiceSanatorioSeleccionado, 14);
 
     if (turnosDisponibles.empty())
@@ -923,7 +901,6 @@ static void ui_agendar_turno_por_profesional(EmpresaSanatorio &app)
         return;
     }
 
-    // 6️⃣ RESERVAR EL TURNO
     if (!prof->reservarTurno(fechaSeleccionada, horaSeleccionada))
     {
         message_center("Error", "No se pudo reservar el turno (ya ocupado)");
@@ -953,13 +930,12 @@ static void ui_agendar_turno_por_profesional(EmpresaSanatorio &app)
         message_center("Error", "ID de turno invalido");
     }
 }
-// ============================================================================
+
 static void ui_agendar_turno_por_especialidad(EmpresaSanatorio &app)
 {
-    // 1️⃣ PEDIR ID DE TURNO
     std::string sid = input_box("Turnos - Por Especialidad", "ID Turno (numero unico):", 10);
 
-    // 2️⃣ PEDIR DATOS DEL PACIENTE
+
     std::string nombrePac = input_box("Turnos - Por Especialidad", "Nombre del Paciente:", 40);
     std::string apellidoPac = input_box("Turnos - Por Especialidad", "Apellido del Paciente:", 40);
 
@@ -976,7 +952,6 @@ static void ui_agendar_turno_por_especialidad(EmpresaSanatorio &app)
         return;
     }
 
-    // 3️⃣ LISTAR Y ELEGIR ESPECIALIDAD
     auto listaEspecialidades = app.listarEspecialidadesTexto();
     if (listaEspecialidades.empty())
     {
@@ -1006,7 +981,6 @@ static void ui_agendar_turno_por_especialidad(EmpresaSanatorio &app)
         return;
     }
 
-    // 4️⃣ BUSCAR SANATORIOS CON ESA ESPECIALIDAD
     auto sanatorios = app.buscarSanatoriosPorEspecialidad(
             idEspecialidad,
             pac->getLatitud(),
@@ -1051,7 +1025,6 @@ static void ui_agendar_turno_por_especialidad(EmpresaSanatorio &app)
 
     int indiceSanatorio = sanatorios[numSan].first;
 
-    // 5️⃣ OBTENER PROFESIONALES DE ESA ESPECIALIDAD EN ESE SANATORIO
     std::vector<int> profesionalesIds = app.obtenerProfesionalesPorEspecialidadEnSanatorio(
             idEspecialidad,
             indiceSanatorio
@@ -1099,7 +1072,6 @@ static void ui_agendar_turno_por_especialidad(EmpresaSanatorio &app)
         return;
     }
 
-    // 6️⃣ ✅ MODIFICADO: Obtener turnos disponibles EN ESE SANATORIO ESPECÍFICO
     auto turnosDisponibles = prof->obtenerTurnosDisponibles(indiceSanatorio, 14);
 
     if (turnosDisponibles.empty())
@@ -1150,7 +1122,6 @@ static void ui_agendar_turno_por_especialidad(EmpresaSanatorio &app)
         return;
     }
 
-    // 7️⃣ RESERVAR EL TURNO
     if (!prof->reservarTurno(fechaSeleccionada, horaSeleccionada))
     {
         message_center("Error", "No se pudo reservar el turno (ya ocupado)");
@@ -1180,9 +1151,7 @@ static void ui_agendar_turno_por_especialidad(EmpresaSanatorio &app)
         message_center("Error", "ID de turno invalido");
     }
 }
-// ============================================================================
-// ✅ FUNCIÓN PRINCIPAL DE AGENDAR TURNO (llama a las dos anteriores)
-// ============================================================================
+
 static void ui_agendar_turno(EmpresaSanatorio &app)
 {
     std::vector<std::string> opciones = {
@@ -1233,9 +1202,6 @@ static void ui_listar_turnos(EmpresaSanatorio &app)
     v.empty() ? message_center("Turnos", "No hay registros") : list_box("Turnos", v);
 }
 
-// ============================================================================
-// ✅ MODIFICADO: Configurar disponibilidad ahora incluye el sanatorio
-// ============================================================================
 static void ui_configurar_disponibilidad_profesional(EmpresaSanatorio &app)
 {
     if (app.getCantidadSanatorios() == 0)
@@ -1259,7 +1225,6 @@ static void ui_configurar_disponibilidad_profesional(EmpresaSanatorio &app)
 
         message_center("Info", "Profesional: " + prof->getNombre() + " " + prof->getApellido());
 
-        // ✅ NUEVO: Listar sanatorios donde trabaja el profesional
         std::vector<std::string> listaSanatorios;
         std::vector<int> indicesSanatorios;
 
@@ -1284,7 +1249,6 @@ static void ui_configurar_disponibilidad_profesional(EmpresaSanatorio &app)
             return;
         }
 
-        // ✅ NUEVO: Elegir sanatorio
         std::string sSan = input_box_with_list(
                 "Disponibilidad - Seleccione Sanatorio",
                 listaSanatorios,
@@ -1301,7 +1265,7 @@ static void ui_configurar_disponibilidad_profesional(EmpresaSanatorio &app)
 
         int indiceSanatorio = indicesSanatorios[numSan];
 
-        // ✅ Elegir día
+
         std::vector<std::string> dias = {
                 "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"
         };
@@ -1338,7 +1302,6 @@ static void ui_configurar_disponibilidad_profesional(EmpresaSanatorio &app)
             return;
         }
 
-        // ✅ MODIFICADO: Ahora incluye el índice del sanatorio
         prof->agregarDisponibilidad(indiceSanatorio, dias[numDia], hI, mI, hF, mF);
 
         message_center("Disponibilidad",
