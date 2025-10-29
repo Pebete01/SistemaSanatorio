@@ -191,14 +191,6 @@ public:
 
     std::string validarTexto(const std::string &mensaje);
 
-    void menu();
-
-    void subMenuMostrar();
-
-    void subMenuAgregar();
-
-    void subMenuEliminar();
-
     std::pair<double, double> geocodificarDireccion(const std::string &direccion) {
         return geocodificadorApi.obtenerCoordenadas(direccion);
     }
