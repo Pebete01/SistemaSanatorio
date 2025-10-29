@@ -30,6 +30,8 @@ add_executable(SistemaSanatorio
         src/HTTPClient.cpp
         src/DatosMock.cpp
         src/DatosMock.h
+        src/InterfazUsuario.cpp
+        src/InterfazUsuario.h
 )
 target_include_directories(SistemaSanatorio PRIVATE ${CURSES_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/ui ${CMAKE_SOURCE_DIR}/src)
 
