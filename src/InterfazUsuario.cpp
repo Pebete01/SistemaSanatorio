@@ -47,7 +47,7 @@ namespace InterfazUsuario {
         std::string direccion;
         std::pair<double, double> direcCoordenadas;
         while (true) {
-            direccion = input_box("Sanatorios - Agregar", "Direccion:", 100);
+            direccion = input_box("Sanatorios - Agregar", "Direccion:", 50);
             if (direccion.empty()) return;
 
             direcCoordenadas = app.geocodificarDireccion(direccion);
@@ -63,8 +63,8 @@ namespace InterfazUsuario {
         );
 
         if (nuevoSanatorio) {
-            std::string msg = "Sanatorio agregado con exito.\nID Asignado: " + std::to_string(nuevoSanatorio->getId());
-            message_center("Sanatorios", msg);
+            std::string msg = "ID Asignado: " + std::to_string(nuevoSanatorio->getId());
+            message_center("Sanatorio creado con exito", msg);
         } else {
             message_center("Error", error);
         }
@@ -112,7 +112,7 @@ namespace InterfazUsuario {
         std::string direccion;
         std::pair<double, double> direcCoordenadas;
         while (true) {
-            direccion = input_box("Pacientes - Agregar", "Direccion:", 100); // (subí el maxlen)
+            direccion = input_box("Pacientes - Agregar", "Direccion:", 50); // (subí el maxlen)
             if (direccion.empty()) return; // Permitir cancelar
 
             direcCoordenadas = app.geocodificarDireccion(direccion);
@@ -123,25 +123,22 @@ namespace InterfazUsuario {
         }
 
         // 4. Pedimos el resto de datos
-        std::string s_nroAfiliado = input_box("...", "Nro Afiliado:", 15);
-        std::string obraSocial = input_box("...", "Obra Social:", 30);
+        std::string s_nroAfiliado = input_box("Pacientes - Agregar", "Nro Afiliado:", 15);
+        std::string obraSocial = input_box("Pacientes - Agregar", "Obra Social:", 30);
 
         try {
             int nroAfiliado = to_int(s_nroAfiliado);
 
-            // 5. LLAMAMOS A LA NUEVA FUNCIÓN 'agregarPaciente'
-            //    Le pasamos todos los datos, incluyendo las coordenadas validadas.
             std::string error;
             Paciente *nuevoPaciente = app.agregarPaciente(
                     nombre, apellido, mail, direccion, nroAfiliado, obraSocial,
                     direcCoordenadas.first, direcCoordenadas.second, error
             );
 
-            // 6. Mostramos el ID asignado
+
             if (nuevoPaciente) {
-                std::string msg =
-                        "Paciente agregado con exito.\nID Asignado: " + std::to_string(nuevoPaciente->getId());
-                message_center("Pacientes", msg);
+                std::string msg = "ID Asignado: " + std::to_string(nuevoPaciente->getId());
+                message_center("Paciente agregado con exito", msg);
             } else {
                 message_center("Error", error);
             }
@@ -232,7 +229,7 @@ namespace InterfazUsuario {
         Especialidad *esp = app.agregarEspecialidad(nombre, error); // Nueva llamada
 
         if (esp) {
-            message_center("Especialidades", "Agregada con exito.\nID: " + std::to_string(esp->getId()));
+            message_center("Especialidad agregada ", "ID: " + std::to_string(esp->getId()));
         } else {
             message_center("Error", error.empty() ? "Error desconocido" : error);
         }
@@ -385,8 +382,8 @@ namespace InterfazUsuario {
             );
 
             if (nuevoProf) {
-                std::string msg = "Profesional agregado con exito.\nID Asignado: " + std::to_string(nuevoProf->getId());
-                message_center("Profesionales", msg);
+                std::string msg = "ID Asignado: " + std::to_string(nuevoProf->getId());
+                message_center("Profesional agregado", msg);
             } else {
                 message_center("Error", error);
             }
@@ -565,7 +562,7 @@ namespace InterfazUsuario {
             int indiceSanatorio = indicesSanatorios[numSan];
 
             std::vector<std::string> dias = {
-                    "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"
+                    "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"
             };
 
             std::string sDia = input_box_with_list(
@@ -752,16 +749,15 @@ namespace InterfazUsuario {
         std::string error;
 
         try {
-            // ================== ¡LÍNEA CORREGIDA! ==================
-            // Usa las variables que ya tenías definidas en esta función
+
             int nuevoId = app.agendarTurno(pac->getId(), idProfesional, indiceSanatorioSeleccionado,
                                            idEspecialidad, fh, 30, error);
-            // =======================================================
+
 
             if (nuevoId > 0) // Si el ID es válido
             {
-                std::string msg = "Turno agendado con exito.\nID Asignado: " + std::to_string(nuevoId);
-                message_center("Turnos", msg);
+                std::string msg = "ID Asignado: " + std::to_string(nuevoId);
+                message_center("Turno agendado con exito", msg);
             } else {
                 message_center("Error", error.empty() ? "No se pudo agendar" : error);
             }
@@ -950,7 +946,6 @@ namespace InterfazUsuario {
         std::string fh = fechaSeleccionada + " " + horaSeleccionada;
         std::string err;
 
-        // ================== BLOQUE MODIFICADO ==================
         try {
             // ANTES: bool ok = app.agendarTurno(to_int(sid), pac->getId(), ...
             // AHORA: Llamamos a la nueva función (que devuelve 'int') y sin el ID de turno.
@@ -961,8 +956,8 @@ namespace InterfazUsuario {
 
             if (nuevoId > 0) // Si el ID es válido (ej. > 0), fue un éxito
             {
-                std::string msg = "Turno agendado con exito.\nID Asignado: " + std::to_string(nuevoId);
-                message_center("Turnos", msg);
+                std::string msg = "ID Asignado: " + std::to_string(nuevoId);
+                message_center("Turno agendado con exito", msg);
             } else // Si es 0 o -1, falló
             {
                 message_center("Error", err.empty() ? "No se pudo agendar" : err);
