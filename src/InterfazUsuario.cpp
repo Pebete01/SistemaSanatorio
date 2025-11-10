@@ -93,6 +93,227 @@ namespace InterfazUsuario {
         list_box("Sanatorios", lista);
     }
 
+    void ui_eliminar_sanatorio(EmpresaSanatorio &app) {
+        int cant = app.getCantidadSanatorios();
+        if (cant == 0) {
+            message_center("Sanatorios", "No hay sanatorios registrados");
+            return;
+        }
+
+        std::vector<std::string> lista;
+        Sanatorio **sanatorios = app.getSanatorios();
+
+        for (int i = 0; i < cant; ++i) {
+            if (sanatorios[i]) {
+                std::string linea =
+                        std::to_string(i + 1) + ". " +
+                        sanatorios[i]->getNombre() +
+                        " | " + sanatorios[i]->getDireccion();
+                lista.push_back(linea);
+            }
+        }
+
+        std::string sNum = input_box_with_list(
+                "Sanatorios - Eliminar",
+                lista,
+                "Numero de sanatorio:",
+                10
+        );
+
+        try {
+            int numero = to_int(sNum) - 1; // Convertir a índice (1 -> 0, 2 -> 1, etc.)
+
+            if (numero < 0 || numero >= cant) {
+                message_center("Error", "Numero de sanatorio invalido");
+                return;
+            }
+
+            Sanatorio* san = sanatorios[numero];
+            if (!san) {
+                message_center("Error", "Sanatorio no encontrado");
+                return;
+            }
+
+            if (!confirm_box("Confirmar", "¿Eliminar sanatorio '" + san->getNombre() + "'?")) {
+                message_center("Eliminar", "Cancelado");
+                return;
+            }
+
+            std::string error;
+            bool ok = app.eliminarSanatorioPorId(san->getId(), error);
+
+            if (ok) {
+                message_center("Eliminar", "Sanatorio eliminado exitosamente");
+            } else {
+                message_center("Error", error.empty() ? "No se pudo eliminar" : error);
+            }
+        }
+        catch (...) {
+            message_center("Error", "Numero invalido");
+        }
+    }
+
+    void ui_listar_especialidades_sanatorio(EmpresaSanatorio &app) {
+        int cant = app.getCantidadSanatorios();
+        if (cant == 0) {
+            message_center("Sanatorios", "No hay sanatorios registrados");
+            return;
+        }
+
+        std::vector<std::string> lista;
+        Sanatorio **sanatorios = app.getSanatorios();
+
+        for (int i = 0; i < cant; ++i) {
+            if (sanatorios[i]) {
+                std::string linea =
+                        std::to_string(i + 1) + ". " +
+                        sanatorios[i]->getNombre() +
+                        " | " + sanatorios[i]->getDireccion();
+                lista.push_back(linea);
+            }
+        }
+
+        std::string sNum = input_box_with_list(
+                "Sanatorios - Especialidades",
+                lista,
+                "Numero de sanatorio:",
+                10
+        );
+
+        try {
+            int numero = to_int(sNum) - 1; // Convertir a índice
+
+            if (numero < 0 || numero >= cant) {
+                message_center("Error", "Numero de sanatorio invalido");
+                return;
+            }
+
+            Sanatorio* san = sanatorios[numero];
+            if (!san) {
+                message_center("Error", "Sanatorio no encontrado");
+                return;
+            }
+
+            auto listaEsp = app.listarEspecialidadesDeSanatorio(san->getId());
+
+            if (listaEsp.empty()) {
+                message_center("Especialidades", "El sanatorio '" + san->getNombre() + "' no tiene especialidades registradas");
+            } else {
+                list_box("Especialidades de " + san->getNombre(), listaEsp);
+            }
+        }
+        catch (...) {
+            message_center("Error", "Numero invalido");
+        }
+    }
+
+    void ui_listar_profesionales_sanatorio(EmpresaSanatorio &app) {
+        int cant = app.getCantidadSanatorios();
+        if (cant == 0) {
+            message_center("Sanatorios", "No hay sanatorios registrados");
+            return;
+        }
+
+        std::vector<std::string> lista;
+        Sanatorio **sanatorios = app.getSanatorios();
+
+        for (int i = 0; i < cant; ++i) {
+            if (sanatorios[i]) {
+                std::string linea =
+                        std::to_string(i + 1) + ". " +
+                        sanatorios[i]->getNombre() +
+                        " | " + sanatorios[i]->getDireccion();
+                lista.push_back(linea);
+            }
+        }
+
+        std::string sNum = input_box_with_list(
+                "Sanatorios - Profesionales",
+                lista,
+                "Numero de sanatorio:",
+                10
+        );
+
+        try {
+            int numero = to_int(sNum) - 1; // Convertir a índice
+
+            if (numero < 0 || numero >= cant) {
+                message_center("Error", "Numero de sanatorio invalido");
+                return;
+            }
+
+            Sanatorio* san = sanatorios[numero];
+            if (!san) {
+                message_center("Error", "Sanatorio no encontrado");
+                return;
+            }
+
+            auto listaProf = app.listarProfesionalesDeSanatorio(san->getId());
+
+            if (listaProf.empty()) {
+                message_center("Profesionales", "El sanatorio '" + san->getNombre() + "' no tiene profesionales registrados");
+            } else {
+                list_box("Profesionales de " + san->getNombre(), listaProf);
+            }
+        }
+        catch (...) {
+            message_center("Error", "Numero invalido");
+        }
+    }
+
+    void ui_listar_pacientes_sanatorio(EmpresaSanatorio &app) {
+        int cant = app.getCantidadSanatorios();
+        if (cant == 0) {
+            message_center("Sanatorios", "No hay sanatorios registrados");
+            return;
+        }
+
+        std::vector<std::string> lista;
+        Sanatorio **sanatorios = app.getSanatorios();
+
+        for (int i = 0; i < cant; ++i) {
+            if (sanatorios[i]) {
+                std::string linea =
+                        std::to_string(i + 1) + ". " +
+                        sanatorios[i]->getNombre() +
+                        " | " + sanatorios[i]->getDireccion();
+                lista.push_back(linea);
+            }
+        }
+
+        std::string sNum = input_box_with_list(
+                "Sanatorios - Pacientes",
+                lista,
+                "Numero de sanatorio:",
+                10
+        );
+
+        try {
+            int numero = to_int(sNum) - 1; // Convertir a índice
+
+            if (numero < 0 || numero >= cant) {
+                message_center("Error", "Numero de sanatorio invalido");
+                return;
+            }
+
+            Sanatorio* san = sanatorios[numero];
+            if (!san) {
+                message_center("Error", "Sanatorio no encontrado");
+                return;
+            }
+
+            auto listaPac = app.listarPacientesDeSanatorio(san->getId());
+
+            if (listaPac.empty()) {
+                message_center("Pacientes", "El sanatorio '" + san->getNombre() + "' no tiene pacientes con turnos activos");
+            } else {
+                list_box("Pacientes de " + san->getNombre(), listaPac);
+            }
+        }
+        catch (...) {
+            message_center("Error", "Numero invalido");
+        }
+    }
 // ============================================================================
 // PACIENTES
 // ============================================================================

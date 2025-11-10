@@ -933,3 +933,152 @@ std::vector<int> EmpresaSanatorio::obtenerProfesionalesPorEspecialidadEnSanatori
     return resultado;
 }
 
+
+Sanatorio* EmpresaSanatorio::buscarSanatorioPorId(int id)
+{
+    for (int i = 0; i < cantidadSanatorios; ++i)
+    {
+        if (sanatorios[i] && sanatorios[i]->getId() == id)
+            return sanatorios[i];
+    }
+    return nullptr;
+}
+
+const Sanatorio* EmpresaSanatorio::buscarSanatorioPorId(int id) const
+{
+    for (int i = 0; i < cantidadSanatorios; ++i)
+    {
+        if (sanatorios[i] && sanatorios[i]->getId() == id)
+            return sanatorios[i];
+    }
+    return nullptr;
+}
+
+bool EmpresaSanatorio::eliminarSanatorioPorId(int id, std::string& error)
+{
+    for (int i = 0; i < cantidadSanatorios; ++i)
+    {
+        if (sanatorios[i] && sanatorios[i]->getId() == id)
+        {
+            // Verificar si tiene turnos activos
+            for (const auto& turno : agenda)
+            {
+                if (turno.activo && turno.sanatorioIdx == i)
+                {
+                    error = "No se puede eliminar: el sanatorio tiene turnos activos";
+                    return false;
+                }
+            }
+
+            delete sanatorios[i];
+            for (int j = i + 1; j < cantidadSanatorios; ++j)
+                sanatorios[j - 1] = sanatorios[j];
+            --cantidadSanatorios;
+
+            // Actualizar índices de sanatorios en turnos
+            for (auto& turno : agenda)
+            {
+                if (turno.sanatorioIdx > i)
+                    turno.sanatorioIdx--;
+            }
+
+            return true;
+        }
+    }
+    error = "Sanatorio no encontrado";
+    return false;
+}
+
+std::vector<std::string> EmpresaSanatorio::listarEspecialidadesDeSanatorio(int idSanatorio) const
+{
+    std::vector<std::string> resultado;
+
+    const Sanatorio* san = buscarSanatorioPorId(idSanatorio);
+    if (!san)
+        return resultado;
+
+    for (int i = 0; i < cantidadEspecialidades; ++i)
+    {
+        if (especialidades[i] && san->tieneEspecialidad(especialidades[i]->getId()))
+        {
+            resultado.push_back(
+                    "ID: " + std::to_string(especialidades[i]->getId()) +
+                    " | " + especialidades[i]->getNombre()
+            );
+        }
+    }
+
+    return resultado;
+}
+
+std::vector<std::string> EmpresaSanatorio::listarProfesionalesDeSanatorio(int idSanatorio) const
+{
+    std::vector<std::string> resultado;
+
+    const Sanatorio* san = buscarSanatorioPorId(idSanatorio);
+    if (!san)
+        return resultado;
+
+    for (int i = 0; i < cantidadProfesionales; ++i)
+    {
+        if (profesionales[i] && san->tieneProfesional(profesionales[i]->getId()))
+        {
+            resultado.push_back(
+                    "ID: " + std::to_string(profesionales[i]->getId()) +
+                    " | " + profesionales[i]->getApellido() + ", " + profesionales[i]->getNombre() +
+                    " | Especialidad: " + profesionales[i]->getEspecialidad().getNombre()
+            );
+        }
+    }
+
+    return resultado;
+}
+
+std::vector<std::string> EmpresaSanatorio::listarPacientesDeSanatorio(int idSanatorio) const
+{
+    std::vector<std::string> resultado;
+    std::vector<int> pacientesIds;
+
+    // Buscar pacientes que tengan turnos en este sanatorio
+    for (int i = 0; i < cantidadSanatorios; ++i)
+    {
+        if (sanatorios[i] && sanatorios[i]->getId() == idSanatorio)
+        {
+            for (const auto& turno : agenda)
+            {
+                if (turno.activo && turno.sanatorioIdx == i)
+                {
+                    // Evitar duplicados
+                    bool yaAgregado = false;
+                    for (int id : pacientesIds)
+                    {
+                        if (id == turno.pacienteId)
+                        {
+                            yaAgregado = true;
+                            break;
+                        }
+                    }
+                    if (!yaAgregado)
+                        pacientesIds.push_back(turno.pacienteId);
+                }
+            }
+            break;
+        }
+    }
+
+    // Generar lista de texto
+    for (int id : pacientesIds)
+    {
+        const Paciente* pac = buscarPacientePorId(id);
+        if (pac)
+        {
+            resultado.push_back(
+                    "ID: " + std::to_string(pac->getId()) +
+                    " | " + pac->getApellido() + ", " + pac->getNombre() +
+                    " | Obra Social: " + pac->getObraSocial()
+            );
+        }
+    }
+
+    return resultado;
+}

@@ -45,4 +45,9 @@ namespace InterfazUsuario {
     void ui_cancelar_turno(EmpresaSanatorio &app);
     void ui_listar_turnos(EmpresaSanatorio &app);
 
+    void ui_eliminar_sanatorio(EmpresaSanatorio &app);
+    void ui_listar_especialidades_sanatorio(EmpresaSanatorio &app);
+    void ui_listar_profesionales_sanatorio(EmpresaSanatorio &app);
+    void ui_listar_pacientes_sanatorio(EmpresaSanatorio &app);
+
 } // namespace InterfazUsuario

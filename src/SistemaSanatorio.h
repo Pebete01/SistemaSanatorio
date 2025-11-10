@@ -167,6 +167,12 @@ public:
                                 std::string& error);
 
     void agrandarListaSanatorios();
+    Sanatorio* buscarSanatorioPorId(int id);
+    const Sanatorio* buscarSanatorioPorId(int id) const;
+    bool eliminarSanatorioPorId(int id, std::string& error);
+    std::vector<std::string> listarEspecialidadesDeSanatorio(int idSanatorio) const;
+    std::vector<std::string> listarProfesionalesDeSanatorio(int idSanatorio) const;
+    std::vector<std::string> listarPacientesDeSanatorio(int idSanatorio) const;
 
     // fechaHora: "YYYY-MM-DD HH:MM"
     int agendarTurno(int idPaciente, int idProfesional, int sanatorioIdx,

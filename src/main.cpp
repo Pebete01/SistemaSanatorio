@@ -44,7 +44,11 @@ int main()
             {
                 int s = run_submenu("Sanatorios", {
                         "Agregar",
-                        "Listar"
+                        "Eliminar",
+                        "Listar",
+                        "Listar Especialidades",
+                        "Listar Profesionales",
+                        "Listar Pacientes"
                 });
 
                 if (s < 0) break;
@@ -52,7 +56,15 @@ int main()
                 if (s == 0)
                     ui_agregar_sanatorio(app);
                 else if (s == 1)
+                    ui_eliminar_sanatorio(app);
+                else if (s == 2)
                     ui_listar_sanatorios(app);
+                else if (s == 3)
+                    ui_listar_especialidades_sanatorio(app);
+                else if (s == 4)
+                    ui_listar_profesionales_sanatorio(app);
+                else if (s == 5)
+                    ui_listar_pacientes_sanatorio(app);
             }
         }
         else if (principal[i] == "Pacientes")
