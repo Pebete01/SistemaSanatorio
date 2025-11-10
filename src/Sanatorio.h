@@ -20,6 +20,7 @@ private:
     string direccion;
     double latitud;
     double longitud;
+    int id;
     Paciente **listaPacientes;
     Profesional **listaProfesionales;
     Turno **listaTurno;
@@ -28,11 +29,12 @@ private:
     int capacidadPacientes, capacidadProfe, capacidadTurno, capacidadEspecialidad;
 
 public:
-    Sanatorio(string nombre, string direccion, double lat =0.0, double lon = 0.0) :
+    Sanatorio(int id, string nombre, string direccion, double lat =0.0, double lon = 0.0) : id(id),
     nombre(nombre), direccion(direccion), latitud (lat), longitud (lon),
     listaEspecialidades(nullptr), listaPacientes(nullptr), listaProfesionales(nullptr),
     listaTurno(nullptr), cantidadPacientes(0), cantidadProfe(0), cantidadTurno(0), cantidadEspecialidad(0),
     capacidadPacientes(0), capacidadProfe(0), capacidadTurno(0), capacidadEspecialidad(0){}
+    int getId() const { return id;}
     const string& getNombre() const { return nombre; }
     const string& getDireccion() const { return direccion; }
     double getLatitud() const { return latitud; }

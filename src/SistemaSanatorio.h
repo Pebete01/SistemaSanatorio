@@ -31,6 +31,14 @@ private:
     int capacidadSanatorios = 0, cantidadSanatorios = 0;
     int capacidadEspecialidad = 0, cantidadEspecialidades = 0;
 
+    // Contadores para el próximo ID a asignar
+    // (Iniciados en números altos para no chocar con los DatosMock)
+    int proximoIdPaciente = 1100;
+    int proximoIdProfesional = 100;
+    int proximoIdEspecialidad = 100;
+    int proximoIdSanatorio = 100;
+    int proximoIdTurno = 5100;
+
     struct TurnoRec {
         int id;
         int pacienteId;
@@ -90,7 +98,15 @@ public:
 
     std::vector <std::string> listarPacientesTexto() const;
 
-    void agregarPaciente(Paciente *p);
+    // ================== CAMBIO 1 ==================
+    // La firma de agregarPaciente ahora acepta las coordenadas
+    // (ya no tiene que geocodificar, solo recibe los datos).
+    Paciente* agregarPaciente(const std::string& nombre, const std::string& apellido,
+                              const std::string& mail, const std::string& direccion,
+                              int nroAfiliado, const std::string& obraSocial,
+                              double lat, double lon, // <-- Recibe las coordenadas
+                              std::string& error);
+
 
     void agrandarListaPaciente();
 
@@ -107,7 +123,9 @@ public:
 
     std::vector <std::string> listarProfesionalesTexto() const;
 
-    void agregarProfesional(Profesional *p);
+    Profesional* agregarProfesional(int nroMatricula, const Especialidad& esp,
+                                    const std::string& nombre, const std::string& apellido,
+                                    const std::string& mail, std::string& error);
 
     void agrandarListaProfesionales();
 
@@ -127,7 +145,7 @@ public:
 
     std::vector <std::string> listarEspecialidadesTexto() const;
 
-    void agregarEspecialidad(Especialidad *p);
+    Especialidad* agregarEspecialidad(const std::string& nombre, std::string& error);
 
     void agrandarListaEspecialidad();
 
@@ -144,13 +162,15 @@ public:
 
     const Sanatorio *const *getSanatorios() const { return sanatorios; }
 
-    void agregarSanatorio(Sanatorio *s);
+    Sanatorio* agregarSanatorio(const std::string& nombre, const std::string& direccion,
+                                double lat, double lon, // <-- Recibe las coordenadas
+                                std::string& error);
 
     void agrandarListaSanatorios();
 
     // fechaHora: "YYYY-MM-DD HH:MM"
-    bool agendarTurno(int idTurno, int idPaciente, int idProfesional, int idEspecialidad,
-                      const std::string &fechaHora, int durMin, std::string &error);
+    int agendarTurno(int idPaciente, int idProfesional, int sanatorioIdx,
+                     int idEspecialidad, const std::string &fechaHora, int durMin, std::string &error);
 
     bool cancelarTurnoPorId(int idTurno);
 
@@ -175,19 +195,6 @@ public:
 
     std::vector<int> obtenerProfesionalesPorEspecialidadEnSanatorio(int idEspecialidad, int indiceSanatorio) const;
 
-    void agrandarListaTurnos();
-
-    void agregarTurnos(Turno *p); // mantenido para compatibilidad
-    Sanatorio *nuevoSanatorio();
-
-
-    Paciente *nuevoPaciente();
-
-    Especialidad *nuevaEspecialidad();
-
-    Profesional *nuevoProfesional();
-
-    int validarEntero(const std::string &mensaje);
 
     std::string validarTexto(const std::string &mensaje);
 

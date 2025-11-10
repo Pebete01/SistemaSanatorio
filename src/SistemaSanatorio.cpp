@@ -7,6 +7,7 @@
 #include <cstdlib> // Para system()
 #include <ctime> // Para time() y mktime()
 #include <cmath>
+#include "iomanip"
 
 #include "Profesional.h"
 #include "Paciente.h"
@@ -201,13 +202,34 @@ void EmpresaSanatorio::agrandarListaPaciente()
     capacidadPacientes = capacidadNueva;
 }
 
-void EmpresaSanatorio::agregarPaciente(Paciente *p)
+Paciente* EmpresaSanatorio::agregarPaciente(
+        const std::string& nombre, const std::string& apellido,
+        const std::string& mail, const std::string& direccion,
+        int nroAfiliado, const std::string& obraSocial,
+        double lat, double lon, // <-- Usamos las coordenadas recibidas
+        std::string& error)
 {
-    if (!p)
-        return;
-    if (capacidadPacientes == cantidadPacientes)
-        agrandarListaPaciente();
-    listaPacientes[cantidadPacientes++] = p;
+    try
+    {
+        // 1. Generamos el ID (nuestra lógica autoincremental)
+        int nuevoId = proximoIdPaciente++;
+
+        // 2. Creamos el objeto (usando las coordenadas validadas por la UI)
+        Paciente* p = new Paciente(nuevoId, nombre, apellido, mail, direccion,
+                                   nroAfiliado, obraSocial, lat, lon);
+
+        // 3. Agregamos al array (tu lógica original)
+        if (capacidadPacientes == cantidadPacientes)
+            agrandarListaPaciente();
+        listaPacientes[cantidadPacientes++] = p;
+
+        return p;
+    }
+    catch (const std::exception& e)
+    {
+        error = e.what();
+        return nullptr;
+    }
 }
 
 void EmpresaSanatorio::agrandarListaEspecialidad()
@@ -224,13 +246,29 @@ void EmpresaSanatorio::agrandarListaEspecialidad()
     capacidadEspecialidad = capacidadNueva;
 }
 
-void EmpresaSanatorio::agregarEspecialidad(Especialidad *p)
+Especialidad* EmpresaSanatorio::agregarEspecialidad(const std::string& nombre, std::string& error)
 {
-    if (!p)
-        return;
-    if (capacidadEspecialidad == cantidadEspecialidades)
-        agrandarListaEspecialidad();
-    especialidades[cantidadEspecialidades++] = p;
+    // Buena práctica: validar si ya existe
+    if (buscarEspecialidadPorNombre(nombre)) {
+        error = "Esa especialidad ya existe";
+        return nullptr;
+    }
+
+    try
+    {
+        int nuevoId = proximoIdEspecialidad++;
+        Especialidad* esp = new Especialidad(nuevoId, nombre);
+
+        if (capacidadEspecialidad == cantidadEspecialidades)
+            agrandarListaEspecialidad(); // (Asegúrate que esta función exista)
+        especialidades[cantidadEspecialidades++] = esp;
+        return esp;
+    }
+    catch (const std::exception& e)
+    {
+        error = e.what();
+        return nullptr;
+    }
 }
 
 void EmpresaSanatorio::agrandarListaProfesionales()
@@ -244,34 +282,32 @@ void EmpresaSanatorio::agrandarListaProfesionales()
     capacidadProfesionales = capacidadNueva;
 }
 
-void EmpresaSanatorio::agregarProfesional(Profesional *p)
+Profesional* EmpresaSanatorio::agregarProfesional(
+        int nroMatricula, const Especialidad& esp,
+        const std::string& nombre, const std::string& apellido,
+        const std::string& mail, std::string& error)
 {
-    if (!p)
-        return;
-    if (cantidadProfesionales == capacidadProfesionales)
-        agrandarListaProfesionales();
-    profesionales[cantidadProfesionales++] = p;
+    try
+    {
+        int nuevoId = proximoIdProfesional++;
+        // El constructor es: Profesional(int numero, const Especialidad &esp, int id, ...)
+        Profesional* p = new Profesional(nroMatricula, esp, nuevoId, nombre, apellido, mail);
+
+        if (capacidadProfesionales == cantidadProfesionales)
+            agrandarListaProfesionales(); // (Asegúrate que esta función exista)
+        profesionales[cantidadProfesionales++] = p;
+        return p;
+    }
+    catch (const std::exception& e)
+    {
+        error = e.what();
+        return nullptr;
+    }
 }
 
-void EmpresaSanatorio::agrandarListaTurnos()
-{
-    int capacidadNueva = (capacidadTurno == 0) ? 4 : capacidadTurno * 2;
-    auto **listaNueva = new Turno *[capacidadNueva];
-    for (int i = 0; i < cantidadTurnos; ++i)
-        listaNueva[i] = turnos[i];
-    delete[] turnos;
-    turnos = listaNueva;
-    capacidadTurno = capacidadNueva;
-}
 
-void EmpresaSanatorio::agregarTurnos(Turno *p)
-{
-    if (!p)
-        return;
-    if (capacidadTurno == cantidadTurnos)
-        agrandarListaTurnos();
-    turnos[cantidadTurnos++] = p;
-}
+
+
 
 void EmpresaSanatorio::ordenarPacientesPorApellido()
 {
@@ -301,26 +337,6 @@ void EmpresaSanatorio::ordenarProfesionalesPorApellido()
               });
 }
 
-int EmpresaSanatorio::validarEntero(const string &mensaje)
-{
-    int valor;
-    while (true)
-    {
-        cout << mensaje;
-        if (cin >> valor)
-        {
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            return valor;
-        }
-        else
-        {
-            cout << "Entrada inválida. Ingrese un número válido." << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
-    }
-}
-
 string EmpresaSanatorio::validarTexto(const string &mensaje)
 {
     string valor;
@@ -334,58 +350,10 @@ string EmpresaSanatorio::validarTexto(const string &mensaje)
     }
 }
 
-Especialidad *EmpresaSanatorio::nuevaEspecialidad()
-{
-    int id = validarEntero("Ingrese ID especialidad: ");
-    string nombre = validarTexto("Ingrese nombre de Especialidad: ");
-    return new Especialidad(id, nombre);
-}
 
-Paciente *EmpresaSanatorio::nuevoPaciente()
-{
-    int id = validarEntero("Ingrese ID del paciente: ");
-    int numAfiliado = validarEntero("Ingrese numero afiliado: ");
-    string nombre = validarTexto("Ingrese nombre: ");
-    string apellido = validarTexto("Ingrese apellido: ");
-    string obraSocial = validarTexto("Ingrese obra Social: ");
-    string mail = validarTexto("Ingrese Mail: ");
-    string direccion = validarTexto("Ingrese su direccion: ");
-    auto coords = geocodificadorApi.obtenerCoordenadas(direccion);
-    while (coords.first == 0.0 and coords.second == 0.0){
-        direccion = validarTexto("Ingrese su direccion: ");
-        coords = geocodificadorApi.obtenerCoordenadas(direccion);
-    }
-    return new Paciente(id, nombre, apellido, mail, direccion,
-                        numAfiliado, obraSocial, coords.first, coords.second);
-}
 
-Profesional *EmpresaSanatorio::nuevoProfesional()
-{
-    int id = validarEntero("Ingrese ID del profesional: ");
-    int numProfesional = validarEntero("Ingrese numero de profesional: ");
-    int idEsp = validarEntero("Ingrese ID de especialidad: ");
-    string nombre = validarTexto("Ingrese nombre: ");
-    string apellido = validarTexto("Ingrese apellido: ");
-    string mail = validarTexto("Ingrese su mail: ");
 
-    Especialidad *esp = buscarEspecialidadPorId(idEsp);
-    if (!esp)
-    {
-        cout << "Especialidad inexistente. Cancele o cargue la especialidad antes." << endl;
-        return nullptr;
-    }
 
-    return new Profesional(numProfesional, *esp, id, nombre, apellido,mail);
-}
-
-Sanatorio *EmpresaSanatorio::nuevoSanatorio()
-{
-    string nombre = validarTexto("Ingrese nombre del sanatorio: ");
-    string ubicacion = validarTexto("Ingrese ubicacion del sanatorio: ");
-    double lat, lon;
-    pair<double,double> coordenadasUbicacion = geocodificadorApi.obtenerCoordenadas(ubicacion);
-    return new Sanatorio(nombre, ubicacion,coordenadasUbicacion.first,coordenadasUbicacion.second);
-}
 
 Profesional *EmpresaSanatorio::buscarProfesionalPorId(int id)
 {
@@ -495,87 +463,85 @@ static bool solapan(int aStart, int aDur, int bStart, int bDur)
     return (aStart < bEnd) && (bStart < aEnd);
 }
 
-bool EmpresaSanatorio::agendarTurno(int idTurno, int idPaciente, int idProfesional, int idEspecialidad,
-                                    const std::string &fechaHora, int durMin, std::string &error)
-{
+int EmpresaSanatorio::agendarTurno(int idPaciente, int idProfesional, int sanatorioIdx,
+                                   int idEspecialidad, const std::string &fechaHora, int durMin, std::string &error){
+    // --- 1. Validaciones (El código que ya tenías) ---
+    Paciente* pac = buscarPacientePorId(idPaciente);
+    Profesional* prof = buscarProfesionalPorId(idProfesional);
+    Especialidad* esp = buscarEspecialidadPorId(idEspecialidad); // <-- NUEVA VALIDACIÓN
+
+    if (!pac) {
+        error = "Paciente no encontrado";
+        return 0; // 0 (o -1) para indicar error
+    }
+    if (!prof) {
+        error = "Profesional no encontrado";
+        return 0;
+    }
+    if (!esp) { // <-- NUEVA VALIDACIÓN
+        error = "Especialidad no encontrada";
+        return 0;
+    }
+
+    // --- 2. VALIDACIÓN DE COHERENCIA ---
+    // Verificamos que el profesional tenga la especialidad solicitada
+    if (prof->getEspecialidad().getId() != idEspecialidad) { // <-- NUEVA VALIDACIÓN
+        error = "El profesional no pertenece a la especialidad indicada.";
+        return 0;
+    }
+
+    // --- 2. Parsear Fecha/Hora (El código que ya tenías) ---
+    std::tm tm = {};
+    std::istringstream ss(fechaHora);
+    ss >> std::get_time(&tm, "%Y-%m-%d %H:%M"); // (Asegúrate que <iomanip> esté incluido)
+
+    if (ss.fail()) {
+        error = "Formato de fecha/hora invalido. Usar YYYY-MM-DD HH:MM";
+        return 0;
+    }
+    int h = tm.tm_hour;
+    int m = tm.tm_min;
+    int minOfDay = h * 60 + m;
+
+    char fechaBuffer[11];
+    std::strftime(fechaBuffer, 11, "%Y-%m-%d", &tm); // (Asegúrate que <ctime> esté incluido)
+    std::string fechaStr = fechaBuffer;
+
+    char horaBuffer[6];
+    std::strftime(horaBuffer, 6, "%H:%M", &tm);
+    std::string horaStr = horaBuffer;
+
+
+    // --- 3. Verificar Disponibilidad (El código que ya tenías) ---
+    // (¡Importante! Esto debe hacerse ANTES de bloquear el mutex de la lista de turnos)
+    if (!prof->reservarTurno(fechaStr, horaStr)) {
+        error = "El horario ya no esta disponible o es invalido";
+        return 0;
+    }
+
+    // --- 4. Generar ID y Crear el Turno ---
+    int nuevoIdTurno = proximoIdTurno++; // Generamos el ID autoincremental
+
+    // ¡Importante! Bloqueamos el mutex antes de modificar el vector de turnos,
+    // para protegerlo del hilo de notificaciones.
     std::lock_guard<std::mutex> lock(mtx);
 
-    if (!buscarPacientePorId(idPaciente))
-    {
-        error = "Paciente inexistente";
-        return false;
-    }
-    if (!buscarProfesionalPorId(idProfesional))
-    {
-        error = "Profesional inexistente";
-        return false;
-    }
-    if (!buscarEspecialidadPorId(idEspecialidad))
-    {
-        error = "Especialidad inexistente";
-        return false;
-    }
-    if (durMin <= 0)
-    {
-        error = "Duración inválida";
-        return false;
-    }
-
-    // Parse fecha/hora
-    std::string fecha;
-    int minOfDay;
-    if (!parse_fecha_hora(fechaHora, fecha, minOfDay))
-    {
-        error = "Fecha/Hora inválida";
-        return false;
-    }
-
-    // ID de turno único
-    for (const auto &t : agenda)
-    {
-        if (t.activo && t.id == idTurno)
-        {
-            error = "ID de turno ya usado";
-            return false;
-        }
-    }
-
-    // Regla de no solapamiento por profesional (misma fecha)
-    for (const auto &t : agenda)
-    {
-        if (!t.activo)
-            continue;
-        if (t.profesionalId == idProfesional && t.fecha == fecha)
-        {
-            if (solapan(t.minOfDay, t.durMin, minOfDay, durMin))
-            {
-                error = "Solapamiento con otro turno del profesional";
-                return false;
-            }
-        }
-    }
-
-    int sanatorioIdx = -1;
-    for (int i = 0; i < cantidadSanatorios; ++i)
-    {
-        if (sanatorios[i] && sanatorios[i]->tieneProfesional(idProfesional))
-        {
-            sanatorioIdx = i;
-            break;  // Tomar el primero encontrado
-        }
-    }
-
-    if (sanatorioIdx == -1)
-    {
-        error = "Profesional no trabaja en ningún sanatorio";
-        return false;
-    }
-
-    // Alta en agenda
+    // Usando la forma exacta que pediste (asumiendo que tu vector se llama 'turnos'):
     agenda.push_back(TurnoRec{
-            idTurno, idPaciente, idProfesional, idEspecialidad, sanatorioIdx,  // <-- MODIFICADO: agregar sanatorioIdx
-            fecha, minOfDay, durMin, true});
-    return true;
+            nuevoIdTurno,   // idTurno
+            idPaciente,
+            idProfesional,
+            idEspecialidad,
+            sanatorioIdx,
+            fechaStr,       // fecha ("YYYY-MM-DD")
+            minOfDay,       // minOfDay (HH*60+MM)
+            durMin,
+            true,           // activo
+            false           // notificado (asumo que 'false' es el default)
+    });
+
+    // --- 5. Devolver el nuevo ID ---
+    return nuevoIdTurno;
 }
 
 bool EmpresaSanatorio::cancelarTurnoPorId(int idTurno)
@@ -709,13 +675,26 @@ void EmpresaSanatorio::agrandarListaSanatorios()
     capacidadSanatorios = capacidadNueva;
 }
 
-void EmpresaSanatorio::agregarSanatorio(Sanatorio* s)
+Sanatorio* EmpresaSanatorio::agregarSanatorio(
+        const std::string& nombre, const std::string& direccion,
+        double lat, double lon,
+        std::string& error)
 {
-    if (!s)
-        return;
-    if (capacidadSanatorios == cantidadSanatorios)
-        agrandarListaSanatorios();
-    sanatorios[cantidadSanatorios++] = s;
+    try
+    {
+        int nuevoId = proximoIdSanatorio++;
+        Sanatorio* s = new Sanatorio(nuevoId, nombre, direccion, lat, lon);
+
+        if (capacidadSanatorios == cantidadSanatorios)
+            agrandarListaSanatorios(); // (Asegúrate que esta función exista)
+        sanatorios[cantidadSanatorios++] = s;
+        return s;
+    }
+    catch (const std::exception& e)
+    {
+        error = e.what();
+        return nullptr;
+    }
 }
 
 
