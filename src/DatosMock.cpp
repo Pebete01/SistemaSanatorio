@@ -1,239 +1,179 @@
-//
-// Created by tomyl on 26/10/2025.
-//
-
 #include "DatosMock.h"
-
 #include "SistemaSanatorio.h"
 #include "Paciente.h"
 #include "Profesional.h"
 #include "Especialidad.h"
 #include "Sanatorio.h"
-#include "menu.h"
+#include "menu.h" // Para message_center
 
 #include <chrono>
 #include <iomanip>
 #include <sstream>
-#include <ctime>
 #include <string>
-#include <cmath>
+#include <iostream>
+#include <ctime> // Para std::strftime y std::localtime
+#include <cstdio> // Para sscanf
 
-static std::string formatearFechaHora(const std::chrono::system_clock::time_point& time_point)
+// FIX: Reemplazamos std::put_time por std::strftime (más robusto para MinGW)
+static std::string formatTime(const std::chrono::system_clock::time_point& timePoint)
 {
-    std::time_t t = std::chrono::system_clock::to_time_t(time_point);
-    std::tm tm = *std::localtime(&t);
-    std::ostringstream oss;
-    oss << std::put_time(&tm, "%Y-%m-%d %H:%M");
-    return oss.str();
+    std::time_t tt = std::chrono::system_clock::to_time_t(timePoint);
+    std::tm tm = *std::localtime(&tt);
+    char buffer[20];
+    if (std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M", &tm) == 0) {
+        return "";
+    }
+    return std::string(buffer);
 }
 
-static std::string encontrarProximoTurnoDisponible(
-        Profesional* prof,
-        int indiceSanatorio,
-        const std::chrono::system_clock::time_point& objetivo,
-        int diasBusqueda = 14)
+static std::string getHoyStr()
 {
-    if (!prof) return "";
+    std::time_t tt = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::tm tm = *std::localtime(&tt);
+    const char* dias[] = {
+            "Domingo", "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"
+    };
+    if (tm.tm_wday >= 0 && tm.tm_wday <= 6) {
+        return dias[tm.tm_wday];
+    }
+    return "Lunes"; // Fallback
+}
 
-    auto turnosDisponibles = prof->obtenerTurnosDisponibles(indiceSanatorio, diasBusqueda);
+void cargarDatosMock(EmpresaSanatorio& app)
+{
+    std::string error;
 
-    if (turnosDisponibles.empty()) return "";
+    // --- 1. CREAR ESPECIALIDADES ---
+    // (IDs se autogeneran desde 100 en adelante)
+    Especialidad* esp1 = app.agregarEspecialidad("Cardiologia", error);
+    Especialidad* esp2 = app.agregarEspecialidad("Dermatologia", error);
+    Especialidad* esp3 = app.agregarEspecialidad("Traumatologia", error);
+    Especialidad* esp4 = app.agregarEspecialidad("Pediatria", error);
+    Especialidad* esp5 = app.agregarEspecialidad("Clinica Medica", error);
+    Especialidad* esp6 = app.agregarEspecialidad("Oftalmologia", error);
 
-    // Convertir el 'objetivo' a std::tm para compararlo
-    std::time_t t_objetivo = std::chrono::system_clock::to_time_t(objetivo);
-    std::tm tm_objetivo = *std::localtime(&t_objetivo);
-    std::string s_fecha_objetivo = formatearFechaHora(objetivo).substr(0, 10);
-    std::string s_hora_objetivo = formatearFechaHora(objetivo).substr(11, 5);
+    // --- 2. CREAR SANATORIOS ---
+    // (IDs se autogeneran desde 100 en adelante, se buscan por ÍNDICE 0, 1, 2)
+    Sanatorio* san1 = app.agregarSanatorio("Sanatorio Guemes", "Av. Cordoba 3900", -34.5950, -58.4208, error);
+    Sanatorio* san2 = app.agregarSanatorio("Hospital Italiano", "Av. Juan B. Alberdi 450", -34.6190, -58.4431, error);
+    Sanatorio* san3 = app.agregarSanatorio("Clinica del Sol", "Av. Coronel Diaz 2079", -34.5885, -58.4103, error);
 
-    // Buscar el primer turno después del objetivo
-    for (const auto& [fecha, hora] : turnosDisponibles)
+    // --- 3. CREAR PROFESIONALES ---
+    // (IDs se autogeneran desde 100 en adelante)
+    Profesional* prof1 = nullptr;
+    Profesional* prof2 = nullptr;
+    Profesional* prof3 = nullptr;
+    Profesional* prof4 = nullptr;
+    Profesional* prof5 = nullptr;
+
+    if (esp1 && esp2 && esp3 && esp4 && esp5) {
+        prof1 = app.agregarProfesional(4032, *esp1, "Juan", "Perez", "jperez@mail.com", error);
+        prof2 = app.agregarProfesional(4089, *esp2, "Ana", "Gomez", "agomez@mail.com", error);
+        prof3 = app.agregarProfesional(4076, *esp3, "Carlos", "Martinez", "cmartinez@mail.com", error);
+        prof4 = app.agregarProfesional(4036, *esp4, "Maria", "Lopez", "mlopez@mail.com", error);
+        prof5 = app.agregarProfesional(4012, *esp5, "Luis", "Gonzalez", "lgonzalez@mail.com", error);
+    }
+
+    // --- 4. VINCULAR ESPECIALIDADES Y PROFESIONALES A SANATORIOS ---
+    if (san1 && san2 && san3 && esp1 && esp2 && esp3 && esp4 && esp5 && esp6 && prof1 && prof2 && prof3 && prof4 && prof5)
     {
-        if (fecha > s_fecha_objetivo || (fecha == s_fecha_objetivo && hora >= s_hora_objetivo))
-        {
-            return fecha + " " + hora;
-        }
+        // Sanatorio 1 (Güemes) - Usamos las funciones del .h
+        app.agregarEspecialidadASanatorio(0, esp1); // Índice 0
+        app.agregarEspecialidadASanatorio(0, esp3);
+        app.agregarEspecialidadASanatorio(0, esp5);
+        app.agregarProfesionalASanatorio(0, prof1);
+        app.agregarProfesionalASanatorio(0, prof3);
+        app.agregarProfesionalASanatorio(0, prof5);
+
+        // Sanatorio 2 (Italiano)
+        app.agregarEspecialidadASanatorio(1, esp2); // Índice 1
+        app.agregarEspecialidadASanatorio(1, esp4);
+        app.agregarProfesionalASanatorio(1, prof2);
+        app.agregarProfesionalASanatorio(1, prof4);
+
+        // Sanatorio 3 (Del Sol)
+        app.agregarEspecialidadASanatorio(2, esp1); // Índice 2
+        app.agregarEspecialidadASanatorio(2, esp6);
+        app.agregarEspecialidadASanatorio(2, esp5);
+        app.agregarProfesionalASanatorio(2, prof1);
+        app.agregarProfesionalASanatorio(2, prof5);
     }
 
-    // Si no se encuentra uno después, devolver el primero disponible
-    return turnosDisponibles[0].first + " " + turnosDisponibles[0].second;
-}
-
-
-void cargarDatosMock(EmpresaSanatorio &app) {
-    std::string error; // Variable de error para las nuevas funciones
-
-    // --- 1. Carga de Sanatorios (¡AHORA CAPTURAMOS LOS PUNTEROS!) ---
-    Sanatorio* s1 = app.agregarSanatorio("Hospital Aleman", "Av. Pueyrredon 1640, CABA", -34.5947, -58.4019, error);
-    Sanatorio* s2 = app.agregarSanatorio("Hospital Italiano", "Tte. Gral. Juan Domingo Peron 4190, CABA", -34.6118, -58.4239, error);
-    Sanatorio* s3 = app.agregarSanatorio("Sanatorio Finochietto", "Av. Cordoba 2678, CABA", -34.6042, -58.403, error);
-    Sanatorio* s4 = app.agregarSanatorio("Sanatorio Guemes", "Francisco Acuna de Figueroa 1240, CABA", -34.6033, -58.4278, error);
-    Sanatorio* s5 = app.agregarSanatorio("Clinica y Maternidad Suizo", "Av. Pueyrredon 1461, CABA", -34.5956, -58.4005, error);
-
-    // --- 2. Carga de Especialidades (¡TAMBIÉN CAPTURAMOS LOS PUNTEROS!) ---
-    Especialidad *cardio = app.agregarEspecialidad("Cardiologia", error);
-    Especialidad *derma = app.agregarEspecialidad("Dermatologia", error);
-    Especialidad *trauma = app.agregarEspecialidad("Traumatologia", error);
-    Especialidad *pedia = app.agregarEspecialidad("Pediatria", error);
-    Especialidad *clinica = app.agregarEspecialidad("Clinica Medica", error);
-
-    // --- 3. Carga de Profesionales (¡CAPTURAMOS PUNTEROS!) ---
-    Profesional *prof1 = nullptr, *prof2 = nullptr, *prof3 = nullptr, *prof4 = nullptr, *prof5 = nullptr;
-    Profesional *prof6 = nullptr, *prof7 = nullptr, *prof8 = nullptr, *prof9 = nullptr, *prof10 = nullptr;
-
-    if (cardio) {
-        prof1 = app.agregarProfesional(101, *cardio, "Roberto", "Fernandez", "rfernandez@hospital.com", error);
-        prof2 = app.agregarProfesional(102, *cardio, "Maria", "Lopez", "mlopez@clinica.com", error);
-    }
-    if (derma) {
-        prof3 = app.agregarProfesional(103, *derma, "Carlos", "Martinez", "cmartinez@sanatorio.com", error);
-        prof4 = app.agregarProfesional(104, *derma, "Ana", "Rodriguez", "arodriguez@medico.com", error);
-    }
-    if (trauma) {
-        prof5 = app.agregarProfesional(105, *trauma, "Jorge", "Gonzalez", "jgonzalez@trauma.com", error);
-        prof6 = app.agregarProfesional(106, *trauma, "Laura", "Perez", "lperez@ortopedia.com", error);
-    }
-    if (pedia) {
-        prof7 = app.agregarProfesional(107, *pedia, "Diego", "Sanchez", "dsanchez@pediatria.com", error);
-        prof8 = app.agregarProfesional(108, *pedia, "Lucia", "Ramirez", "lramirez@ninos.com", error);
-    }
-    if (clinica) {
-        prof9 = app.agregarProfesional(109, *clinica, "Martin", "Torres", "mtorres@clinica.com", error);
-        prof10 = app.agregarProfesional(110, *clinica, "Sofia", "Gomez", "sgomez@medicina.com", error);
+    // --- 5. CONFIGURAR DISPONIBILIDAD DE PROFESIONALES ---
+    std::string hoy = getHoyStr();
+    if (prof1 && prof2 && prof3 && prof4 && prof5)
+    {
+        prof1->agregarDisponibilidad(0, hoy, 9, 0, 12, 0); // Índice 0
+        prof1->agregarDisponibilidad(0, "Miercoles", 9, 0, 12, 0);
+        prof1->agregarDisponibilidad(2, "Viernes", 14, 0, 18, 0); // Índice 2
+        prof2->agregarDisponibilidad(1, hoy, 8, 0, 16, 0); // Índice 1
+        prof2->agregarDisponibilidad(1, "Jueves", 8, 0, 16, 0);
+        prof3->agregarDisponibilidad(0, "Lunes", 10, 0, 17, 0);
+        prof3->agregarDisponibilidad(0, "Viernes", 10, 0, 17, 0);
+        prof4->agregarDisponibilidad(1, "Martes", 9, 30, 13, 0);
+        prof4->agregarDisponibilidad(1, "Jueves", 9, 30, 13, 0);
+        prof5->agregarDisponibilidad(0, hoy, 9, 0, 13, 0);
+        prof5->agregarDisponibilidad(2, "Miercoles", 15, 0, 19, 0);
     }
 
-    // ==========================================================
-    // --- 4. ¡NUEVO! VINCULACIÓN DE ENTIDADES (La parte que faltaba) ---
-    // ==========================================================
 
-    // Asignamos Especialidades a Sanatorios (Ejemplo)
-    if (s1) { // Aleman (idx 0)
-        if(cardio) s1->agregarEspecialidad(cardio);
-        if(derma) s1->agregarEspecialidad(derma);
-        if(clinica) s1->agregarEspecialidad(clinica);
-    }
-    if (s2) { // Italiano (idx 1)
-        if(cardio) s2->agregarEspecialidad(cardio);
-        if(trauma) s2->agregarEspecialidad(trauma);
-        if(pedia) s2->agregarEspecialidad(pedia);
-    }
-    if (s3) { // Finochietto (idx 2)
-        if(derma) s3->agregarEspecialidad(derma);
-        if(trauma) s3->agregarEspecialidad(trauma);
-    }
-    if (s4) { // Guemes (idx 3)
-        if(pedia) s4->agregarEspecialidad(pedia);
-        if(clinica) s4->agregarEspecialidad(clinica);
-    }
-    if (s5) { // Suizo (idx 4)
-        if(cardio) s5->agregarEspecialidad(cardio);
-        if(derma) s5->agregarEspecialidad(derma);
-        if(trauma) s5->agregarEspecialidad(trauma);
-        if(pedia) s5->agregarEspecialidad(pedia);
-        if(clinica) s5->agregarEspecialidad(clinica);
-    }
+    // --- 6. CREAR PACIENTES (5) ---
+    // (IDs se autogeneran desde 1100 en adelante)
+    Paciente* pac1 = app.agregarPaciente("Tomas", "Lajnis", "tomaslajnis@gmail.com", "Av. Callao 100", 11111, "OSDE", -34.6067, -58.3855, error);
+    Paciente* pac2 = app.agregarPaciente("Carolina", "Ladislao", "tomylajnis@gmail.com", "Av. Rivadavia 2000", 22222, "Swiss Medical", -34.6083, -58.4018, error);
+    Paciente* pac3 = app.agregarPaciente("Laura", "Garcia", "lgarcia@mail.com", "Florida 500", 33333, "Galeno", -34.6010, -58.3732, error);
+    Paciente* pac4 = app.agregarPaciente("Martin", "Fernandez", "mfernandez@mail.com", "Av. de Mayo 800", 44444, "OSDE", -34.6087, -58.3800, error);
+    Paciente* pac5 = app.agregarPaciente("Lucia", "Rodriguez", "lrodriguez@mail.com", "Corrientes 1500", 55555, "PAMI", -34.6041, -58.3880, error);
 
-    // Asignamos Profesionales a Sanatorios (Ejemplo)
-    // (Un profesional puede trabajar en varios sanatorios)
-    if(prof1) { // R. Fernandez (Cardio)
-        if(s1) s1->agregarProfesional(prof1); // Aleman (idx 0)
-        if(s2) s2->agregarProfesional(prof1); // Italiano (idx 1)
-    }
-    if(prof2) { // M. Lopez (Cardio)
-        if(s5) s5->agregarProfesional(prof2); // Suizo (idx 4)
-    }
-    if(prof3) { // C. Martinez (Derma)
-        if(s1) s1->agregarProfesional(prof3); // Aleman (idx 0)
-        if(s3) s3->agregarProfesional(prof3); // Finochietto (idx 2)
-    }
-    if(prof4) { // A. Rodriguez (Derma)
-        if(s5) s5->agregarProfesional(prof4); // Suizo (idx 4)
-    }
-    if(prof5) { // J. Gonzalez (Trauma)
-        if(s2) s2->agregarProfesional(prof5); // Italiano (idx 1)
-    }
-    if(prof6) { // L. Perez (Trauma)
-        if(s3) s3->agregarProfesional(prof6); // Finochietto (idx 2)
-        if(s5) s5->agregarProfesional(prof6); // Suizo (idx 4)
-    }
-    if(prof7) { // D. Sanchez (Pedia)
-        if(s2) s2->agregarProfesional(prof7); // Italiano (idx 1)
-        if(s4) s4->agregarProfesional(prof7); // Guemes (idx 3)
-    }
-    if(prof8) { // L. Ramirez (Pedia)
-        if(s5) s5->agregarProfesional(prof8); // Suizo (idx 4)
-    }
-    if(prof9) { // M. Torres (Clinica)
-        if(s1) s1->agregarProfesional(prof9); // Aleman (idx 0)
-    }
-    if(prof10) { // S. Gomez (Clinica)
-        if(s4) s4->agregarProfesional(prof10); // Guemes (idx 3)
-        if(s5) s5->agregarProfesional(prof10); // Suizo (idx 4)
-    }
-
-    // --- 5. Carga de Pacientes ---
-    // (Esto estaba bien como estaba)
-    app.agregarPaciente("Juan", "Perez", "jperez@gmail.com", "Av. Corrientes 1500, CABA", 10001, "OSDE", -34.6037, -58.3816, error);
-    app.agregarPaciente("Maria", "Garcia", "mgarcia@hotmail.com", "Av. Santa Fe 2500, CABA", 10002, "Swiss Medical", -34.5950, -58.3950, error);
-    app.agregarPaciente("Carlos", "Rodriguez", "crodriguez@yahoo.com", "Av. Belgrano 900, CABA", 10003, "Galeno", -34.6125, -58.3750, error);
-    app.agregarPaciente("Ana", "Martinez", "amartinez@outlook.com", "Av. Rivadavia 5000, CABA", 10004, "OSDE", -34.6200, -58.4350, error);
-    app.agregarPaciente("Luis", "Fernandez", "lfernandez@gmail.com", "Av. Cabildo 1800, CABA", 10005, "Medicus", -34.5650, -58.4450, error);
-    app.agregarPaciente("Laura", "Gonzalez", "lgonzalez@hotmail.com", "Av. Callao 800, CABA", 10006, "Swiss Medical", -34.6050, -58.3920, error);
-    app.agregarPaciente("Diego", "Lopez", "dlopez@yahoo.com", "Av. Cordoba 2300, CABA", 10007, "OSDE", -34.5990, -58.3950, error);
-    app.agregarPaciente("Tomas", "Lajnis", "tomaslajnis@gmail.com", "Av. de Mayo 800, CABA", 10008, "Galeno", -34.6090, -58.3750, error);
-    app.agregarPaciente("Valeria", "Sanchez", "vsanchez@outlook.com", "Av. Pueyrredon 1200, CABA", 10009, "Medicus", -34.5950, -58.4000, error);
-    app.agregarPaciente("Roberto", "Torres", "rtorres@gmail.com", "Av. Las Heras 2100, CABA", 10010, "Swiss Medical", -34.5880, -58.3990, error);
-
-    // --- 6. ¡NUEVO! Configuración de Disponibilidad ---
-    // (Esto estaba vacío antes, por eso fallaba)
-
-    // prof1 (R. Fernandez) en Aleman (idx 0) y Italiano (idx 1)
-    if (prof1) {
-        prof1->agregarDisponibilidad(0, "Lunes", 9, 0, 12, 0); // idx 0 = Aleman
-        prof1->agregarDisponibilidad(1, "Martes", 14, 0, 18, 0); // idx 1 = Italiano
-    }
-    // prof4 (A. Rodriguez) en Suizo (idx 4)
-    if (prof4) {
-        prof4->agregarDisponibilidad(4, "Miercoles", 8, 30, 12, 0); // idx 4 = Suizo
-        prof4->agregarDisponibilidad(4, "Jueves", 8, 30, 12, 0); // idx 4 = Suizo
-    }
-    // prof7 (D. Sanchez) en Italiano (idx 1) y Guemes (idx 3)
-    if (prof7) {
-        prof7->agregarDisponibilidad(1, "Viernes", 10, 0, 15, 0); // idx 1 = Italiano
-        prof7->agregarDisponibilidad(3, "Viernes", 16, 0, 20, 0); // idx 3 = Guemes
-    }
-    // (Agrega más disponibilidad para otros si quieres)
-
-
-    // --- 7. Carga de Turnos de Prueba (Corregido) ---
+    // --- 7. AGENDAR TURNOS (5) ---
     auto now = std::chrono::system_clock::now();
 
-    if (prof1 && cardio) { // prof1 es de Cardiologia (ID 1)
-        auto objetivo1 = now + std::chrono::hours(1) + std::chrono::minutes(30);
-        std::string fechaHora1 = encontrarProximoTurnoDisponible(prof1, 0, objetivo1, 7); // Sanatorio 0 (Aleman)
-
-        if (!fechaHora1.empty()) {
-            // (Sin ID de turno, y con ID Especialidad '1')
-            app.agendarTurno(2, prof1->getId(), 0, cardio->getId(), fechaHora1, 30, error); // Paciente 2, Prof 1, Sanatorio 0, Esp 1
-        }
+    // Verificamos que los punteros no sean nulos antes de usarlos
+    if (!pac1 || !pac2 || !pac3 || !pac4 || !pac5 || !prof1 || !prof2 || !prof3 || !prof4 || !prof5 || !esp1 || !esp2 || !esp3 || !esp4 || !esp5)
+    {
+        message_center("Error Mocks", "Fallo al crear entidades basicas. Abortando carga de turnos.");
+        return;
     }
 
-    if (prof4 && derma) { // prof4 es de Dermatologia (ID 2)
-        auto objetivo2 = now + std::chrono::hours(2);
-        std::string fechaHora2 = encontrarProximoTurnoDisponible(prof4, 4, objetivo2, 7); // Sanatorio 4 (Suizo)
+    // Turno 1 (Tomas) - 20 minutos desde ahora
+    auto timeTurno1 = now + std::chrono::minutes(20);
+    std::string timeStr1 = formatTime(timeTurno1);
+    // (Pac:1100, Prof:100, SanIdx:0, Esp:100)
+    app.agendarTurno(pac1->getId(), prof1->getId(), 0, esp1->getId(), timeStr1, 30, error);
+    if (!error.empty()) std::cerr << "Error Mock Turno 1: " << error << std::endl;
+    error.clear();
 
-        if (!fechaHora2.empty()) {
-            // (Sin ID de turno, y con ID Especialidad '2')
-            app.agendarTurno(1, prof4->getId(), 4, derma->getId(), fechaHora2, 45, error); // Paciente 1, Prof 4, Sanatorio 4, Esp 2
-        }
-    }
+    // Turno 2 (Carolina) - 40 minutos desde ahora
+    auto timeTurno2 = now + std::chrono::minutes(40);
+    std::string timeStr2 = formatTime(timeTurno2);
+    // (Pac:1101, Prof:101, SanIdx:1, Esp:101)
+    app.agendarTurno(pac2->getId(), prof2->getId(), 1, esp2->getId(), timeStr2, 30, error);
+    if (!error.empty()) std::cerr << "Error Mock Turno 2: " << error << std::endl;
+    error.clear();
 
-    if (prof7 && pedia) { // prof7 es de Pediatria (ID 4)
-        auto objetivo3 = now + std::chrono::hours(24);
-        std::string fechaHora3 = encontrarProximoTurnoDisponible(prof7, 1, objetivo3, 7); // Sanatorio 1 (Italiano)
+    // Turno 3 (Laura) - Mañana
+    auto maniana = now + std::chrono::hours(24);
+    std::string timeStr3 = formatTime(maniana);
+    timeStr3.replace(11, 5, "10:00");
+    // (Pac:1102, Prof:102, SanIdx:0, Esp:102)
+    app.agendarTurno(pac3->getId(), prof3->getId(), 0, esp3->getId(), timeStr3, 30, error);
+    if (!error.empty()) std::cerr << "Error Mock Turno 3: " << error << std::endl;
+    error.clear();
 
-        if (!fechaHora3.empty()) {
-            // (Sin ID de turno, y con ID Especialidad '4')
-            app.agendarTurno(5, prof7->getId(), 1, pedia->getId(), fechaHora3, 30, error); // Paciente 5, Prof 7, Sanatorio 1, Esp 4
-        }
-    }
+    // Turno 4 (Martin) - Mañana
+    std::string timeStr4 = timeStr3;
+    timeStr4.replace(11, 5, "11:00");
+    // (Pac:1103, Prof:103, SanIdx:1, Esp:103)
+    app.agendarTurno(pac4->getId(), prof4->getId(), 1, esp4->getId(), timeStr4, 30, error);
+    if (!error.empty()) std::cerr << "Error Mock Turno 4: " << error << std::endl;
+    error.clear();
+
+    // Turno 5 (Lucia) - Pasado mañana
+    auto pasadoManiana = now + std::chrono::hours(48);
+    std::string timeStr5 = formatTime(pasadoManiana);
+    timeStr5.replace(11, 5, "09:30");
+    // (Pac:1104, Prof:104, SanIdx:0, Esp:104)
+    app.agendarTurno(pac5->getId(), prof5->getId(), 0, esp5->getId(), timeStr5, 30, error);
+    if (!error.empty()) std::cerr << "Error Mock Turno 5: " << error << std::endl;
+    error.clear();
 }
