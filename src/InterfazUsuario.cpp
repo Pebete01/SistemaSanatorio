@@ -574,19 +574,35 @@ namespace InterfazUsuario {
 // ============================================================================
 
     void ui_agregar_profesional(EmpresaSanatorio &app) {
-        // NO PEDIMOS EL ID DEL SISTEMA
-        // std::string s_id = input_box("...", "ID (numerico):", 10); // <-- SE FUE
+        // Verificar que haya sanatorios
+        if (app.getCantidadSanatorios() == 0) {
+            message_center("Error", "Primero debe agregar sanatorios al sistema");
+            return;
+        }
 
-        // SÍ PEDIMOS LA MATRÍCULA (es un dato, no un ID interno)
+        // Pedir matrícula
         std::string s_nro = input_box("Profesionales - Agregar", "Nro Matricula:", 10);
+
+        // Pedir nombre y apellido
         std::string nombre = input_box("Profesionales - Agregar", "Nombre:", 50);
         if (nombre.empty()) return;
         std::string apellido = input_box("Profesionales - Agregar", "Apellido:", 50);
         if (apellido.empty()) return;
         std::string mail = input_box("Profesionales - Agregar", "Mail:", 50);
 
-        // (Tu lógica para elegir especialidad)
-        std::string s_esp_id = input_box("Profesionales - Agregar", "ID Especialidad:", 10);
+        // Listar especialidades y pedir selección
+        auto listaEspecialidades = app.listarEspecialidadesTexto();
+        if (listaEspecialidades.empty()) {
+            message_center("Error", "Primero debe agregar especialidades");
+            return;
+        }
+
+        std::string s_esp_id = input_box_with_list(
+                "Profesionales - Agregar Especialidad",
+                listaEspecialidades,
+                "ID de especialidad:",
+                10
+        );
 
         try {
             int nroMatricula = to_int(s_nro);
@@ -597,23 +613,117 @@ namespace InterfazUsuario {
                 return;
             }
 
+            // Crear el profesional
             std::string error;
             Profesional *nuevoProf = app.agregarProfesional(
                     nroMatricula, *esp, nombre, apellido, mail, error
             );
 
-            if (nuevoProf) {
-                std::string msg = "ID Asignado: " + std::to_string(nuevoProf->getId());
-                message_center("Profesional agregado", msg);
-            } else {
+            if (!nuevoProf) {
                 message_center("Error", error);
+                return;
             }
+
+            std::string msg = "ID Asignado: " + std::to_string(nuevoProf->getId());
+            message_center("Profesional agregado", msg);
+
+            // Ahora agregar sanatorios y disponibilidad
+            if (!confirm_box("Configurar", "¿Desea agregar sanatorios donde trabajara?")) {
+                message_center("Info", "Profesional creado sin sanatorios. Puede agregarlos desde 'Configurar Disponibilidad'");
+                return;
+            }
+
+            // Bucle para agregar múltiples sanatorios
+            while (true) {
+                // Listar todos los sanatorios
+                std::vector<std::string> listaSanatorios;
+                Sanatorio **sanatorios = app.getSanatorios();
+                int cantSan = app.getCantidadSanatorios();
+
+                for (int i = 0; i < cantSan; ++i) {
+                    if (sanatorios[i]) {
+                        listaSanatorios.push_back(
+                                std::to_string(i + 1) + ". " +
+                                sanatorios[i]->getNombre() +
+                                " | " + sanatorios[i]->getDireccion()
+                        );
+                    }
+                }
+
+                std::string sSan = input_box_with_list(
+                        "Agregar Sanatorio",
+                        listaSanatorios,
+                        "Numero de sanatorio:",
+                        10
+                );
+
+                int numSan = to_int(sSan) - 1;
+                if (numSan < 0 || numSan >= cantSan) {
+                    message_center("Error", "Numero de sanatorio invalido");
+                    continue;
+                }
+
+                // Agregar el profesional al sanatorio
+                app.agregarProfesionalASanatorio(numSan, nuevoProf);
+
+                message_center("Info", "Profesional agregado a " + sanatorios[numSan]->getNombre());
+
+                // Pedir disponibilidad horaria para este sanatorio
+                if (confirm_box("Disponibilidad", "¿Configurar horarios en este sanatorio?")) {
+                    std::vector<std::string> dias = {
+                            "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"
+                    };
+
+                    // Permitir agregar múltiples franjas horarias
+                    while (true) {
+                        std::string sDia = input_box_with_list(
+                                "Disponibilidad",
+                                dias,
+                                "Seleccione dia (1-7):",
+                                10
+                        );
+
+                        int numDia = to_int(sDia) - 1;
+                        if (numDia < 0 || numDia >= 7) {
+                            message_center("Error", "Dia invalido");
+                            continue;
+                        }
+
+                        std::string horaInicio = input_box("Disponibilidad", "Hora inicio (HH:MM):", 10);
+                        std::string horaFin = input_box("Disponibilidad", "Hora fin (HH:MM):", 10);
+
+                        int hI, mI, hF, mF;
+                        if (sscanf(horaInicio.c_str(), "%d:%d", &hI, &mI) != 2 ||
+                            sscanf(horaFin.c_str(), "%d:%d", &hF, &mF) != 2) {
+                            message_center("Error", "Formato de hora invalido (use HH:MM)");
+                            continue;
+                        }
+
+                        if (!confirm_box("Confirmar", "Guardar disponibilidad?")) {
+                            message_center("Disponibilidad", "Cancelado");
+                            continue;
+                        }
+
+                        nuevoProf->agregarDisponibilidad(numSan, dias[numDia], hI, mI, hF, mF);
+                        message_center("Disponibilidad", "Horario agregado correctamente");
+
+                        if (!confirm_box("Agregar mas", "¿Agregar otro horario en este sanatorio?")) {
+                            break;
+                        }
+                    }
+                }
+
+                if (!confirm_box("Continuar", "¿Agregar otro sanatorio?")) {
+                    break;
+                }
+            }
+
+            message_center("Finalizado", "Profesional configurado exitosamente");
         }
         catch (const std::exception &e) {
             message_center("Error", "Datos invalidos");
         }
     }
-
     void ui_eliminar_profesional(EmpresaSanatorio &app) {
         std::string sid = input_box("Profesionales - Eliminar", "ID:", 10);
 
@@ -746,6 +856,7 @@ namespace InterfazUsuario {
 
             message_center("Info", "Profesional: " + prof->getNombre() + " " + prof->getApellido());
 
+            // Listar sanatorios donde trabaja
             std::vector<std::string> listaSanatorios;
             std::vector<int> indicesSanatorios;
 
@@ -763,25 +874,120 @@ namespace InterfazUsuario {
             }
 
             if (listaSanatorios.empty()) {
-                message_center("Error", "El profesional no trabaja en ningun sanatorio aun");
-                return;
+                message_center("Info", "El profesional no trabaja en ningun sanatorio aun");
+
+                // Ofrecer agregar sanatorio
+                if (!confirm_box("Agregar Sanatorio", "¿Desea agregar el profesional a un sanatorio?")) {
+                    return;
+                }
+
+                // Listar TODOS los sanatorios
+                std::vector<std::string> todosSanatorios;
+                for (int i = 0; i < cantSan; ++i) {
+                    if (sanatorios[i]) {
+                        todosSanatorios.push_back(
+                                std::to_string(i + 1) + ". " +
+                                sanatorios[i]->getNombre() +
+                                " | " + sanatorios[i]->getDireccion()
+                        );
+                    }
+                }
+
+                std::string sSanNuevo = input_box_with_list(
+                        "Seleccione Sanatorio",
+                        todosSanatorios,
+                        "Numero de sanatorio:",
+                        10
+                );
+
+                int numSanNuevo = to_int(sSanNuevo) - 1;
+                if (numSanNuevo < 0 || numSanNuevo >= cantSan) {
+                    message_center("Error", "Numero de sanatorio invalido");
+                    return;
+                }
+
+                // Agregar el profesional al sanatorio
+                app.agregarProfesionalASanatorio(numSanNuevo, prof);
+                message_center("Info", "Profesional agregado a " + sanatorios[numSanNuevo]->getNombre());
+
+                // Ahora usar este índice para configurar disponibilidad
+                indicesSanatorios.push_back(numSanNuevo);
+                listaSanatorios.push_back("1. " + sanatorios[numSanNuevo]->getNombre());
             }
+
+            // Ahora sí, tiene sanatorios. Elegir uno o agregar otro
+            std::vector<std::string> opcionesMenu = listaSanatorios;
+            opcionesMenu.push_back(std::to_string(opcionesMenu.size() + 1) + ". [Agregar a otro sanatorio]");
 
             std::string sSan = input_box_with_list(
                     "Disponibilidad - Seleccione Sanatorio",
-                    listaSanatorios,
-                    "Numero de sanatorio:",
+                    opcionesMenu,
+                    "Numero de opcion:",
                     10
             );
 
             int numSan = to_int(sSan) - 1;
-            if (numSan < 0 || numSan >= (int) indicesSanatorios.size()) {
-                message_center("Error", "Numero de sanatorio invalido");
+
+            // Si eligió "Agregar a otro sanatorio"
+            if (numSan == (int)indicesSanatorios.size()) {
+                // Listar TODOS los sanatorios (incluyendo donde ya trabaja)
+                std::vector<std::string> todosSanatorios;
+                for (int i = 0; i < cantSan; ++i) {
+                    if (sanatorios[i]) {
+                        todosSanatorios.push_back(
+                                std::to_string(i + 1) + ". " +
+                                sanatorios[i]->getNombre() +
+                                " | " + sanatorios[i]->getDireccion()
+                        );
+                    }
+                }
+
+                std::string sSanNuevo = input_box_with_list(
+                        "Agregar a Sanatorio",
+                        todosSanatorios,
+                        "Numero de sanatorio:",
+                        10
+                );
+
+                int numSanNuevo = to_int(sSanNuevo) - 1;
+                if (numSanNuevo < 0 || numSanNuevo >= cantSan) {
+                    message_center("Error", "Numero de sanatorio invalido");
+                    return;
+                }
+
+                // Verificar si ya trabaja ahí
+                if (sanatorios[numSanNuevo]->tieneProfesional(idProf)) {
+                    message_center("Info", "El profesional ya trabaja en este sanatorio. Configure horarios para el mismo.");
+                    numSan = -1; // Buscar el índice correcto
+                    for (size_t i = 0; i < indicesSanatorios.size(); ++i) {
+                        if (indicesSanatorios[i] == numSanNuevo) {
+                            numSan = i;
+                            break;
+                        }
+                    }
+                    if (numSan == -1) {
+                        message_center("Error", "Error interno");
+                        return;
+                    }
+                } else {
+                    // Agregar el profesional al sanatorio
+                    app.agregarProfesionalASanatorio(numSanNuevo, prof);
+                    message_center("Info", "Profesional agregado a " + sanatorios[numSanNuevo]->getNombre());
+
+                    // Usar este nuevo índice
+                    indicesSanatorios.push_back(numSanNuevo);
+                    numSan = indicesSanatorios.size() - 1;
+                }
+            }
+
+            if (numSan < 0 || numSan >= (int)indicesSanatorios.size()) {
+                message_center("Error", "Opcion invalida");
                 return;
             }
 
             int indiceSanatorio = indicesSanatorios[numSan];
 
+            // Configurar disponibilidad horaria
             std::vector<std::string> dias = {
                     "Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"
             };
@@ -820,7 +1026,7 @@ namespace InterfazUsuario {
                            "Horario agregado correctamente en " + sanatorios[indiceSanatorio]->getNombre());
         }
         catch (...) {
-            message_center("Error", "ID invalido");
+            message_center("Error", "Dato invalido");
         }
     }
 
