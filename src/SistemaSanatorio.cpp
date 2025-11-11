@@ -307,36 +307,6 @@ Profesional* EmpresaSanatorio::agregarProfesional(
 
 
 
-
-
-void EmpresaSanatorio::ordenarPacientesPorApellido()
-{
-    for (int i = 1; i < cantidadPacientes; ++i)
-    {
-        Paciente *key = listaPacientes[i];
-        int j = i - 1;
-        while (j >= 0 && (*key) < (*listaPacientes[j]))
-        {
-            listaPacientes[j + 1] = listaPacientes[j];
-            --j;
-        }
-        listaPacientes[j + 1] = key;
-    }
-}
-
-void EmpresaSanatorio::ordenarProfesionalesPorApellido()
-{
-    std::sort(profesionales, profesionales + cantidadProfesionales,
-              [](const Profesional *a, const Profesional *b)
-              {
-                  if (!a || !b)
-                      return b != nullptr; // nulos al final
-                  if (a->getApellido() != b->getApellido())
-                      return a->getApellido() < b->getApellido();
-                  return a->getNombre() < b->getNombre();
-              });
-}
-
 string EmpresaSanatorio::validarTexto(const string &mensaje)
 {
     string valor;

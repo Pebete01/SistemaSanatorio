@@ -75,7 +75,6 @@ int main()
                         "Agregar",
                         "Eliminar",
                         "Listar",
-                        "Ordenar A-Z",
                         "Editar"
                 });
 
@@ -92,11 +91,6 @@ int main()
                               : list_box("Pacientes", v);
                 }
                 else if (s == 3)
-                {
-                    app.ordenarPacientesPorApellido();
-                    message_center("Pacientes", "Ordenado por Apellido");
-                }
-                else if (s == 4)
                     ui_editar_paciente(app);
             }
         }
@@ -106,7 +100,6 @@ int main()
                     "Agregar",
                     "Eliminar",
                     "Listar",
-                    "Ordenar A-Z",
                     "Configurar Disponibilidad"
             });
 
@@ -117,11 +110,6 @@ int main()
             else if (s == 2)
                 ui_listar_profesionales(app);
             else if (s == 3)
-            {
-                app.ordenarProfesionalesPorApellido();
-                message_center("Profesionales", "Ordenado por Apellido");
-            }
-            else if (s == 4)
                 ui_configurar_disponibilidad_profesional(app);
         }
         else if (principal[i] == "Especialidades")

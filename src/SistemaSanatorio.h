@@ -110,7 +110,6 @@ public:
 
     void agrandarListaPaciente();
 
-    void ordenarPacientesPorApellido();
 
     Profesional *buscarProfesionalPorId(int id);
 
@@ -128,8 +127,6 @@ public:
                                     const std::string& mail, std::string& error);
 
     void agrandarListaProfesionales();
-
-    void ordenarProfesionalesPorApellido();
 
     void agregarProfesionalASanatorio(int indiceSanatorio, Profesional* prof);
     void eliminarProfesionalDeSanatorio(int indiceSanatorio, int idProfesional);
