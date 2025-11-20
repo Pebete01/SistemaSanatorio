@@ -50,4 +50,7 @@ namespace InterfazUsuario {
     void ui_listar_profesionales_sanatorio(EmpresaSanatorio &app);
     void ui_listar_pacientes_sanatorio(EmpresaSanatorio &app);
 
+    // ==================== CONSULTAR ESPECIALIDAD ====================
+    void ui_consultar_especialidad(EmpresaSanatorio &app);
+
 } // namespace InterfazUsuario

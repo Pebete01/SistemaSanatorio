@@ -31,7 +31,7 @@ public:
     ~HTTPClient();
 
     std::string get(const std::string& url);
-
+    std::string post(const std::string& url, const std::string& jsonData);
     std::string urlEncode(const std::string& text);
 
 private:

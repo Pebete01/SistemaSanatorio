@@ -1211,6 +1211,33 @@ namespace InterfazUsuario {
         }
     }
 
+    // ... (includes previos)
+
+    void ui_consultar_especialidad(EmpresaSanatorio &app)
+    {
+        // 1. Pedir Síntomas
+        std::string sintomas = input_box("Asistente IA", "Describa sus sintomas (ej. dolor de pecho):", 100);
+        if (sintomas.empty()) return;
+
+        // 2. Mensaje de espera (visual)
+        // (Como ncurses no es multihilo en la UI facil, esto se mostrará antes de congelarse un segundo)
+        message_center("Asistente IA", "Analizando... (Conectando con cerebro Python)");
+
+        // 3. Llamar a la lógica
+        std::string recomendacion;
+        bool exito = app.predecirEspecialidad(sintomas, recomendacion);
+
+        // 4. Mostrar resultado
+        if (exito) {
+            std::string msg = "Basado en sus sintomas, se sugiere:\n\n >> " + recomendacion +
+                              " <<\n\n¿Desea volver al menu?";
+            message_center("Resultado IA", msg);
+        } else {
+            // Mostrar el error (ej. servidor apagado)
+            message_center("Error", recomendacion);
+        }
+    }
+
     void ui_cancelar_turno(EmpresaSanatorio &app)
         {
             std::string sid = input_box("Turnos - Cancelar", "ID Turno:", 10);

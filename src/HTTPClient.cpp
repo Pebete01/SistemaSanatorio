@@ -68,6 +68,40 @@ std::string HTTPClient::get(const std::string& url) {
     return response;
 }
 
+std::string HTTPClient::post(const std::string& url, const std::string& jsonData) {
+    std::string response;
+
+    if (curl) {
+        // Resetear opciones para evitar contaminación de llamadas previas
+        curl_easy_reset(curl);
+
+        struct curl_slist* headers = NULL;
+        headers = curl_slist_append(headers, "Content-Type: application/json");
+
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, jsonData.c_str());
+
+        // Configuración estándar (igual que el GET)
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10L); // 10 segundos timeout para la IA
+
+        CURLcode res = curl_easy_perform(curl);
+
+        curl_slist_free_all(headers); // Limpiar headers
+
+        if (res != CURLE_OK) {
+            return ""; // Error de conexión
+        }
+
+        long response_code;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
+        if (response_code != 200) return "";
+    }
+    return response;
+}
+
 std::string HTTPClient::urlEncode(const std::string& text) {
     if (curl) {
         char* encoded = curl_easy_escape(curl, text.c_str(), text.length());

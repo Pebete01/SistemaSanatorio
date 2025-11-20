@@ -24,6 +24,7 @@ int main()
             "Profesionales",
             "Especialidades",
             "Turnos",
+            "IA: Consultar Especialidad",
             "Salir"
     };
 
@@ -153,6 +154,9 @@ int main()
                 ui_cancelar_turno(app);
             else if (s == 2)
                 ui_listar_turnos(app);
+        }else if (principal[i] == "IA: Consultar Especialidad") // <-- NUEVO IF
+        {
+            ui_consultar_especialidad(app);
         }
     }
 

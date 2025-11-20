@@ -17,6 +17,9 @@
 #include "SistemaSanatorio.h"
 #include "GeocodificadorAPI.h"
 
+#include "HTTPClient.h"
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 using namespace std;
 
@@ -1082,3 +1085,63 @@ std::vector<std::string> EmpresaSanatorio::listarPacientesDeSanatorio(int idSana
 
     return resultado;
 }
+
+bool EmpresaSanatorio::predecirEspecialidad(const std::string& sintomas, std::string& resultado) {
+    // 1. Recolectar las especialidades dinámicas del sistema
+    std::vector<std::string> listaNombres;
+
+    {
+        std::lock_guard<std::mutex> lock(mtx); // Proteger lectura
+        for (int i = 0; i < cantidadEspecialidades; ++i) {
+            if (especialidades[i]) {
+                listaNombres.push_back(especialidades[i]->getNombre());
+            }
+        }
+    }
+
+    if (listaNombres.empty()) {
+        resultado = "No hay especialidades cargadas en el sistema.";
+        return false;
+    }
+
+    // 2. Armar el JSON para Python
+    // Formato: { "sintomas": "...", "lista_especialidades": ["A", "B", ...] }
+    json bodyJson;
+    bodyJson["sintomas"] = sintomas;
+    bodyJson["lista_especialidades"] = listaNombres;
+
+    std::string jsonString = bodyJson.dump();
+
+    // 3. Llamar a la API
+    HTTPClient client;
+    std::string url = "http://127.0.0.1:5000/recomendar";
+    std::string respuestaRaw = client.post(url, jsonString);
+
+    if (respuestaRaw.empty()) {
+        resultado = "Error: No se pudo conectar con el servidor de IA (verificar ia_server.py).";
+        return false;
+    }
+
+    // 4. Interpretar respuesta
+    try {
+        auto jsonResp = json::parse(respuestaRaw);
+
+        if (jsonResp.contains("error")) {
+            resultado = "Error IA: " + jsonResp["error"].get<std::string>();
+            return false;
+        }
+
+        std::string esp = jsonResp["especialidad"];
+        double conf = jsonResp["confianza"];
+
+        // Formato bonito para mostrar al usuario
+        int porcentaje = (int)(conf * 100);
+        resultado = esp + " (Confianza: " + std::to_string(porcentaje) + "%)";
+        return true;
+
+    } catch (const std::exception& e) {
+        resultado = "Error al leer respuesta de IA.";
+        return false;
+    }
+}
+

@@ -174,6 +174,7 @@ public:
     std::vector<std::string> listarProfesionalesDeSanatorio(int idSanatorio) const;
     std::vector<std::string> listarPacientesDeSanatorio(int idSanatorio) const;
 
+
     // fechaHora: "YYYY-MM-DD HH:MM"
     int agendarTurno(int idPaciente, int idProfesional, int sanatorioIdx,
                      int idEspecialidad, const std::string &fechaHora, int durMin, std::string &error);
@@ -207,5 +208,7 @@ public:
     std::pair<double, double> geocodificarDireccion(const std::string &direccion) {
         return geocodificadorApi.obtenerCoordenadas(direccion);
     }
+
+    bool predecirEspecialidad(const std::string& sintomas, std::string& resultado);
 
 };
