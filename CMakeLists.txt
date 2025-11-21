@@ -56,7 +56,14 @@ add_custom_command(TARGET SistemaSanatorio POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         ${CMAKE_SOURCE_DIR}/scripts/enviar_mail.py
         $<TARGET_FILE_DIR:SistemaSanatorio>/scripts/enviar_mail.py
-        COMMENT "Copiando script de Python al directorio de compilacion..."
+        COMMENT "Copiando script de enviar_mail al directorio de compilacion..."
+)
+
+add_custom_command(TARGET SistemaSanatorio POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_SOURCE_DIR}/scripts/ia_server.py
+        $<TARGET_FILE_DIR:SistemaSanatorio>/scripts/ia_server.py
+        COMMENT "Copiando script de ia_server al directorio de compilacion..."
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE curl ws2_32)

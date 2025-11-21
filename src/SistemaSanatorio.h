@@ -6,6 +6,9 @@
 #include <atomic>
 #include <chrono>
 #include "GeocodificadorAPI.h"
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 
 // Forward declarations
@@ -58,9 +61,18 @@ private:
     mutable std::mutex mtx; // Mutex para proteger el acceso a 'agenda' y 'listaPacientes'
     void revisarTurnosLoop();
 
+#ifdef _WIN32
+    PROCESS_INFORMATION pi;
+    STARTUPINFO si;
+    bool servidorIA_iniciado = false;
+#endif
+
 public:
 
-    EmpresaSanatorio() { geocodificadorApi.configurarRegion("AR"); };
+    EmpresaSanatorio() {
+        geocodificadorApi.configurarRegion("AR");
+        iniciarServidorIA_Automatico();
+    };
 
     ~EmpresaSanatorio();
 
@@ -210,5 +222,8 @@ public:
     }
 
     bool predecirEspecialidad(const std::string& sintomas, std::string& resultado);
+
+    void iniciarServidorIA_Automatico();
+    void detenerServidorIA_Automatico();
 
 };

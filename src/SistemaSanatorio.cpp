@@ -172,6 +172,8 @@ void EmpresaSanatorio::actualizarPaciente(int id,
 
 EmpresaSanatorio::~EmpresaSanatorio()
 {
+    detenerServidorIA_Automatico();
+
     for (int i = 0; i < cantidadPacientes; ++i)
         delete listaPacientes[i];
     delete[] listaPacientes;
@@ -1143,5 +1145,63 @@ bool EmpresaSanatorio::predecirEspecialidad(const std::string& sintomas, std::st
         resultado = "Error al leer respuesta de IA.";
         return false;
     }
+}
+void EmpresaSanatorio::iniciarServidorIA_Automatico() {
+#ifdef _WIN32
+    // 1. Configurar estructuras de Windows
+    ZeroMemory(&si, sizeof(si));
+    si.cb = sizeof(si);
+    ZeroMemory(&pi, sizeof(pi));
+
+    // 2. Construir el comando
+    // Asumimos que 'ia_server.py' está en la misma carpeta que el .exe
+    // OJO: Usamos "pythonw" en lugar de "python" para que NO abra consola negra
+    std::string cmd = "cmd /k python \"../scripts/ia_server.py\"";
+
+    // Necesitamos un char* modificable para CreateProcess
+    char cmdBuffer[256];
+    strncpy(cmdBuffer, cmd.c_str(), sizeof(cmdBuffer));
+    cmdBuffer[sizeof(cmdBuffer) - 1] = 0;
+
+    // 3. Crear el proceso oculto
+    // CREATE_NO_WINDOW es la clave para que sea invisible
+    bool exito = CreateProcessA(
+            NULL,           // No module name (use command line)
+            cmdBuffer,      // Command line
+            NULL,           // Process handle not inheritable
+            NULL,           // Thread handle not inheritable
+            FALSE,          // Set handle inheritance to FALSE
+            CREATE_NEW_CONSOLE, // <--- ¡IMPORTANTE! Oculta la ventana
+            NULL,           // Use parent's environment block
+            NULL,           // Use parent's starting directory
+            &si,            // Pointer to STARTUPINFO structure
+            &pi             // Pointer to PROCESS_INFORMATION structure
+    );
+
+    if (exito) {
+        servidorIA_iniciado = true;
+        // Esperamos 2 segundos para darle tiempo a Python de cargar las librerías básicas
+        // (El modelo grande cargará mientras el usuario navega el menú)
+        Sleep(5000);
+    } else {
+        // Si falla, podemos mostrar un error en consola o log
+        std::cerr << "Advertencia: No se pudo iniciar el servidor de IA automatico.\n";
+    }
+#endif
+}
+
+void EmpresaSanatorio::detenerServidorIA_Automatico() {
+#ifdef _WIN32
+    if (servidorIA_iniciado) {
+        // Matar el proceso limpiamente
+        TerminateProcess(pi.hProcess, 0);
+
+        // Cerrar los handles de Windows para liberar memoria del sistema
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+
+        servidorIA_iniciado = false;
+    }
+#endif
 }
 

@@ -1215,25 +1215,42 @@ namespace InterfazUsuario {
 
     void ui_consultar_especialidad(EmpresaSanatorio &app)
     {
-        // 1. Pedir Síntomas
-        std::string sintomas = input_box("Asistente IA", "Describa sus sintomas (ej. dolor de pecho):", 100);
-        if (sintomas.empty()) return;
+        // 1. LIMPIEZA DE BUFFER (La clave del problema)
+        // Esto borra cualquier "Enter" que haya quedado del menú principal
+        std::cin.sync();
 
-        // 2. Mensaje de espera (visual)
-        // (Como ncurses no es multihilo en la UI facil, esto se mostrará antes de congelarse un segundo)
+        // Si cin.sync() no funciona en tu compilador, descomenta la siguiente linea:
+        // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        // 2. CONFIRMACIÓN VISUAL
+        system("cls"); // Limpiar pantalla para que se vea limpio
+        std::cout << "=== BIENVENIDO AL ASISTENTE DE IA ===" << std::endl;
+        std::cout << "(Si ves esto, el menu funciono)" << std::endl;
+        std::cout << "-------------------------------------" << std::endl;
+
+        // 3. Pedir Síntomas
+        // Nota: input_box internamente usa getline. Si el buffer está sucio, falla.
+        std::string sintomas = input_box("Asistente IA", "Describa sus sintomas (ej. dolor de pecho):", 50);
+
+        // Verificamos qué leyó realmente
+        if (sintomas.empty()) {
+            std::cout << "DEBUG: Se leyeron sintomas vacios. Presione Enter para volver..." << std::endl;
+            system("pause");
+            return;
+        }
+
         message_center("Asistente IA", "Analizando... (Conectando con cerebro Python)");
 
-        // 3. Llamar a la lógica
         std::string recomendacion;
         bool exito = app.predecirEspecialidad(sintomas, recomendacion);
 
-        // 4. Mostrar resultado
         if (exito) {
             std::string msg = "Basado en sus sintomas, se sugiere:\n\n >> " + recomendacion +
                               " <<\n\n¿Desea volver al menu?";
+
+            // Mostramos el resultado
             message_center("Resultado IA", msg);
         } else {
-            // Mostrar el error (ej. servidor apagado)
             message_center("Error", recomendacion);
         }
     }

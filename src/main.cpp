@@ -2,6 +2,8 @@
 #include "InterfazUsuario.h"
 #include "menu.h"
 #include "DatosMock.h"
+#include "iostream"
+#include <fstream> // Para escribir archivos
 
 #include <vector>
 #include <string>
@@ -32,9 +34,22 @@ int main()
     {
         int i = run_menu_titled("Empresa Sanatorio", principal);
 
+        std::ofstream archivoDebug("debug_log.txt", std::ios::app); // Abre para añadir al final
+        if (archivoDebug.is_open()) {
+            archivoDebug << "Indice elegido: " << i << " | Texto esperado: " << principal[i] << std::endl;
+
+            // Verificamos la comparación manualmente
+            bool esIgual = (principal[i] == "IA: Consultar Especialidad");
+            archivoDebug << "Comparacion con 'IA...': " << (esIgual ? "TRUE" : "FALSE") << std::endl;
+
+            archivoDebug << "--------------------------------" << std::endl;
+            archivoDebug.close();
+        }
+
         if (i < 0 || principal[i] == "Salir")
         {
             app.detenerServicioNotificaciones();
+            app.detenerServidorIA_Automatico();
             shutdown_ui();
             break;
         }
@@ -154,9 +169,10 @@ int main()
                 ui_cancelar_turno(app);
             else if (s == 2)
                 ui_listar_turnos(app);
-        }else if (principal[i] == "IA: Consultar Especialidad") // <-- NUEVO IF
+        }else if (i == 5) // <-- NUEVO IF
         {
             ui_consultar_especialidad(app);
+
         }
     }
 
