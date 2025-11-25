@@ -76,6 +76,13 @@ Instalar la librería específica que permite a nuestro script de Python leer la
    ```bash
    pip install python-dotenv
    ```
+Una vez terminada la instalacion de las dependencias en la terminarl UCRT64 cerrarla y abrir powerShell de Windows para instalar las siguientes dependencias de Python. 
+```bash
+   pip install python-dotenv
+   ```
+```bash
+   pip install flask transformers torch parse tiktoken sentencepiece protobuf
+   ```
 ---
 ###  Paso 3: Configurar Variables de entorno
 En el archivo .env va a encontrar las variables de entorno del sistema. Tiene que configurarlas con sus datos(CLAVE=VALOR).
@@ -116,10 +123,7 @@ Una vez dentro del proyecto compilamos.
     -DCURSES_NEED_WIDE=TRUE -DCURSES_NEED_NCURSES=TRUE
    cmake --build build -j
    ```
-Y corremos el archvio ejecutable
-   ```bash
-   ./build/SistemaSanatorio.exe
-   ```
+Una vez finalizada correctamente la compilacion, cierre la terminal UCRT64 y en la carpeta build del proyecto va a encontrar el archivo ejecutable y haga doble click sobre el.
 
 ---
 ## Posibles errores y formas de solucionarlos

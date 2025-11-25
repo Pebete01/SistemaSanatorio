@@ -3,8 +3,7 @@
 #include "menu.h"
 #include "DatosMock.h"
 #include "iostream"
-#include <fstream> // Para escribir archivos
-
+#include <fstream>
 #include <vector>
 #include <string>
 

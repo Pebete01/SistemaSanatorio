@@ -30,7 +30,7 @@ def recomendar():
         resultado = clasificador(
             sintomas,
             candidate_labels=lista_especialidades,
-            hypothesis_template="Este texto trata sobre {}."
+            hypothesis_template="Este ejemplo es {}."
         )
 
         mejor_opcion = resultado['labels'][0]

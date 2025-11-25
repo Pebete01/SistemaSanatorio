@@ -8,10 +8,8 @@ log.setLevel(logging.ERROR)
 app = Flask(__name__)
 
 print("--- INICIANDO SERVIDOR DE IA (VERSION MEJORADA) ---")
-print("Cargando modelo Multilingüe (esto tardará un poco más, es más pesado)...")
+print("Cargando modelo Multilingüe...")
 
-# CAMBIO CLAVE: Usamos un modelo que sabe Español
-# "joeddav/xlm-roberta-large-xnli" es el estándar de oro para Zero-Shot en español
 clasificador = pipeline("zero-shot-classification", model="joeddav/xlm-roberta-large-xnli")
 
 print("Modelo cargado. Esperando peticiones en http://127.0.0.1:5000/recomendar")
@@ -28,12 +26,11 @@ def recomendar():
         if not sintomas or not lista_especialidades:
             return jsonify({"error": "Faltan datos"}), 400
 
-        # CAMBIO CLAVE 2: Le damos una pista en español al modelo
-        # "hypothesis_template" le dice al modelo cómo formular la pregunta internamente.
+
         resultado = clasificador(
             sintomas,
             candidate_labels=lista_especialidades,
-            hypothesis_template="Este texto trata sobre {}."
+            hypothesis_template="Este ejemplo es {}."
         )
 
         mejor_opcion = resultado['labels'][0]
@@ -58,5 +55,4 @@ if __name__ == '__main__':
         print("CRASH DEL SERVIDOR:")
         print(e)
         print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n")
-        # Esto mantiene la ventana abierta para que leas el error
         input("Presiona ENTER para cerrar esta ventana...")
