@@ -1215,21 +1215,9 @@ namespace InterfazUsuario {
 
     void ui_consultar_especialidad(EmpresaSanatorio &app)
     {
-        // 1. LIMPIEZA DE BUFFER (La clave del problema)
-        // Esto borra cualquier "Enter" que haya quedado del menú principal
         std::cin.sync();
 
-        // Si cin.sync() no funciona en tu compilador, descomenta la siguiente linea:
-        // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-        // 2. CONFIRMACIÓN VISUAL
-        system("cls"); // Limpiar pantalla para que se vea limpio
-        std::cout << "=== BIENVENIDO AL ASISTENTE DE IA ===" << std::endl;
-        std::cout << "(Si ves esto, el menu funciono)" << std::endl;
-        std::cout << "-------------------------------------" << std::endl;
-
-        // 3. Pedir Síntomas
-        // Nota: input_box internamente usa getline. Si el buffer está sucio, falla.
         std::string sintomas = input_box("Asistente IA", "Describa sus sintomas (ej. dolor de pecho):", 50);
 
         // Verificamos qué leyó realmente
@@ -1239,17 +1227,16 @@ namespace InterfazUsuario {
             return;
         }
 
-        message_center("Asistente IA", "Analizando... (Conectando con cerebro Python)");
+        message_center("Asistente IA", "Presione ENTER para conocer el resultado");
 
         std::string recomendacion;
         bool exito = app.predecirEspecialidad(sintomas, recomendacion);
 
         if (exito) {
-            std::string msg = "Basado en sus sintomas, se sugiere:\n\n >> " + recomendacion +
-                              " <<\n\n¿Desea volver al menu?";
+            std::string msg = " Basado en sus sintomas, se sugiere: " + recomendacion;
 
             // Mostramos el resultado
-            message_center("Resultado IA", msg);
+            message_center("Resultado IA - ENTER para volver", msg);
         } else {
             message_center("Error", recomendacion);
         }

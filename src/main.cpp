@@ -32,19 +32,8 @@ int main()
 
     for (;;)
     {
-        int i = run_menu_titled("Empresa Sanatorio", principal);
+        int i = run_menu_titled("Nexus", principal);
 
-        std::ofstream archivoDebug("debug_log.txt", std::ios::app); // Abre para añadir al final
-        if (archivoDebug.is_open()) {
-            archivoDebug << "Indice elegido: " << i << " | Texto esperado: " << principal[i] << std::endl;
-
-            // Verificamos la comparación manualmente
-            bool esIgual = (principal[i] == "IA: Consultar Especialidad");
-            archivoDebug << "Comparacion con 'IA...': " << (esIgual ? "TRUE" : "FALSE") << std::endl;
-
-            archivoDebug << "--------------------------------" << std::endl;
-            archivoDebug.close();
-        }
 
         if (i < 0 || principal[i] == "Salir")
         {

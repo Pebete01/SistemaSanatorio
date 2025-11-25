@@ -1089,11 +1089,10 @@ std::vector<std::string> EmpresaSanatorio::listarPacientesDeSanatorio(int idSana
 }
 
 bool EmpresaSanatorio::predecirEspecialidad(const std::string& sintomas, std::string& resultado) {
-    // 1. Recolectar las especialidades dinámicas del sistema
     std::vector<std::string> listaNombres;
 
     {
-        std::lock_guard<std::mutex> lock(mtx); // Proteger lectura
+        std::lock_guard<std::mutex> lock(mtx);
         for (int i = 0; i < cantidadEspecialidades; ++i) {
             if (especialidades[i]) {
                 listaNombres.push_back(especialidades[i]->getNombre());
@@ -1106,15 +1105,13 @@ bool EmpresaSanatorio::predecirEspecialidad(const std::string& sintomas, std::st
         return false;
     }
 
-    // 2. Armar el JSON para Python
-    // Formato: { "sintomas": "...", "lista_especialidades": ["A", "B", ...] }
+
     json bodyJson;
     bodyJson["sintomas"] = sintomas;
     bodyJson["lista_especialidades"] = listaNombres;
 
     std::string jsonString = bodyJson.dump();
 
-    // 3. Llamar a la API
     HTTPClient client;
     std::string url = "http://127.0.0.1:5000/recomendar";
     std::string respuestaRaw = client.post(url, jsonString);
@@ -1124,7 +1121,7 @@ bool EmpresaSanatorio::predecirEspecialidad(const std::string& sintomas, std::st
         return false;
     }
 
-    // 4. Interpretar respuesta
+
     try {
         auto jsonResp = json::parse(respuestaRaw);
 
@@ -1155,8 +1152,8 @@ void EmpresaSanatorio::iniciarServidorIA_Automatico() {
 
     // 2. Construir el comando
     // Asumimos que 'ia_server.py' está en la misma carpeta que el .exe
-    // OJO: Usamos "pythonw" en lugar de "python" para que NO abra consola negra
-    std::string cmd = "cmd /k python \"../scripts/ia_server.py\"";
+    // OJO: Usamos "pythonw" en lugar de "python" para que  NO abra consola negra
+    std::string cmd = "python \"../scripts/ia_server.py\"";
 
     // Necesitamos un char* modificable para CreateProcess
     char cmdBuffer[256];
@@ -1171,7 +1168,7 @@ void EmpresaSanatorio::iniciarServidorIA_Automatico() {
             NULL,           // Process handle not inheritable
             NULL,           // Thread handle not inheritable
             FALSE,          // Set handle inheritance to FALSE
-            CREATE_NEW_CONSOLE, // <--- ¡IMPORTANTE! Oculta la ventana
+            CREATE_NO_WINDOW, // <--- ¡IMPORTANTE! Oculta la ventana
             NULL,           // Use parent's environment block
             NULL,           // Use parent's starting directory
             &si,            // Pointer to STARTUPINFO structure
